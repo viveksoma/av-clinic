@@ -12,11 +12,42 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
-        <div class="app-content-header">
+        <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body">
             <!--begin::Container-->
             <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row">
+            <!--begin::Start Navbar Links-->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                    <i class="bi bi-list"></i>
+                </a>
+                </li>
+                <li class="nav-item d-none d-md-block"><a href="<?php echo base_url('admin/dashboard'); ?>" class="nav-link">Home</a></li>
+                <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Doctors</a></li>
+            </ul>
+            <!--end::Start Navbar Links-->
+                <!--begin::End Navbar Links-->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item user-menu">
+                        <a href="/logout" class="nav-link" id="logoutBtn">
+                            <span class="d-none d-md-inline">Sign out</span>
+                        </a>
+                    </li>
+                </ul>
+                <!--end::End Navbar Links-->
+            </div>
+            <!--end::Container-->
+        </nav>
+        <!--end::Header-->
+        <?php include('common_sidebar.php'); ?>
+        <!--begin::App Main-->
+        <main class="app-main">
+            <div class="app-content-header">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <!--begin::Row-->
+                    <div class="row">
                     <div class="col-sm-6"><h3 class="mb-0">Doctors</h3></div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
@@ -24,14 +55,11 @@
                         <li class="breadcrumb-item active" aria-current="page">Doctors</li>
                         </ol>
                     </div>
+                    </div>
+                    <!--end::Row-->
                 </div>
-                <!--end::Row-->
-            </div>
             <!--end::Container-->
-        </div>
-        <?php include('common_sidebar.php'); ?>
-        <!--begin::App Main-->
-        <main class="app-main">
+            </div>
             <div class="app-content">
 
                 <div class="container-fluid">

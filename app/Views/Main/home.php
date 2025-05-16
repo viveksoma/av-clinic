@@ -19,8 +19,7 @@
                     <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5" style="border-color: rgba(256, 256, 256, .3) !important;">Welcome To AV Multispeciality</h5>
                     <h1 class="display-1 text-white mb-md-4">Best Healthcare Solution In Your City</h1>
                     <div class="pt-2">
-                        <a href="" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find Doctor</a>
-                        <a href="" class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2">Appointment</a>
+                        <a href="<?php echo base_url('appointment'); ?>" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Book An Appointment</a>
                     </div>
                 </div>
             </div>
@@ -90,9 +89,9 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-user-md text-white"></i>
                         </div>
-                        <h4 class="mb-3">Emergency Care</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <h4 class="mb-3">24 X 7</h4>
+                        <p class="m-0">Fracture Management care & Child Emergency</p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -103,8 +102,8 @@
                             <i class="fa fa-2x fa-procedures text-white"></i>
                         </div>
                         <h4 class="mb-3">Operation & Surgery</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <p class="m-0">Fracture Fixation, Spine Surgeries, Joint Replacements and Arthroscope</p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -114,9 +113,9 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-stethoscope text-white"></i>
                         </div>
-                        <h4 class="mb-3">Outdoor Checkup</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <h4 class="mb-3">Child care</h4>
+                        <p class="m-0">Specialized pediatric services, experienced staff, a child-friendly environment, and facilities like cots, and immunization clinics, along with support services like counseling and education. </p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -126,9 +125,9 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-ambulance text-white"></i>
                         </div>
-                        <h4 class="mb-3">Ambulance Service</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <h4 class="mb-3">Psychiatry</h4>
+                        <p class="m-0">Psychiatrists utilize a variety of treatment methods, including medication management, psychotherapy, and other therapies, to address mental health concerns.</p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -138,9 +137,9 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-pills text-white"></i>
                         </div>
-                        <h4 class="mb-3">Medicine & Pharmacy</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <h4 class="mb-3">Physiotherapy</h4>
+                        <p class="m-0">Physiotherapy aims to relieve pain, improve movement, strengthen weakened muscles, and empower patients to improve their own health. </p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -150,9 +149,9 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-microscope text-white"></i>
                         </div>
-                        <h4 class="mb-3">Blood Testing</h4>
-                        <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr dolor amet sit</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="">
+                        <h4 class="mb-3">Imaging & Laboratory Services</h4>
+                        <p class="m-0">Hospitals offer laboratory services, which play a crucial role in disease detection, diagnosis, and treatment, involving the collection and analysis of body fluids, tissues, and cells. </p>
+                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -179,49 +178,53 @@
                 <div class="col-lg-6">
                     <div class="bg-white text-center rounded p-5">
                         <h1 class="mb-4">Book An Appointment</h1>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    <select class="form-select bg-light border-0" style="height: 55px;">
-                                        <option selected>Choose Department</option>
-                                        <option value="1">Department 1</option>
-                                        <option value="2">Department 2</option>
-                                        <option value="3">Department 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <select class="form-select bg-light border-0" style="height: 55px;">
-                                        <option selected>Select Doctor</option>
-                                        <option value="1">Doctor 1</option>
-                                        <option value="2">Doctor 2</option>
-                                        <option value="3">Doctor 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="date" id="date" data-target-input="nearest">
-                                        <input type="text"
-                                            class="form-control bg-light border-0 datetimepicker-input"
-                                            placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
+                        <div class="row g-3">
+                            <div class="col-12 col-sm-12">
+                                <input type="text" class="form-control bg-light border-0" placeholder="Your Number" id="phoneNumber" style="height: 55px;">
+                                <input type="hidden" id="patientId" name="patient_id">
+                            </div>
+                            <div id="newPatientDetails" style="display: none;">
+                                <div class="row">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control bg-light border-0" class="form-control" placeholder="Your Name" id="patientName" style="height: 55px;">
                                     </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="time" id="time" data-target-input="nearest">
-                                        <input type="text"
-                                            class="form-control bg-light border-0 datetimepicker-input"
-                                            placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="number" class="form-control bg-light border-0" class="form-control" placeholder="Your Age"  id="patientAge" style="height: 55px;">
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Make An Appointment</button>
                                 </div>
                             </div>
-                        </form>
+                            <div class="col-12 col-sm-6">
+                                <select class="form-select bg-light border-0" id="doctorSelect" style="height: 55px;">
+                                    <option selected disabled>Select Doctor</option>
+                                    <?php foreach ($doctors as $doctor): ?>
+                                        <option value="<?= $doctor['id'] ?>"><?= $doctor['name'] ?> (<?= $doctor['specialization'] ?>)</option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="date" data-target-input="nearest">
+                                    <input type="date"
+                                        class="form-control bg-light border-0"
+                                        id="appointmentDate"
+                                        placeholder="Select Date" style="height: 55px;">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12" id="avialableSlots" style="display: none;">
+                                <div class="slots-section mb-3">
+                                    <h5>Morning Slots</h5>
+                                    <div id="morningSlotsContainer" class="d-flex flex-wrap gap-2"></div>
+                                </div>
+        
+                                <!-- Evening Slots Section -->
+                                <div class="slots-section">
+                                    <h5>Evening Slots</h5>
+                                    <div id="eveningSlotsContainer" class="d-flex flex-wrap gap-2"></div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" id="bookAppointment" disabled>Make An Appointment</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -272,30 +275,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="team-item">
-                    <div class="row g-0 bg-light rounded overflow-hidden">
-                        <div class="col-12 col-sm-5 h-100">
-                            <img class="img-fluid h-100" src="<?= base_url('assets/main/img/team-3.jpg'); ?>" style="object-fit: cover;">
-                        </div>
-                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                            <div class="mt-auto p-4">
-                                <h3>Doctor Name</h3>
-                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist</h6>
-                                <p class="m-0">Dolor lorem eos dolor duo eirmod sea. Dolor sit magna rebum clita rebum dolor</p>
-                            </div>
-                            <div class="d-flex mt-auto border-top p-4">
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
     <!-- Team End -->
     <?php include('common_footer.php'); ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<?= base_url('assets/common.js'); ?>"></script>
     <?php include('common_scripts.php'); ?>
     
 </body>
