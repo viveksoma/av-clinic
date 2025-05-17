@@ -33,12 +33,18 @@
     </div>
     <!-- Topbar End -->
 
-
+    <?php 
+      $uri = service('uri'); 
+      $totalSegments = $uri->getTotalSegments();
+      
+      // Ensure there is at least one segment before accessing it
+      $last_segment = ($totalSegments > 0) ? $uri->getSegment($totalSegments) : 'home';      
+    ?>
     <!-- Navbar Start -->
     <div class="container-fluid sticky-top bg-white shadow-sm">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-                <a href="index.html" class="navbar-brand">
+                <a href="<?php echo base_url(); ?>" class="navbar-brand">
                     <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-clinic-medical me-2"></i>AV Multispeciality</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -46,10 +52,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">About</a>
-                        <a href="#" class="nav-item nav-link">Service</a>
-                        <a href="#" class="nav-item nav-link">Appointment</a>
+                        <a href="<?php echo base_url(); ?>" class="nav-item nav-link <?php if($last_segment == 'home' ) { echo 'active'; } ?>">Home</a>
+                        <a href="<?php echo base_url('about'); ?>" class="nav-item nav-link <?php if($last_segment == 'about') { echo 'active'; } ?>">About</a>
+                        <a href="<?php echo base_url('service'); ?>" class="nav-item nav-link <?php if($last_segment == 'service') { echo 'active'; } ?>">Service</a>
+                        <a href="<?php echo base_url('appointment'); ?>" class="nav-item nav-link <?php if($last_segment == 'appointment') { echo 'active'; } ?>">Appointment</a>
                         <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
@@ -61,7 +67,7 @@
                                 <a href="search.html" class="dropdown-item">Search</a>
                             </div>
                         </div> -->
-                        <a href="#" class="nav-item nav-link">Contact</a>
+                        <a href="<?php echo base_url('contact'); ?>" class="nav-item nav-link <?php if($last_segment == 'contact') { echo 'active'; } ?>">Contact</a>
                     </div>
                 </div>
             </nav>
