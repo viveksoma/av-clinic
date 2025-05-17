@@ -12,11 +12,42 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
-        <div class="app-content-header">
+        <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body">
             <!--begin::Container-->
             <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row">
+            <!--begin::Start Navbar Links-->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                    <i class="bi bi-list"></i>
+                </a>
+                </li>
+                <li class="nav-item d-none d-md-block"><a href="<?php echo base_url('admin/dashboard'); ?>" class="nav-link">Home</a></li>
+                <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Dashboard</a></li>
+            </ul>
+            <!--end::Start Navbar Links-->
+                <!--begin::End Navbar Links-->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item user-menu">
+                        <a href="/logout" class="nav-link" id="logoutBtn">
+                            <span class="d-none d-md-inline">Sign out</span>
+                        </a>
+                    </li>
+                </ul>
+                <!--end::End Navbar Links-->
+            </div>
+            <!--end::Container-->
+        </nav>
+        <!--end::Header-->
+        <?php include('common_sidebar.php'); ?>
+        <!--begin::App Main-->
+        <main class="app-main">
+            <div class="app-content-header">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <!--begin::Row-->
+                    <div class="row">
                     <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
@@ -24,14 +55,11 @@
                         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </div>
+                    </div>
+                    <!--end::Row-->
                 </div>
-                <!--end::Row-->
-            </div>
             <!--end::Container-->
-        </div>
-        <?php include('common_sidebar.php'); ?>
-        <!--begin::App Main-->
-        <main class="app-main">
+            </div>
             <div class="app-content">
 
                 <div class="container-fluid">
@@ -109,7 +137,7 @@
                                     </div>
                 
                                     <!-- Available Slots -->
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="avialableSlots" style="display: none;">
                                         <label class="form-label">Available Slots</label>
                                         <!-- Morning Slots Section -->
                                         <div class="slots-section mb-3">
@@ -139,182 +167,7 @@
         <?php include('common_footer.php'); ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#phoneNumber").on("blur", function() {
-                let phoneNumber = $("#phoneNumber").val().trim();
-                // Validate phone number (must be 10 digits)
-                if (!/^\d{10}$/.test(phoneNumber)) {
-                    $("#phoneNumber").val(""); // Clear invalid input
-                    return;
-                }
-
-                if (phoneNumber) {
-                    // AJAX request to check if patient exists
-                    $.ajax({
-                        url: "/patients/checkPatient", // Your endpoint to check patient
-                        type: "GET",
-                        data: { phone_number: phoneNumber },
-                        success: function(response) {
-                            if (response.exists) {
-                                // If patient exists, auto-fill the form with existing patient data (if needed)
-                                // Optionally you can show an alert or just proceed to booking the appointment
-                                $("#patientId").val(response.patient.id);
-                                $("#newPatientDetails").hide();
-                            } else {
-                                // If patient doesn't exist, show the form to input new details
-                                $("#newPatientDetails").show();
-                                $("#patientId").val("");
-                            }
-                        },
-                        error: function() {
-                            alert("Error checking patient.");
-                        }
-                    });
-                }
-            });
-
-            $("#doctorSelect, #appointmentDate").on("change", function() {
-                let doctor_id = $("#doctorSelect").val();
-                let date = $("#appointmentDate").val();
-
-                if (doctor_id && date) {
-                    $.ajax({
-                        url: "/appointments/getSlots",  // Get available slots for the doctor on the selected date
-                        type: "GET",
-                        data: { doctor_id, date },
-                        success: function(response) {
-                            let morningSlotsContainer = $("#morningSlotsContainer");
-                            let eveningSlotsContainer = $("#eveningSlotsContainer");
-
-                            morningSlotsContainer.empty();
-                            eveningSlotsContainer.empty();
-
-                            let morningSlots = response.morning_slots;
-                            let eveningSlots = response.evening_slots;
-
-                            // Fetch the booked slots once for the selected doctor and date
-                            $.ajax({
-                                url: "/appointments/getBookedSlots",  // New endpoint to fetch booked slots for doctor and date
-                                type: "GET",
-                                data: { doctor_id, date },
-                                success: function(bookedResponse) {
-                                    let bookedSlots = bookedResponse.booked_slots;
-
-                                    // Render morning slots
-                                    if (morningSlots.length > 0) {
-                                        morningSlots.forEach(slot => {
-                                            const buttonHTML = `
-                                                <button class="btn btn-outline-primary slot-btn" data-time="${slot}" 
-                                                        ${isSlotBooked(slot, bookedSlots) ? 'disabled' : ''}>${slot}</button>
-                                            `;
-                                            morningSlotsContainer.append(buttonHTML);
-                                        });
-                                    } else {
-                                        morningSlotsContainer.append("<p class='text-danger'>No available morning slots</p>");
-                                    }
-
-                                    // Render evening slots
-                                    if (eveningSlots.length > 0) {
-                                        eveningSlots.forEach(slot => {
-                                            const buttonHTML = `
-                                                <button class="btn btn-outline-primary slot-btn" data-time="${slot}" 
-                                                        ${isSlotBooked(slot, bookedSlots) ? 'disabled' : ''}>${slot}</button>
-                                            `;
-                                            eveningSlotsContainer.append(buttonHTML);
-                                        });
-                                    } else {
-                                        eveningSlotsContainer.append("<p class='text-danger'>No available evening slots</p>");
-                                    }
-                                },
-                                error: function() {
-                                    console.log("Error fetching booked slots");
-                                }
-                            });
-                        },
-                        error: function() {
-                            console.log("Error fetching available slots");
-                        }
-                    });
-                }
-            });
-
-
-
-            // Select Slot
-            $(document).on("click", ".slot-btn", function() {
-                $(".slot-btn").removeClass("btn-primary").addClass("btn-outline-primary");
-                $(this).removeClass("btn-outline-primary").addClass("btn-primary");
-                $("#bookAppointment").prop("disabled", false).data("time", $(this).data("time"));
-            });
-
-            // Book Appointment
-            $("#bookAppointment").on("click", function() {
-                let doctor_id = $("#doctorSelect").val();
-                let date = $("#appointmentDate").val();
-                let time = $(this).data("time");
-                let phoneNumber = $("#phoneNumber").val().trim();
-                let patientName = $("#patientName").val().trim();
-                let patientAge = $("#patientAge").val().trim();
-                let patientId = $("#patientId").val(); // Hidden input for existing patient ID
-
-                // Validate phone number
-                if (!/^\d{10}$/.test(phoneNumber)) {
-                    alert("Please enter a valid 10-digit phone number.");
-                    return;
-                }
-
-                // Ensure necessary details are provided
-                if (!doctor_id || !date || !time) {
-                    alert("Please select doctor, date, and time for the appointment.");
-                    return;
-                }
-
-                // Prepare request data
-                let requestData = {
-                    doctor_id,
-                    date,
-                    time,
-                    phone_number: phoneNumber
-                };
-
-                // If patient exists, use the patientId
-                if (patientId) {
-                    requestData.patient_id = patientId;
-                } else {
-                    // If new patient, send additional details
-                    if (!patientName || !patientAge) {
-                        alert("Please enter patient name and age.");
-                        return;
-                    }
-                    requestData.patient_name = patientName;
-                    requestData.patient_age = patientAge;
-                }
-
-                // AJAX request to book appointment
-                $.ajax({
-                    url: "/appointments/book",
-                    type: "POST",
-                    data: requestData,
-                    success: function(response) {
-                        alert("Appointment booked successfully!");
-                        location.reload();
-                    },
-                    error: function() {
-                        alert("Error booking appointment!");
-                    }
-                });
-            });
-
-        });
-
-        // Function to check if a slot is booked
-        function isSlotBooked(slot, bookedSlots) {
-            return bookedSlots.includes(slot);
-        }
-
-    </script>
-
+    <script src="<?= base_url('assets/common.js'); ?>"></script>
     <?php include('common_script.php'); ?>
 </body>
 </html>

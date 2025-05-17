@@ -12,11 +12,41 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
-        <div class="app-content-header">
+        <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body">
             <!--begin::Container-->
             <div class="container-fluid">
-                <!--begin::Row-->
-                <div class="row">
+            <!--begin::Start Navbar Links-->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                    <i class="bi bi-list"></i>
+                </a>
+                </li>
+                <li class="nav-item d-none d-md-block"><a href="<?php echo base_url('admin/dashboard'); ?>" class="nav-link">Home</a></li>
+                <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Patient Timeline</a></li>
+            </ul>
+            <!--end::Start Navbar Links-->
+                <!--begin::End Navbar Links-->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item user-menu">
+                        <a href="/logout" class="nav-link" id="logoutBtn">
+                            <span class="d-none d-md-inline">Sign out</span>
+                        </a>
+                    </li>
+                </ul>
+                <!--end::End Navbar Links-->
+            </div>
+            <!--end::Container-->
+        </nav>
+        <?php include('common_sidebar.php'); ?>
+        <!--begin::App Main-->
+        <main class="app-main">
+            <div class="app-content-header">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <!--begin::Row-->
+                    <div class="row">
                     <div class="col-sm-6"><h3 class="mb-0">Patient Timeline</h3></div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
@@ -24,14 +54,11 @@
                         <li class="breadcrumb-item active" aria-current="page">Patient Timeline</li>
                         </ol>
                     </div>
+                    </div>
+                    <!--end::Row-->
                 </div>
-                <!--end::Row-->
-            </div>
             <!--end::Container-->
-        </div>
-        <?php include('common_sidebar.php'); ?>
-        <!--begin::App Main-->
-        <main class="app-main">
+            </div>
             <div class="app-content">
                 <!--begin::Container-->
                 <div class="container-fluid">
@@ -216,15 +243,24 @@
 
         // Add a new timeline event
         $("#addTimelineEntry").on("click", function () {
-            let text = tinymce.get('timelineText').getContent();
+            let text = $('#timelineText').summernote('code');
             let file = $("#timelineFile")[0].files[0];
             let title = $("#timelineTitle").val();
             let doctorId = $("#doctorId").val();
             let patientId = $("#selectedPatientId").val();
 
-            if (text.trim() === "") {
-            alert("Please enter some text for the event.");
-            return;
+             // Validate title
+            if (title === "") {
+                alert("Please enter a title for the timeline event.");
+                $("#timelineTitle").focus();
+                return;
+            }
+
+            // Validate Summernote content
+            if (text.trim() === "" || text.trim() === "<p><br></p>") {
+                alert("Please enter some text for the event.");
+                $('#timelineText').summernote('focus');
+                return;
             }
 
             // Prepare data for AJAX request
@@ -235,30 +271,30 @@
             formData.append('doctorId', doctorId);
 
             if (file) {
-            formData.append('file', file);
+                formData.append('file', file);
             }
 
             // Send request to add a new event
             $.ajax({
-            url: "/patients/" + patientId + "/addTimelineEntry",  // API endpoint to add a timeline event
-            method: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                if (response.success) {
-                    $("#timelineTitle").val("");
-                    tinymce.get('timelineText').setContent('');
-                    $('#patientSearch').val(patientId)
-                    $("#searchPatientBtn").click();
+                url: "/patients/" + patientId + "/addTimelineEntry",  // API endpoint to add a timeline event
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success) {
+                        $("#timelineTitle").val("");
+                        $('#timelineText').summernote('code', ''); // Clears the editor content
+                        $('#patientSearch').val(patientId)
+                        $("#searchPatientBtn").click();
 
-                } else {
-                    alert("Error adding event: " + JSON.stringify(response));
+                    } else {
+                        alert("Error adding event: " + JSON.stringify(response));
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error adding event."  + xhr.responseText);
                 }
-            },
-            error: function (xhr, status, error) {
-                alert("Error adding event."  + xhr.responseText);
-            }
             });
         });
 
@@ -267,28 +303,22 @@
     </script>
 
     <!-- Place the first <script> tag in your HTML's <head> -->
-    <script src="https://cdn.tiny.cloud/1/om714vgloo5pihqn5143p50mxpgnmubeiejrii9yiddq7j6y/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
 
-    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
     <script>
-    tinymce.init({
-        selector: '#timelineText',
-        plugins: [
-        // Core editing features
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-        // Your account includes a free trial of TinyMCE premium features
-        // Try the most popular premium features until Mar 7, 2025:
-        'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
-        ],
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-        { value: 'First.Name', title: 'First Name' },
-        { value: 'Email', title: 'Email' },
-        ],
-        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-    });
+        $(document).ready(function() {
+            $('#timelineText').summernote({
+                height: 200,
+                callbacks: {
+                    onInit: function() {
+                        console.log("Summernote is initialized");
+                        $('#timelineText').summernote('code', ''); // Safe to clear content
+                    }
+                }
+            });
+        });
     </script>
 
 </body>
