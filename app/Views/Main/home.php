@@ -239,42 +239,37 @@
                 <h1 class="display-4">Qualified Healthcare Professionals</h1>
             </div>
             <div class="owl-carousel team-carousel position-relative">
-                <div class="team-item">
-                    <div class="row g-0 bg-light rounded overflow-hidden">
-                        <div class="col-12 col-sm-5 h-100">
-                            <img class="img-fluid h-100" src="<?= base_url('assets/main/img/team-1.jpg'); ?>" style="object-fit: cover;">
-                        </div>
-                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                            <div class="mt-auto p-4">
-                                <h3>Dr.S.Aravintharaj M.B.B.S.,D.Ortho.</h3>
-                                <h6 class="fw-normal fst-italic text-primary mb-4">Consultant Orthopaedic Spine and Joint Replacement Surgeon</h6>
+                
+                <?php if (!empty($doctors)): ?>
+                    <?php foreach ($doctors as $doctor): ?>
+                        <div class="team-item mb-4">
+                            <div class="row g-0 bg-light rounded overflow-hidden">
+                                <div class="col-12 col-sm-5 h-100">
+                                    <img class="img-fluid h-100" 
+                                        src="<?= base_url('uploads/' . $doctor['profile_pic']); ?>" 
+                                        style="object-fit: cover;" 
+                                        alt="<?= esc($doctor['name']); ?>">
+                                </div>
+                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                    <div class="mt-auto p-4">
+                                        <h3><?= esc($doctor['name']); ?></h3>
+                                        <h6 class="fw-normal fst-italic text-primary mb-4"><?= esc($doctor['specialization']); ?></h6>
+                                    </div>
+                                    <div class="d-flex mt-auto border-top p-4">
+                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="d-flex mt-auto border-top p-4">
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="alert alert-warning text-center">
+                        No doctors available at the moment.
                     </div>
-                </div>
-                <div class="team-item">
-                    <div class="row g-0 bg-light rounded overflow-hidden">
-                        <div class="col-12 col-sm-5 h-100">
-                            <img class="img-fluid h-100" src="<?= base_url('assets/main/img/team-3.jpg'); ?>" style="object-fit: cover;">
-                        </div>
-                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                            <div class="mt-auto p-4">
-                                <h3>Dr. Vidhu Varsha .N M.B.B.S.,M.D.,(Paediatrics) (Gold Medal)</h3>
-                                <h6 class="fw-normal fst-italic text-primary mb-4">Consultant Paediatrician and Lactation Counsellor</h6>
-                            </div>
-                            <div class="d-flex mt-auto border-top p-4">
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endif; ?>
+
             </div>
         </div>
     </div>
