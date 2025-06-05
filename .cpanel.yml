@@ -2,4 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/avmultis/public_html/
-    - /bin/cp -R images $DEPLOYPATH
+    - echo "Copying images..." >> /home/avmultis/deploy.log
+    - /bin/cp -R images $DEPLOYPATH >> /home/avmultis/deploy.log 2>&1
