@@ -34,7 +34,7 @@
             <div class="row gx-5">
                 <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100 rounded" src="<?= base_url('assets/main/img/about.jpg'); ?>" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100 rounded" src="<?= base_url('assets/main/img/home-about.jpg'); ?>" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-7">
@@ -42,7 +42,9 @@
                         <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">About Us</h5>
                         <h1 class="display-4">Best Medical Care For Yourself and Your Family</h1>
                     </div>
-                    <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et, tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor consetetur takimata eirmod, dolores takimata consetetur invidunt magna dolores aliquyam dolores dolore. Amet erat amet et magna</p>
+                    <p>AV Multispeciality Hospital is a well-known hospital located in Tirupattur, Sandal Town. Our hospital is easily accessible by various modes of transportation.</p>
+                    <h3>Vision</h3>
+                    <p>Our goal is to provide heartfelt service and satisfaction to all our patients. The hospital was founded by Dr. S. Aravathamy and Dr. N. Vidhu Laha on 23.02.2022. Whether you're seeking routine check-ups, vaccinations, surgical interventions, physiotherapy, or rehabilitation services our expert team of physicians and staff are here to guide you through every step of your healthcare journey.</p>
                     <div class="row g-3 pt-3">
                         <div class="col-sm-3 col-6">
                             <div class="bg-light text-center rounded-circle py-4">
@@ -64,8 +66,8 @@
                         </div>
                         <div class="col-sm-3 col-6">
                             <div class="bg-light text-center rounded-circle py-4">
-                                <i class="fa fa-3x fa-ambulance text-primary mb-3"></i>
-                                <h6 class="mb-0">Free<small class="d-block text-primary">Ambulance</small></h6>
+                                <i class="fa fa-3x fa-camera-retro text-primary mb-3"></i>
+                                <h6 class="mb-0">24 X 7<small class="d-block text-primary">Imaging</small></h6>
                             </div>
                         </div>
                     </div>
@@ -89,9 +91,11 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-user-md text-white"></i>
                         </div>
-                        <h4 class="mb-3">24 X 7</h4>
-                        <p class="m-0">Fracture Management care & Child Emergency</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
+                        <h4 class="mb-3">Pharmacy</h4>
+                        <p>24-hour Pharmacy Service
+</br>Computerized Stock Management</br>
+                        Always maintaining optimum stock levels</p>
+                       <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -102,7 +106,7 @@
                             <i class="fa fa-2x fa-procedures text-white"></i>
                         </div>
                         <h4 class="mb-3">Operation & Surgery</h4>
-                        <p class="m-0">Fracture Fixation, Spine Surgeries, Joint Replacements and Arthroscope</p>
+                        <p class="m-0">Trauma & Fracture Fixation, Spine Surgery, </br>Joint Replacement, Arthroscopy</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -114,7 +118,7 @@
                             <i class="fa fa-2x fa-stethoscope text-white"></i>
                         </div>
                         <h4 class="mb-3">Child care</h4>
-                        <p class="m-0">Specialized pediatric services, experienced staff, a child-friendly environment, and facilities like cots, and immunization clinics, along with support services like counseling and education. </p>
+                        <p class="m-0">Newborn Care, </br> Growth & Development Monitoring, Nutrition Guidance, Allergy Clinic, Lactation Counselling, </br> Vaccination Services, Acute Illness Care.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -138,7 +142,7 @@
                             <i class="fa fa-2x fa-pills text-white"></i>
                         </div>
                         <h4 class="mb-3">Physiotherapy</h4>
-                        <p class="m-0">Physiotherapy aims to relieve pain, improve movement, strengthen weakened muscles, and empower patients to improve their own health. </p>
+                        <p class="m-0">Well-trained and qualified physiotherapists. </br> Home consultation available. </br>Rehabilitation without pain.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -150,7 +154,7 @@
                             <i class="fa fa-2x fa-microscope text-white"></i>
                         </div>
                         <h4 class="mb-3">Imaging & Laboratory Services</h4>
-                        <p class="m-0">Hospitals offer laboratory services, which play a crucial role in disease detection, diagnosis, and treatment, involving the collection and analysis of body fluids, tissues, and cells. </p>
+                        <p class="m-0"> Digital X-ray Imaging. </br> Complete Biochemistry and Basic Tests. </br> Culture & Sensitivity tests at authorized laboratories.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
