@@ -82,3 +82,4 @@ ALTER TABLE doctors
 ADD COLUMN qualifications VARCHAR(255) AFTER name,
 ADD COLUMN about TEXT AFTER qualifications;
 # dummy
+# dummy
