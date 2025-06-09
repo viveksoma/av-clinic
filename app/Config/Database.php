@@ -27,7 +27,7 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'avmultis_root',
+        'username'     => 'root',
         'password'     => 'UzMFr%LI@W9@',
         'database'     => 'avmultis_av-clinic',
         'DBDriver'     => 'MySQLi',
