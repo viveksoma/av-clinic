@@ -1,5 +1,12 @@
 ---
 deployment:
   tasks:
+    # 1) Move into your repo folder
+    - cd /home/avmultis/repositories/av-clinic
+
+    # 2) Pull in all Composer deps (creates vendor/)
+    - composer install --no-dev --optimize-autoloader
+
+    # 3) Copy public files into your live site
     - export DEPLOYPATH=/home/avmultis/public_html
     - /bin/cp -R public/* $DEPLOYPATH
