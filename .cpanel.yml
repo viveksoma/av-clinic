@@ -5,5 +5,4 @@ deployment:
     - php composer.phar install --no-dev --optimize-autoloader
     - export DEPLOYPATH=/home/avmultis/public_html
     - /bin/cp -R public/* $DEPLOYPATH
-    - cp index.php $DEPLOYPATH
     - sed -i "s|require FCPATH \.\.\/app\/Config\/Paths.php;|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
