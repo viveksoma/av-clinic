@@ -130,7 +130,7 @@
                             <i class="fa fa-2x fa-ambulance text-white"></i>
                         </div>
                         <h4 class="mb-3">Psychiatry</h4>
-                        <p class="m-0">Psychiatrists utilize a variety of treatment methods, including medication management, psychotherapy, and other therapies, to address mental health concerns.</p>
+                        <p class="m-0">Psychiatric consultation services offered for Schizophrenia, Bipolar disorder, OCD, Deaddiction management ,Depression and Anxiety disorder, Sleep disorder, Dementia</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
