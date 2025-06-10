@@ -93,8 +93,8 @@
                         </div>
                         <h4 class="mb-3">Pharmacy</h4>
                         <p>24-hour Pharmacy Service
-</br>Computerized Stock Management</br>
-                        Always maintaining optimum stock levels</p>
+                            </br>Computerized Stock Management</br>
+                            Always maintaining optimum stock levels</p>
                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -249,24 +249,49 @@
                         <div class="team-item mb-4">
                             <div class="row g-0 bg-light rounded overflow-hidden">
                                 <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" 
-                                        src="<?= base_url('uploads/' . $doctor['profile_pic']); ?>" 
-                                        style="object-fit: cover;" 
-                                        alt="<?= esc($doctor['name']); ?>">
+                                    <a href="<?= base_url('doctor/' . $doctor['id']); ?>">
+                                        <img class="img-fluid h-100" 
+                                            src="<?= base_url('uploads/' . $doctor['profile_pic']); ?>" 
+                                            style="object-fit: cover;" 
+                                            alt="<?= esc($doctor['name']); ?>">
+                                    </a>
                                 </div>
                                 <div class="col-12 col-sm-7 h-100 d-flex flex-column">
                                     <div class="mt-auto p-4">
-                                        <h3><?= esc($doctor['name']); ?></h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4"><?= esc($doctor['specialization']); ?></h6>
+                                        <h3><a href="<?= base_url('doctor/' . $doctor['id']); ?>" class="text-dark"><?= esc($doctor['name']); ?></a></h3>
+                                        <h5 class="fw-normal fst-italic text-primary mb-4"><?= esc($doctor['qualifications']); ?></h5>
+                                        <h6><?= esc($doctor['specialization']); ?></h6>
                                     </div>
+
+                                    <?php 
+                                        $social = json_decode($doctor['social_links'], true);
+                                    ?>
+
                                     <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                        <?php if (!empty($social['facebook'])): ?>
+                                            <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="<?= esc($social['facebook']) ?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($social['twitter'])): ?>
+                                            <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="<?= esc($social['twitter']) ?>" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($social['linkedin'])): ?>
+                                            <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="<?= esc($social['linkedin']) ?>" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($social['instagram'])): ?>
+                                            <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="<?= esc($social['instagram']) ?>" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($social['youtube'])): ?>
+                                            <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="<?= esc($social['youtube']) ?>" target="_blank"><i class="fab fa-youtube"></i></a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="alert alert-warning text-center">
