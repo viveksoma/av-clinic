@@ -73,6 +73,7 @@
 
                                     <div class="card-body">
                                         <!-- Doctor Name -->
+                                        <input type="hidden" name="doctor_id" id="doctorId" value="">
                                         <div class="mb-3">
                                             <label for="doctorName" class="form-label">Doctor Name</label>
                                             <input type="text" class="form-control" id="doctorName" name="doctor_name" required>
@@ -84,10 +85,67 @@
                                             <input type="text" class="form-control" id="specialization" name="specialization" required>
                                         </div>
 
+                                        <!-- Qualifications -->
+                                        <div class="mb-3">
+                                            <label for="qualifications" class="form-label">Qualifications</label>
+                                            <input type="text" class="form-control" id="qualifications" name="qualifications">
+                                        </div>
+    
+                                        <!-- About Doctor (markdown supported) -->
+                                        <div class="mb-3">
+                                            <label for="about" class="form-label">About Doctor</label>
+                                            <textarea class="form-control" id="about" name="about" rows="5" placeholder="You can use markdown here..."></textarea>
+                                        </div>
+
                                         <!-- Slot Duration -->
                                         <div class="mb-3">
                                             <label for="slotDuration" class="form-label">Slot Duration (in minutes)</label>
                                             <input type="number" class="form-control" id="slotDuration" name="slot_duration" required>
+                                        </div>
+    
+                                        <!-- Social Media Links -->
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Social Media Links</label>
+                                            <div class="row g-4">
+                                                <div class="col-md-3">
+                                                    <label for="fburl" class="form-label">Facebook URL</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control mb-2" name="social_links[facebook]" placeholder="Facebook URL" value="https://www.facebook.com">
+                                                </div>
+                                            </div>
+                                            <div class="row g-4">
+                                                <div class="col-md-3">
+                                                    <label for="instaurl" class="form-label">Instagram URL</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control mb-2" name="social_links[instagram]" placeholder="Instagram URL" value="https://www.instagram.com">
+                                                </div>
+                                            </div>
+                                            <div class="row g-4">
+                                                <div class="col-md-3">
+                                                    <label for="twitterurl" class="form-label">Twitter URL</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control mb-2" name="social_links[twitter]" placeholder="Twitter URL" value="https://x.com/home">
+                                                </div>
+                                            </div>
+                                            <div class="row g-4">
+                                                <div class="col-md-3">
+                                                    <label for="linkedurl" class="form-label">LinkedIn URL</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control mb-2" name="social_links[linkedin]" placeholder="LinkedIn URL" value="https://www.linkedin.com">
+                                                </div>
+                                            </div>
+                                            <div class="row g-4">
+                                                <div class="col-md-3">
+                                                    <label for="youtubeurl" class="form-label">YouTube URL</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="url" class="form-control" name="social_links[youtube]" placeholder="YouTube URL" value="https://www.youtube.com">
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <!-- Profile Pic -->
@@ -116,6 +174,7 @@
                                                 <th>Doctor Name</th>
                                                 <th>Specialization</th>
                                                 <th>Slot Duration</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -126,6 +185,17 @@
                                                         <td><?= esc($doctor['name']) ?></td>
                                                         <td><?= esc($doctor['specialization']) ?></td>
                                                         <td><?= esc($doctor['slot_duration']) ?></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-sm btn-primary edit-doctor-btn"
+                                                                data-id="<?= esc($doctor['id']) ?>"
+                                                                data-name="<?= esc($doctor['name']) ?>"
+                                                                data-specialization="<?= esc($doctor['specialization']) ?>"
+                                                                data-slot_duration="<?= esc($doctor['slot_duration']) ?>"
+                                                                data-qualifications="<?= esc($doctor['qualifications'] ?? '') ?>"
+                                                                data-about="<?= esc($doctor['about'] ?? '') ?>"
+                                                                data-social_links='<?= esc($doctor['social_links'] ?? '{}') ?>'
+                                                            >Edit</button>
+                                                        </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
@@ -160,6 +230,51 @@
             } else {
                 $("#createDoctors").prop('disabled', true);
             }
+        });
+
+    </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#about').summernote({
+                height: 200,
+                callbacks: {
+                    onInit: function() {
+                        console.log("Summernote is initialized");
+                        $('#about').summernote('code', ''); // Safe to clear content
+                    }
+                }
+            });
+        });
+        document.querySelectorAll('.edit-doctor-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Populate fields
+                document.querySelector('#doctorId').value = button.dataset.id;
+                document.querySelector('#doctorName').value = button.dataset.name;
+                document.querySelector('#specialization').value = button.dataset.specialization;
+                document.querySelector('#slotDuration').value = button.dataset.slot_duration;
+                document.querySelector('#qualifications').value = button.dataset.qualifications;
+                document.querySelector('#about').value = button.dataset.about;
+
+                const socialLinks = JSON.parse(button.dataset.social_links || '{}');
+                document.querySelector('[name="social_links[facebook]"]').value = socialLinks.facebook || '';
+                document.querySelector('[name="social_links[instagram]"]').value = socialLinks.instagram || '';
+                document.querySelector('[name="social_links[twitter]"]').value = socialLinks.twitter || '';
+                document.querySelector('[name="social_links[linkedin]"]').value = socialLinks.linkedin || '';
+                document.querySelector('[name="social_links[youtube]"]').value = socialLinks.youtube || '';
+
+                // Change form action to update
+                const form = document.querySelector('form');
+                form.action = `/doctors/update/${button.dataset.id}`;
+
+                // Enable submit button
+                document.querySelector('#createDoctors').innerText = 'Update';
+                document.querySelector('#createDoctors').disabled = false;
+            });
         });
 
     </script>

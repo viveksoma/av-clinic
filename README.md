@@ -80,6 +80,5 @@ CREATE TABLE doctor_special_availabilities (
 
 ALTER TABLE doctors
 ADD COLUMN qualifications VARCHAR(255) AFTER name,
-ADD COLUMN about TEXT AFTER qualifications;
-# dummy
-# dummy
+ADD COLUMN about TEXT AFTER qualifications,
+ADD COLUMN social_links JSON AFTER about;
