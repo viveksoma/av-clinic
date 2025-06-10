@@ -67,14 +67,14 @@
         }
     });
 
-
+    var itemCount = $('#team-carousel .team-item').length;
     // Team carousel
-    $(".team-carousel, .related-carousel").owlCarousel({
+    $(".team-carousel").owlCarousel({
         autoplay: true,
         smartSpeed: 1000,
         margin: 45,
         dots: false,
-        loop: true,
+        loop: itemCount > 1,
         nav : true,
         navText : [
             '<i class="bi bi-arrow-left"></i>',
