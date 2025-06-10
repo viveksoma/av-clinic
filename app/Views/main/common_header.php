@@ -45,7 +45,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
                 <a href="<?php echo base_url(); ?>" class="navbar-brand">
-                    <h1 class="m-0 text-uppercase text-primary"><img src="<?= base_url('assets/main/img/av-logo.jpeg'); ?>" style="object-fit: cover; width: 10%;">AV Multispeciality</h1>
+                    <h1 class="m-0 text-uppercase text-primary"><img src="<?= base_url('assets/main/img/av-logo.jpeg'); ?>" style="object-fit: cover; width: 20%;">AV Multispeciality</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -55,6 +55,7 @@
                         <a href="<?php echo base_url(); ?>" class="nav-item nav-link <?php if($last_segment == 'home' ) { echo 'active'; } ?>">Home</a>
                         <a href="<?php echo base_url('about'); ?>" class="nav-item nav-link <?php if($last_segment == 'about') { echo 'active'; } ?>">About</a>
                         <a href="<?php echo base_url('service'); ?>" class="nav-item nav-link <?php if($last_segment == 'service') { echo 'active'; } ?>">Service</a>
+                        <a href="<?php echo base_url('doctor'); ?>" class="nav-item nav-link <?php if($last_segment == 'doctor' || 'doctor_single') { echo 'active'; } ?>">Our Doctors</a>
                         <a href="<?php echo base_url('appointment'); ?>" class="nav-item nav-link <?php if($last_segment == 'appointment') { echo 'active'; } ?>">Appointment</a>
                         <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
