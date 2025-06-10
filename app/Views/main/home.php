@@ -44,7 +44,7 @@
                     </div>
                     <p>AV Multispeciality Hospital is a well-known hospital located in Tirupattur, Sandal Town. Our hospital is easily accessible by various modes of transportation.</p>
                     <h3>Vision</h3>
-                    <p>Our goal is to provide heartfelt service and satisfaction to all our patients. The hospital was founded by Dr. S. Aravathamy and Dr. N. Vidhu Laha on 23.02.2022. Whether you're seeking routine check-ups, vaccinations, surgical interventions, physiotherapy, or rehabilitation services our expert team of physicians and staff are here to guide you through every step of your healthcare journey.</p>
+                    <p>Our goal is to provide heartfelt service and satisfaction to all our patients. The hospital was founded by Dr. S. Aravintharaj and Dr. N. Vidhu Varsha on 23.02.2022. Whether you're seeking routine check-ups, vaccinations, surgical interventions, physiotherapy, or rehabilitation services our expert team of physicians and staff are here to guide you through every step of your healthcare journey.</p>
                     <div class="row g-3 pt-3">
                         <div class="col-sm-3 col-6">
                             <div class="bg-light text-center rounded-circle py-4">
