@@ -79,16 +79,16 @@
                                             <input type="text" class="form-control" id="doctorName" name="doctor_name" required>
                                         </div>
 
-                                        <!-- Specialization -->
-                                        <div class="mb-3">
-                                            <label for="specialization" class="form-label">Specialization</label>
-                                            <input type="text" class="form-control" id="specialization" name="specialization" required>
-                                        </div>
-
                                         <!-- Qualifications -->
                                         <div class="mb-3">
                                             <label for="qualifications" class="form-label">Qualifications</label>
                                             <input type="text" class="form-control" id="qualifications" name="qualifications">
+                                        </div>
+
+                                        <!-- Specialization -->
+                                        <div class="mb-3">
+                                            <label for="specialization" class="form-label">Specialization</label>
+                                            <input type="text" class="form-control" id="specialization" name="specialization" required>
                                         </div>
     
                                         <!-- About Doctor (markdown supported) -->
