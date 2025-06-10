@@ -39,6 +39,7 @@
       
       // Ensure there is at least one segment before accessing it
       $last_segment = ($totalSegments > 0) ? $uri->getSegment($totalSegments) : 'home';      
+      $first_segment = $uri->getSegment(1); 
     ?>
     <!-- Navbar Start -->
     <div class="container-fluid sticky-top bg-white shadow-sm">
@@ -55,7 +56,7 @@
                         <a href="<?php echo base_url(); ?>" class="nav-item nav-link <?php if($last_segment == 'home' ) { echo 'active'; } ?>">Home</a>
                         <a href="<?php echo base_url('about'); ?>" class="nav-item nav-link <?php if($last_segment == 'about') { echo 'active'; } ?>">About</a>
                         <a href="<?php echo base_url('service'); ?>" class="nav-item nav-link <?php if($last_segment == 'service') { echo 'active'; } ?>">Service</a>
-                        <a href="<?php echo base_url('doctor'); ?>" class="nav-item nav-link <?php if($last_segment == 'doctor' || 'doctor_single') { echo 'active'; } ?>">Our Doctors</a>
+                        <a href="<?php echo base_url('doctor'); ?>" class="nav-item nav-link <?php if($first_segment == 'doctor') { echo 'active'; } ?>">Our Doctors</a>
                         <a href="<?php echo base_url('appointment'); ?>" class="nav-item nav-link <?php if($last_segment == 'appointment') { echo 'active'; } ?>">Appointment</a>
                         <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
