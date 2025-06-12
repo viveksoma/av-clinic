@@ -12,8 +12,8 @@
 <body>
     <?php include('common_header.php'); ?>
 
-       <!-- Services Start -->
-       <div class="container-fluid py-5">
+    <!-- Services Start -->
+    <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center mx-auto mb-5" style="max-width: 500px;">
                 <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Services</h5>
@@ -25,9 +25,11 @@
                         <div class="service-icon mb-4">
                             <i class="fa fa-2x fa-user-md text-white"></i>
                         </div>
-                        <h4 class="mb-3">24 X 7</h4>
-                        <p class="m-0">Fracture Management care & Child Emergency</p>
-                        <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
+                        <h4 class="mb-3">Pharmacy</h4>
+                        <p>24-hour Pharmacy Service
+                            </br>Computerized Stock Management</br>
+                            Always maintaining optimum stock levels</p>
+                       <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -38,7 +40,7 @@
                             <i class="fa fa-2x fa-procedures text-white"></i>
                         </div>
                         <h4 class="mb-3">Operation & Surgery</h4>
-                        <p class="m-0">Fracture Fixation, Spine Surgeries, Joint Replacements and Arthroscope</p>
+                        <p class="m-0">Trauma & Fracture Fixation, Spine Surgery, </br>Joint Replacement, Arthroscopy</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -50,7 +52,7 @@
                             <i class="fa fa-2x fa-stethoscope text-white"></i>
                         </div>
                         <h4 class="mb-3">Child care</h4>
-                        <p class="m-0">Specialized pediatric services, experienced staff, a child-friendly environment, and facilities like cots, and immunization clinics, along with support services like counseling and education. </p>
+                        <p class="m-0">Newborn Care, </br> Growth & Development Monitoring, Nutrition Guidance, Allergy Clinic, Lactation Counselling, </br> Vaccination Services, Acute Illness Care.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -62,7 +64,7 @@
                             <i class="fa fa-2x fa-ambulance text-white"></i>
                         </div>
                         <h4 class="mb-3">Psychiatry</h4>
-                        <p class="m-0">Psychiatrists utilize a variety of treatment methods, including medication management, psychotherapy, and other therapies, to address mental health concerns.</p>
+                        <p class="m-0">Psychiatric consultation services offered for Schizophrenia, Bipolar disorder, OCD, Deaddiction management ,Depression and Anxiety disorder, Sleep disorder, Dementia</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -74,7 +76,7 @@
                             <i class="fa fa-2x fa-pills text-white"></i>
                         </div>
                         <h4 class="mb-3">Physiotherapy</h4>
-                        <p class="m-0">Physiotherapy aims to relieve pain, improve movement, strengthen weakened muscles, and empower patients to improve their own health. </p>
+                        <p class="m-0">Well-trained and qualified physiotherapists. </br> Home consultation available. </br>Rehabilitation without pain.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -86,7 +88,7 @@
                             <i class="fa fa-2x fa-microscope text-white"></i>
                         </div>
                         <h4 class="mb-3">Imaging & Laboratory Services</h4>
-                        <p class="m-0">Hospitals offer laboratory services, which play a crucial role in disease detection, diagnosis, and treatment, involving the collection and analysis of body fluids, tissues, and cells. </p>
+                        <p class="m-0"> Digital X-ray Imaging. </br> Complete Biochemistry and Basic Tests. </br> Culture & Sensitivity tests at authorized laboratories.</p>
                         <a class="btn btn-lg btn-primary rounded-pill" href="<?php echo base_url('service'); ?>">
                             <i class="bi bi-arrow-right"></i>
                         </a>
