@@ -16,8 +16,9 @@ if (!function_exists('sendAppointmentEmail')) {
     function sendAppointmentEmail(string $toEmail, string $date, string $time, string $type, ?string $meetLink = null): bool
     {
         $email = Services::email();
+        $email->setMailType('html'); // ✅ Ensure HTML
     
-        $email->setFrom('viewvivek93@icloud.com', 'AV Clinic'); // ✅ Set From here
+        $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
         $email->setTo($toEmail);
         $email->setSubject('Appointment Confirmation');
     
@@ -32,7 +33,10 @@ if (!function_exists('sendAppointmentEmail')) {
         $message .= "Thank you,<br>Clinic Team";
     
         $email->setMessage($message);
+        $email->setHeader('MIME-Version', '1.0');
+        $email->setHeader('Content-type', 'text/html; charset=utf-8');
+    
         return $email->send();
-    }
+    }    
     
 }
