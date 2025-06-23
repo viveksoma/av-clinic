@@ -33,8 +33,6 @@ if (!function_exists('sendAppointmentEmail')) {
         $message .= "Thank you,<br>Clinic Team";
     
         $email->setMessage($message);
-        $email->setHeader('MIME-Version', '1.0');
-        $email->setHeader('Content-type', 'text/html; charset=utf-8');
     
         return $email->send();
     }    
