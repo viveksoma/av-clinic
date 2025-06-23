@@ -75,6 +75,7 @@
                                                 <th style="width: 10px">#</th>
                                                 <th>Patient Name</th>
                                                 <th>Doctor</th>
+                                                <th>Appointment Type</th>
                                                 <th>Slot Time</th>
                                             </tr>
                                         </thead>
@@ -85,6 +86,7 @@
                                                         <td><?= esc($appointment['patient_id']) ?></td>
                                                         <td><?= esc($appointment['patient_name']) ?></td>
                                                         <td><?= esc($appointment['doctor_name']) ?></td>
+                                                        <td><?= esc($appointment['appointment_type']) ?></td>
                                                         <td><?= date("h:i A", strtotime($appointment['start_time'])) ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -110,14 +112,25 @@
                                     </div>
                                         <!-- New Patient Details (conditional) -->
                                     <div id="newPatientDetails" style="display: none;">
-                                        <div class="mb-3">
-                                            <label for="patientName" class="form-label">Patient Name</label>
-                                            <input type="text" class="form-control" id="patientName">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-sm-6">
+                                                <input type="text" class="form-control bg-light border-0" placeholder="Your Name" id="patientName" style="height: 55px;">
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <input type="number" class="form-control bg-light border-0" placeholder="Your Age" id="patientAge" style="height: 55px;">
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="email" class="form-control bg-light border-0" placeholder="Your Email(Optional)" id="patientEmail" style="height: 55px;">
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="patientAge" class="form-label">Patient Age</label>
-                                            <input type="number" class="form-control" id="patientAge">
-                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12">
+                                        <select class="form-select bg-light border-0" id="appointmentType" style="height: 55px;">
+                                            <option selected disabled>Select Appointment Type</option>
+                                            <option value="vaccination">vaccination</option>
+                                            <option value="general">General Consultation</option>
+                                            <option value="online">Online Consultation(Pediatric)</option>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">

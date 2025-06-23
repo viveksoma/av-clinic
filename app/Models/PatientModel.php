@@ -7,7 +7,7 @@ class PatientModel extends Model
 {
     protected $table = 'patients'; // Database table name
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'age', 'phone']; // Editable fields
+    protected $allowedFields = ['name', 'age', 'phone', 'email']; // Editable fields
     // Enable timestamps (created_at, updated_at)
     protected $useTimestamps = true;
     

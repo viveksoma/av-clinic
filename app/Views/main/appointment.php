@@ -31,14 +31,25 @@
                                 <input type="hidden" id="patientId" name="patient_id">
                             </div>
                             <div id="newPatientDetails" style="display: none;">
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control bg-light border-0" class="form-control" placeholder="Your Name" id="patientName" style="height: 55px;">
+                                        <input type="text" class="form-control bg-light border-0" placeholder="Your Name" id="patientName" style="height: 55px;">
                                     </div>
                                     <div class="col-12 col-sm-6">
-                                        <input type="number" class="form-control bg-light border-0" class="form-control" placeholder="Your Age"  id="patientAge" style="height: 55px;">
+                                        <input type="number" class="form-control bg-light border-0" placeholder="Your Age" id="patientAge" style="height: 55px;">
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="email" class="form-control bg-light border-0" placeholder="Your Email(Optional)" id="patientEmail" style="height: 55px;">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <select class="form-select bg-light border-0" id="appointmentType" style="height: 55px;">
+                                    <option selected disabled>Select Appointment Type</option>
+                                    <option value="vaccination">vaccination</option>
+                                    <option value="general">General Consultation</option>
+                                    <option value="online">Online Consultation(Pediatric)</option>
+                                </select>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <select class="form-select bg-light border-0" id="doctorSelect" style="height: 55px;">

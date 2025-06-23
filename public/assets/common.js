@@ -109,11 +109,13 @@ $(document).ready(function() {
     $("#bookAppointment").on("click", function() {
         let doctor_id = $("#doctorSelect").val();
         let date = $("#appointmentDate").val();
+        let appointmentType = $("#appointmentType").val();
         let time = $(this).data("time");
         let phoneNumber = $("#phoneNumber").val().trim();
         let patientName = $("#patientName").val().trim();
         let patientAge = $("#patientAge").val().trim();
         let patientId = $("#patientId").val(); // Hidden input for existing patient ID
+        let patientEmail = $("#patientEmail").val();
 
         // Validate phone number
         if (!/^\d{10}$/.test(phoneNumber)) {
@@ -122,7 +124,7 @@ $(document).ready(function() {
         }
 
         // Ensure necessary details are provided
-        if (!doctor_id || !date || !time) {
+        if (!doctor_id || !date || !time || !appointmentType) {
             alert("Please select doctor, date, and time for the appointment.");
             return;
         }
@@ -132,7 +134,9 @@ $(document).ready(function() {
             doctor_id,
             date,
             time,
-            phone_number: phoneNumber
+            phone_number: phoneNumber,
+            appointment_type: appointmentType,
+            email: patientEmail
         };
 
         // If patient exists, use the patientId

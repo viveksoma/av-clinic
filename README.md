@@ -82,3 +82,13 @@ ALTER TABLE doctors
 ADD COLUMN qualifications VARCHAR(255) AFTER name,
 ADD COLUMN about TEXT AFTER qualifications,
 ADD COLUMN social_links JSON AFTER about;
+
+ALTER TABLE appointments
+ADD COLUMN appointment_type VARCHAR(50) AFTER status;
+
+ALTER TABLE patients ADD COLUMN email VARCHAR(255);
+
+ALTER TABLE appointments
+ADD COLUMN appointment_type VARCHAR(50) AFTER status;
+
+ALTER TABLE appointments ADD google_meet_link TEXT AFTER appointment_type;

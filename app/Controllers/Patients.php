@@ -10,7 +10,8 @@ class Patients extends BaseController
         $patientData = [
             'name' => $this->request->getPost('name'),
             'age' => $this->request->getPost('age'),
-            'phone' => $this->request->getPost('phone_number')
+            'phone' => $this->request->getPost('phone_number'),
+            'email' => $this->request->getPost('email')
         ];
 
         // Insert new patient data
