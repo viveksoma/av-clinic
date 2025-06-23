@@ -29,6 +29,7 @@ class Appointments extends BaseController
     {
         {
             try {
+                helper('email');
                 $doctor_id = $this->request->getPost('doctor_id');
                 $date = $this->request->getPost('date');
                 $time = $this->request->getPost('time');
@@ -84,10 +85,10 @@ class Appointments extends BaseController
                     log_message('error', 'Failed to insert appointment record');
                     return $this->response->setJSON(['error' => 'Failed to book appointment.'], 500);
                 }
-        
                 // Send confirmation email if patient has email
                 if (!empty($patient['email'])) {
-                    $this->sendAppointmentEmail($patient['email'], $date, $time, $appointment_type, $meetLink);
+                    sendAppointmentEmail($patient['email'], $date, $time, $appointment_type, $meetLink);
+
                 }
         
                 return $this->response->setJSON(['message' => 'Appointment booked successfully!']);
