@@ -82,6 +82,9 @@
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" id="bookAppointment" disabled>Make An Appointment</button>
                             </div>
+                            <div class="col-12">
+                                <div id="appointmentStatus" class="mb-3"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

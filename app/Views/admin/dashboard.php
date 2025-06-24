@@ -169,6 +169,9 @@
                                 <div class="card-footer">
                                     <button class="btn btn-primary" id="bookAppointment" disabled>Book Appointment</button>
                                 </div>
+                                <div class="col-12">
+                                    <div id="appointmentStatus" class="mb-3"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

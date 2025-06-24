@@ -106,30 +106,38 @@ $(document).ready(function() {
     });
 
     // Book Appointment
-    $("#bookAppointment").on("click", function() {
+    $("#bookAppointment").on("click", function () {
+        let $btn = $(this);
+        let originalText = $btn.html();
+        let $status = $("#appointmentStatus");
+        $status.html(""); // Clear previous messages
+    
+        // Set loading state
+        $btn.prop("disabled", true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Booking...');
+    
         let doctor_id = $("#doctorSelect").val();
         let date = $("#appointmentDate").val();
         let appointmentType = $("#appointmentType").val();
-        let time = $(this).data("time");
+        let time = $btn.data("time");
         let phoneNumber = $("#phoneNumber").val().trim();
         let patientName = $("#patientName").val().trim();
         let patientAge = $("#patientAge").val().trim();
-        let patientId = $("#patientId").val(); // Hidden input for existing patient ID
+        let patientId = $("#patientId").val();
         let patientEmail = $("#patientEmail").val();
-
+    
         // Validate phone number
         if (!/^\d{10}$/.test(phoneNumber)) {
-            alert("Please enter a valid 10-digit phone number.");
+            showMessage("Please enter a valid 10-digit phone number.", "danger");
+            resetButton();
             return;
         }
-
-        // Ensure necessary details are provided
+    
         if (!doctor_id || !date || !time || !appointmentType) {
-            alert("Please select doctor, date, and time for the appointment.");
+            showMessage("Please select doctor, date, and time for the appointment.", "danger");
+            resetButton();
             return;
         }
-
-        // Prepare request data
+    
         let requestData = {
             doctor_id,
             date,
@@ -138,34 +146,46 @@ $(document).ready(function() {
             appointment_type: appointmentType,
             email: patientEmail
         };
-
-        // If patient exists, use the patientId
+    
         if (patientId) {
             requestData.patient_id = patientId;
         } else {
-            // If new patient, send additional details
             if (!patientName || !patientAge) {
-                alert("Please enter patient name and age.");
+                showMessage("Please enter patient name and age.", "danger");
+                resetButton();
                 return;
             }
             requestData.patient_name = patientName;
             requestData.patient_age = patientAge;
         }
-
-        // AJAX request to book appointment
+    
         $.ajax({
             url: "/appointments/book",
             type: "POST",
             data: requestData,
-            success: function(response) {
-                alert("Appointment booked successfully!");
-                location.reload();
+            success: function (response) {
+                showMessage("Appointment booked successfully!", "success");
+                resetButton();
             },
-            error: function() {
-                alert("Error booking appointment!");
+            error: function () {
+                showMessage("Error booking appointment!", "danger");
+                resetButton();
             }
         });
-    });
+    
+        function resetButton() {
+            $btn.prop("disabled", false).html(originalText);
+        }
+    
+        function showMessage(msg, type = "info") {
+            $status.html(`<div class="badge bg-${type} p-2">${msg}</div>`);
+            setTimeout(() => {
+                $status.fadeOut(500, function () {
+                    $(this).html("").show();
+                });
+            }, 3000);
+        }
+    });    
 
 });
 
