@@ -219,19 +219,19 @@
 
     <?php include('common_script.php'); ?>
     <script>
+        let isUpdateMode = false;
         $("#doctorName, #specialization, #slotDuration, #inputGroupFile02").on("change", function() {
             let doctorName = $("#doctorName").val();
             let specialization = $("#specialization").val();
             let slotDuration = $("#slotDuration").val();
             let profilePic = $("#inputGroupFile02")[0].files.length;
 
-            if (doctorName && specialization && slotDuration && profilePic > 0) {
+            if (doctorName && specialization && slotDuration && (isUpdateMode || profilePic > 0)) {
                 $("#createDoctors").prop('disabled', false);
             } else {
                 $("#createDoctors").prop('disabled', true);
             }
         });
-
     </script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
@@ -253,12 +253,14 @@
         document.querySelectorAll('.edit-doctor-btn').forEach(button => {
             button.addEventListener('click', () => {
                 // Populate fields
+                isUpdateMode = true;
+                $('#inputGroupFile02').removeAttr('required');
                 document.querySelector('#doctorId').value = button.dataset.id;
                 document.querySelector('#doctorName').value = button.dataset.name;
                 document.querySelector('#specialization').value = button.dataset.specialization;
                 document.querySelector('#slotDuration').value = button.dataset.slot_duration;
                 document.querySelector('#qualifications').value = button.dataset.qualifications;
-                document.querySelector('#about').value = button.dataset.about;
+                $('#about').summernote('code', button.dataset.about || '');
 
                 const socialLinks = JSON.parse(button.dataset.social_links || '{}');
                 document.querySelector('[name="social_links[facebook]"]').value = socialLinks.facebook || '';
@@ -266,10 +268,6 @@
                 document.querySelector('[name="social_links[twitter]"]').value = socialLinks.twitter || '';
                 document.querySelector('[name="social_links[linkedin]"]').value = socialLinks.linkedin || '';
                 document.querySelector('[name="social_links[youtube]"]').value = socialLinks.youtube || '';
-
-                // Change form action to update
-                const form = document.querySelector('form');
-                form.action = `/doctors/update/${button.dataset.id}`;
 
                 // Enable submit button
                 document.querySelector('#createDoctors').innerText = 'Update';
