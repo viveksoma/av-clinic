@@ -51,6 +51,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="<?php echo base_url('admin/appointments'); ?>" class="nav-link <?php if($last_segment == 'appointments' ) { echo 'active'; } ?>">
+                    <i class="nav-icon bi bi-calendar"></i>
+                    <p>
+                        Appointments
+                    </p>
+                </a>
+            </li>
         </ul>
         <!--end::Sidebar Menu-->
         </nav>

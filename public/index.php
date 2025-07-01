@@ -20,6 +20,7 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     exit(1);
 }
 
+
 /*
  *---------------------------------------------------------------
  * SET THE CURRENT DIRECTORY
@@ -54,3 +55,9 @@ $paths = new Config\Paths();
 require $paths->systemDirectory . '/Boot.php';
 
 exit(CodeIgniter\Boot::bootWeb($paths));
+// Force development environment
+if (! defined('CI_ENVIRONMENT')) {
+    define('CI_ENVIRONMENT', 'development');
+}
+error_reporting(-1);
+ini_set('display_errors', '1');

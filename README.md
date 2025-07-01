@@ -88,7 +88,21 @@ ADD COLUMN appointment_type VARCHAR(50) AFTER status;
 
 ALTER TABLE patients ADD COLUMN email VARCHAR(255);
 
+ALTER TABLE doctors ADD COLUMN email VARCHAR(255);
+
 ALTER TABLE appointments
 ADD COLUMN appointment_type VARCHAR(50) AFTER status;
 
 ALTER TABLE appointments ADD google_meet_link TEXT AFTER appointment_type;
+
+CREATE TABLE `payments` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `appointment_id` INT UNSIGNED NOT NULL,
+  `payment_amount` DECIMAL(10,2) NOT NULL,
+  `payment_mode` ENUM('upi', 'bank_transfer') NOT NULL,
+  `payment_status` ENUM('pending', 'received', 'failed') DEFAULT 'pending',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `payments_appointment_id_foreign` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

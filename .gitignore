@@ -51,6 +51,9 @@ Vagrantfile
 writable/cache/*
 !writable/cache/index.html
 
+writable/credentials.json
+writable/token.json
+
 writable/logs/*
 !writable/logs/index.html
 

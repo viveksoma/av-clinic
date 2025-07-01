@@ -22,8 +22,12 @@ $routes->post('/auth/loginSubmit', 'Admin\Auth::loginSubmit');
 $routes->get('/logout', 'Admin\Auth::logout');
 $routes->get('admin/dashboard', 'Admin\Dashboard');
 $routes->get('admin/doctors', 'Admin\Doctors');
+$routes->get('admin/appointments', 'Admin\Appointments');
 $routes->get('admin/patient_timeline', 'Admin\PatientTimeline');
 $routes->post('/doctors/store', 'Admin\Doctors::store');
+$routes->post('admin/payments/update', 'Admin\Payments::update');
+$routes->get('admin/appointments/generate-meet/(:num)', 'Admin\Appointments::generateMeet/$1');
+$routes->get('google-auth', 'GoogleAuth::index');
 
 //Appoinments
 $routes->get('appointments/booking', 'Appointments::booking');

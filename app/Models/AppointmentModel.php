@@ -7,7 +7,7 @@ class AppointmentModel extends Model
 {
     protected $table = 'appointments'; // Table name
     protected $primaryKey = 'id'; // Assuming 'id' is the primary key
-    protected $allowedFields = ['doctor_id', 'appointment_date', 'start_time', 'status', 'patient_id', 'appointment_type']; // Fields you want to allow for insertion
+    protected $allowedFields = ['doctor_id', 'appointment_date', 'start_time', 'status', 'patient_id', 'appointment_type', 'google_meet_link']; // Fields you want to allow for insertion
     protected $useTimestamps = true; // If you want timestamps (created_at/updated_at) to be handled automatically
 
     public function getAvailableSlots($doctor_id, $date)

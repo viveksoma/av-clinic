@@ -45,3 +45,33 @@ if (!function_exists('sendAppointmentEmail')) {
         return $email->send();
     }
 }
+
+function sendGoogleMeetEmail(string $toEmail, string $patientName, string $doctorName, string $appointmentDate, string $appointmentTime, string $meetLink): bool
+{
+    $email = \Config\Services::email();
+    $email->setMailType('html');
+
+    $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
+    $email->setTo($toEmail);
+    $email->setSubject('Your Google Meet Link for Online Consultation');
+
+    $formattedDate = date('d M Y', strtotime($appointmentDate));
+    $formattedTime = date('h:i A', strtotime($appointmentTime));
+
+    $message = "
+        Dear {$patientName},<br><br>
+        Your online consultation with <strong>Dr. {$doctorName}</strong> is confirmed.<br><br>
+        <strong>Date:</strong> {$formattedDate}<br>
+        <strong>Time:</strong> {$formattedTime}<br><br>
+        <strong>Join the Meeting:</strong><br>
+        <a href=\"{$meetLink}\" target=\"_blank\">{$meetLink}</a><br><br>
+        Please make sure to join the meeting on time. <br>
+        If you face any issues, feel free to contact us on <strong>+91-9486721349</strong>.<br><br>
+        Regards,<br>
+        <strong>AV Clinic</strong>
+    ";
+
+    $email->setMessage($message);
+
+    return $email->send();
+}
