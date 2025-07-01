@@ -18,5 +18,3 @@ deployment:
 
     - echo "Step 6: Patching index.php"
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
-
-    - echo "Step 7: Deployment finished at $(date)"
