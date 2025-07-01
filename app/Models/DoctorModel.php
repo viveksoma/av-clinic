@@ -14,7 +14,8 @@ class DoctorModel extends Model
         'qualifications',
         'about',
         'social_links',
-        'profile_pic'
+        'profile_pic',
+        'email'
     ]; // Editable fields
     // Enable timestamps (created_at, updated_at)
     protected $useTimestamps = true;

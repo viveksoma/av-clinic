@@ -20,7 +20,7 @@
                         <a class="text-body px-2" href="">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a class="text-body px-2" href="https://www.instagram.com/av_multispeciality?utm_source=qr&igsh=MTZmMHNwbWtpaXhxdw==">
+                        <a class="text-body px-2" href="https://www.instagram.com/av_multispeciality?utm_source=qr&igsh=MTZmMHNwbWtpaXhxdw==" target="_blank">
                             <i class="fab fa-instagram"></i>
                         </a>
                         <a class="text-body ps-2" href="">

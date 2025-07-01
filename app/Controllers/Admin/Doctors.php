@@ -23,12 +23,14 @@ class Doctors extends BaseController
 
         $doctorId      = $this->request->getPost('doctor_id');
         $doctorName    = $this->request->getPost('doctor_name');
-        $doctorEmail    = $this->request->getPost('doctor_name');
+        $doctorEmail    = $this->request->getPost('doctor_email');
         $specialization= $this->request->getPost('specialization');
         $slotDuration  = $this->request->getPost('slot_duration');
         $qualifications= $this->request->getPost('qualifications');
         $about         = $this->request->getPost('about'); // from Summernote
         $socialLinks   = $this->request->getPost('social_links');
+        // print_r($doctorEmail);
+        // exit;
 
         $profilePic = $this->request->getFile('profile_pic');
         $profilePicName = null;
