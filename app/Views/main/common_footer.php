@@ -6,7 +6,7 @@
                 <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">Get In Touch</h4>
                 <p class="mb-4">Reach out for expert care in orthopaedics, paediatrics, lactation, and mental health today!</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>No.6 HIG, Dharmapuri main road, T.N.H.B.Phase-2, Tirupathur, Tamil Nadu 635601</p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>query@avmultispeciality.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>+91 904 207 68040</p>
             </div>
             <div class="col-lg-4 col-md-6">
