@@ -1,5 +1,6 @@
 deployment:
   tasks:
+    - echo "✅ .cpanel.yml loaded successfully — beginning deploy"
     - set -e
     - echo "Step 1: Changing to repo directory"
     - cd /home/avmultis/repositories/av-clinic
