@@ -1,4 +1,3 @@
----
 deployment:
   tasks:
     - set -e
@@ -21,4 +20,3 @@ deployment:
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
 
     - sh -c 'date "+Deployment finished at %Y-%m-%d %H:%M:%S"'
-
