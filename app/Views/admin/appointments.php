@@ -3,10 +3,10 @@
   <!--begin::Head-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AV Multispeciality | Dashboard</title>
+    <title>AV Multispeciality | Appointments</title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="AV Multispeciality | Dashboard" />
+    <meta name="title" content="AV Multispeciality | Appointments" />
     <meta name="author" content="ColorlibHQ" />
      <link href="<?= base_url('assets/simple-datatables/style.css'); ?>" rel="stylesheet">
     <?php include('common_styles.php'); ?>
@@ -25,7 +25,7 @@
                 </a>
                 </li>
                 <li class="nav-item d-none d-md-block"><a href="<?php echo base_url('admin/dashboard'); ?>" class="nav-link">Home</a></li>
-                <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Dashboard</a></li>
+                <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Appointments</a></li>
             </ul>
             <!--end::Start Navbar Links-->
                 <!--begin::End Navbar Links-->
@@ -49,11 +49,11 @@
                 <div class="container-fluid">
                     <!--begin::Row-->
                     <div class="row">
-                    <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+                    <div class="col-sm-6"><h3 class="mb-0">Appointments</h3></div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item active" aria-current="page">Appointments</li>
                         </ol>
                     </div>
                     </div>
