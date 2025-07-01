@@ -2,22 +2,22 @@
 deployment:
   tasks:
     - set -e
+    - echo "Step 1: Changing to repo directory"
     - cd /home/avmultis/repositories/av-clinic
 
-    # Composer install
+    - echo "Step 2: Running Composer"
     - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
 
-    # Set deploy path
+    - echo "Step 3: Setting deploy path"
     - export DEPLOYPATH=/home/avmultis/public_html
 
-    # Copy public files to deploy path
+    - echo "Step 4: Copying public folder"
     - /bin/cp -R public/* $DEPLOYPATH
 
-    # Decrypt credentials.json
+    - echo "Step 5: Decrypting credentials.json"
     - openssl enc -d -aes-256-cbc -pbkdf2 -in writable/credentials.json.enc -out writable/credentials.json -pass pass:Avclinic@123
 
-    # Patch index.php for correct path to app
+    - echo "Step 6: Patching index.php"
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
 
-    # Optional: Log debug info
-    - echo "Deployed at $(date)"
+    - echo "Step 7: Deployment finished at $(date)"
