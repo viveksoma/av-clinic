@@ -10,6 +10,9 @@ deployment:
     - echo "Before sed:"
     - grep "require" $DEPLOYPATH/index.php
 
+    # Decrypt credentials
+    - openssl enc -d -aes-256-cbc -in writable/credentials.json.enc -out writable/credentials.json -pass pass:Avclinic@123
+
     # Modify require line
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
 
