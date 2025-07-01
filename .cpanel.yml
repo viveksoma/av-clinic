@@ -5,7 +5,7 @@ deployment:
     - cd /home/avmultis/repositories/av-clinic
 
     # Composer install
-    - /opt/cpanel/ea-php82/root/usr/bin/php /home/avmultis/public_html/composer.phar install --no-dev --optimize-autoloader
+    - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
 
     # Set deploy path
     - export DEPLOYPATH=/home/avmultis/public_html
