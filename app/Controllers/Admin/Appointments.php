@@ -118,9 +118,6 @@ class Appointments extends BaseController
             15,
             $attendees
         );
-        // print_r($link);
-        // exit;
-
 
         $appointmentModel->update($appointmentId, ['google_meet_link' => $link['meet_link']]);
 

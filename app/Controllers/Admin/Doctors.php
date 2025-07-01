@@ -23,6 +23,7 @@ class Doctors extends BaseController
 
         $doctorId      = $this->request->getPost('doctor_id');
         $doctorName    = $this->request->getPost('doctor_name');
+        $doctorEmail    = $this->request->getPost('doctor_name');
         $specialization= $this->request->getPost('specialization');
         $slotDuration  = $this->request->getPost('slot_duration');
         $qualifications= $this->request->getPost('qualifications');
@@ -42,6 +43,7 @@ class Doctors extends BaseController
         // Prepare data
         $data = [
             'name'           => $doctorName,
+            'email'          => $doctorEmail,
             'specialization' => $specialization,
             'slot_duration'  => $slotDuration,
             'qualifications' => $qualifications,

@@ -79,6 +79,11 @@
                                             <input type="text" class="form-control" id="doctorName" name="doctor_name" required>
                                         </div>
 
+                                        <div class="mb-3">
+                                            <label for="doctorEmail" class="form-label">Doctor Email</label>
+                                            <input type="text" class="form-control" id="doctorEmail" name="doctor_email" required>
+                                        </div>
+
                                         <!-- Qualifications -->
                                         <div class="mb-3">
                                             <label for="qualifications" class="form-label">Qualifications</label>
@@ -189,6 +194,7 @@
                                                             <button type="button" class="btn btn-sm btn-primary edit-doctor-btn"
                                                                 data-id="<?= esc($doctor['id']) ?>"
                                                                 data-name="<?= esc($doctor['name']) ?>"
+                                                                data-email="<?= esc($doctor['email']) ?>"
                                                                 data-specialization="<?= esc($doctor['specialization']) ?>"
                                                                 data-slot_duration="<?= esc($doctor['slot_duration']) ?>"
                                                                 data-qualifications="<?= esc($doctor['qualifications'] ?? '') ?>"
@@ -220,13 +226,14 @@
     <?php include('common_script.php'); ?>
     <script>
         let isUpdateMode = false;
-        $("#doctorName, #specialization, #slotDuration, #inputGroupFile02").on("change", function() {
+        $("#doctorName, #doctorEmail, #specialization, #slotDuration, #inputGroupFile02").on("change", function() {
             let doctorName = $("#doctorName").val();
+            let doctorEmail = $("#doctorEmail").val();
             let specialization = $("#specialization").val();
             let slotDuration = $("#slotDuration").val();
             let profilePic = $("#inputGroupFile02")[0].files.length;
 
-            if (doctorName && specialization && slotDuration && (isUpdateMode || profilePic > 0)) {
+            if (doctorName && doctorEmail && specialization && slotDuration && (isUpdateMode || profilePic > 0)) {
                 $("#createDoctors").prop('disabled', false);
             } else {
                 $("#createDoctors").prop('disabled', true);
@@ -257,6 +264,7 @@
                 $('#inputGroupFile02').removeAttr('required');
                 document.querySelector('#doctorId').value = button.dataset.id;
                 document.querySelector('#doctorName').value = button.dataset.name;
+                document.querySelector('#doctorEmail').value = button.dataset.email;
                 document.querySelector('#specialization').value = button.dataset.specialization;
                 document.querySelector('#slotDuration').value = button.dataset.slot_duration;
                 document.querySelector('#qualifications').value = button.dataset.qualifications;
