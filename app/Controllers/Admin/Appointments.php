@@ -112,7 +112,7 @@ class Appointments extends BaseController
 
         $meetService = new GoogleMeetService();
         $link = $meetService->createMeetLink(
-            "Consultation with Dr. " . $appointment['doctor_name'],
+            "Consultation with " . $appointment['doctor_name'],
             $appointmentDate,
             $appointmentTime,
             15,
