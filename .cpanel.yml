@@ -5,8 +5,8 @@ deployment:
     - echo "Step 1: Changing to repo directory"
     - cd /home/avmultis/repositories/av-clinic
 
-    - echo "Step 2: Running Composer"
-    - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+    # - echo "Step 2: Running Composer"
+    # - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
 
     - echo "Step 3: Setting deploy path"
     - export DEPLOYPATH=/home/avmultis/public_html
