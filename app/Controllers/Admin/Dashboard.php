@@ -35,7 +35,7 @@ class Dashboard extends BaseController
         $nextWeek = date('Y-m-d', strtotime('+7 days'));
 
         $reminders = $patientVaccineModel
-            ->select('patient_vaccines.*, patients.name as patient_name, patients.age')
+            ->select('patient_vaccines.*, patients.name as patient_name, patients.phone as phone, patients.age')
             ->join('patients', 'patients.id = patient_vaccines.patient_id')
             ->where('vaccination_date >=', $today)
             ->where('vaccination_date <=', $nextWeek)

@@ -73,6 +73,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Patient Name</th>
+                                             <th>Patient Number</th>
                                             <th>Age</th>
                                             <th>Vaccine</th>
                                             <th>Dose</th>
@@ -85,6 +86,7 @@
                                                 <tr>
                                                     <td><?= $index + 1 ?></td>
                                                     <td><?= esc($reminder['patient_name']) ?></td>
+                                                    <td><?= esc($reminder['phone']) ?></td>
                                                     <td><?= esc($reminder['age']) ?></td>
                                                     <td><?= esc($reminder['vaccine_name']) ?></td>
                                                     <td><?= esc($reminder['dose_number']) ?></td>
