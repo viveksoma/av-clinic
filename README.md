@@ -193,3 +193,5 @@ INSERT INTO vaccines (name, description, due_weeks) VALUES
 ('MMR-3', 'Measles, Mumps, Rubella – 3rd dose', 208),
 ('Varicella-2', 'Chickenpox – 2nd dose', 208),
 ('Hepatitis A-2', 'Hepatitis A – 2nd dose', 208);
+
+curl -s http://avmultispeciality.com/admin/send-vaccine-reminders
