@@ -59,6 +59,14 @@
                     </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="<?php echo base_url('admin/vaccines'); ?>" class="nav-link <?php if($last_segment == 'vaccines' ) { echo 'active'; } ?>">
+                    <i class="nav-icon bi bi-shield-plus"></i>
+                    <p>
+                        Vaccines
+                    </p>
+                </a>
+            </li>
         </ul>
         <!--end::Sidebar Menu-->
         </nav>

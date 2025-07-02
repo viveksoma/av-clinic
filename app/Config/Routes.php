@@ -23,6 +23,12 @@ $routes->get('/logout', 'Admin\Auth::logout');
 $routes->get('admin/dashboard', 'Admin\Dashboard');
 $routes->get('admin/doctors', 'Admin\Doctors');
 $routes->get('admin/appointments', 'Admin\Appointments');
+$routes->get('admin/vaccines', 'Admin\Vaccines');
+$routes->group('admin', function($routes) {
+    $routes->get('patient-vaccines', 'Admin\PatientVaccines::index');
+    $routes->get('patient-vaccines/(:num)', 'Admin\PatientVaccines::show/$1');
+    $routes->post('patient-vaccines/add', 'Admin\PatientVaccines::add');
+});
 $routes->get('admin/patient_timeline', 'Admin\PatientTimeline');
 $routes->post('/doctors/store', 'Admin\Doctors::store');
 $routes->post('admin/payments/update', 'Admin\Payments::update');

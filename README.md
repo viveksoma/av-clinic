@@ -106,3 +106,90 @@ CREATE TABLE `payments` (
   PRIMARY KEY (`id`),
   CONSTRAINT `payments_appointment_id_foreign` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE vaccines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    description TEXT,
+    due_weeks INT COMMENT 'Weeks after birth'
+);
+
+CREATE TABLE patient_vaccines (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    patient_id INT UNSIGNED NOT NULL,
+    vaccine_name VARCHAR(100) NOT NULL,
+    dose_number TINYINT UNSIGNED NOT NULL,
+    vaccination_date DATE NOT NULL,
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
+    PRIMARY KEY (id),
+    KEY patient_id_idx (patient_id),
+    CONSTRAINT patient_vaccines_ibfk_1 FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE patient_vaccines
+ADD vaccine_id INT,
+ADD CONSTRAINT fk_vaccine FOREIGN KEY (vaccine_id) REFERENCES vaccines(id);
+
+-- Then remove vaccine_name if not needed
+
+
+
+INSERT INTO vaccines (name, description, due_weeks) VALUES
+-- At Birth
+('BCG', 'Bacillus Calmette–Guérin (TB)', 0),
+('OPV-0', 'Oral Polio Vaccine – Birth dose', 0),
+('Hepatitis B-1', 'Hepatitis B – Birth dose', 0),
+
+-- 6 Weeks
+('DTP-1', 'Diphtheria, Tetanus, Pertussis – 1st dose', 6),
+('Hib-1', 'Haemophilus influenzae type b – 1st dose', 6),
+('IPV-1', 'Inactivated Polio Vaccine – 1st dose', 6),
+('Hepatitis B-2', 'Hepatitis B – 2nd dose', 6),
+('Rotavirus-1', 'Rotavirus – 1st dose', 6),
+('PCV-1', 'Pneumococcal Conjugate Vaccine – 1st dose', 6),
+
+-- 10 Weeks
+('DTP-2', 'Diphtheria, Tetanus, Pertussis – 2nd dose', 10),
+('Hib-2', 'Haemophilus influenzae type b – 2nd dose', 10),
+('IPV-2', 'Inactivated Polio Vaccine – 2nd dose', 10),
+('Rotavirus-2', 'Rotavirus – 2nd dose', 10),
+('PCV-2', 'Pneumococcal Conjugate Vaccine – 2nd dose', 10),
+
+-- 14 Weeks
+('DTP-3', 'Diphtheria, Tetanus, Pertussis – 3rd dose', 14),
+('Hib-3', 'Haemophilus influenzae type b – 3rd dose', 14),
+('IPV-3', 'Inactivated Polio Vaccine – 3rd dose', 14),
+('Rotavirus-3', 'Rotavirus – 3rd dose', 14),
+('PCV-3', 'Pneumococcal Conjugate Vaccine – 3rd dose', 14),
+
+-- 6 Months
+('Hepatitis B-3', 'Hepatitis B – 3rd dose', 24),
+
+-- 9 Months
+('MMR-1', 'Measles, Mumps, Rubella – 1st dose', 39),
+('Vitamin A-1', 'Vitamin A – 1st dose', 39),
+
+-- 12 Months
+('Typhoid Conjugate', 'Typhoid Conjugate Vaccine', 52),
+
+-- 15 Months
+('MMR-2', 'Measles, Mumps, Rubella – 2nd dose', 65),
+('Varicella-1', 'Chickenpox – 1st dose', 65),
+('PCV Booster', 'Pneumococcal Conjugate Vaccine – Booster', 65),
+
+-- 18 Months
+('DTP Booster-1', 'Diphtheria, Tetanus, Pertussis – 1st booster', 78),
+('Hib Booster', 'Haemophilus influenzae type b – Booster', 78),
+('IPV Booster', 'Inactivated Polio Vaccine – Booster', 78),
+('Hepatitis A-1', 'Hepatitis A – 1st dose', 78),
+
+-- 2 Years
+('Typhoid Booster', 'Typhoid Booster (if needed)', 104),
+
+-- 4-6 Years
+('DTP Booster-2', 'Diphtheria, Tetanus, Pertussis – 2nd booster', 208),
+('OPV Booster', 'Oral Polio Vaccine – Booster', 208),
+('MMR-3', 'Measles, Mumps, Rubella – 3rd dose', 208),
+('Varicella-2', 'Chickenpox – 2nd dose', 208),
+('Hepatitis A-2', 'Hepatitis A – 2nd dose', 208);

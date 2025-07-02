@@ -81,8 +81,38 @@
                                 <h5>Patient Info</h5>
                                 <p id="patientName"></p>
                                 <p id="patientAge"></p>
-                                
                             </div>
+
+                            <!-- Vaccine Section (shown only for eligible patients) -->
+                            <div id="vaccineSection" style="display: none;" class="mt-5">
+                                <h5 class="mb-3">Update Vaccine</h5>
+
+                                <div id="lastVaccine" class="alert alert-info" style="display: none;">
+                                    <strong>Last Vaccine:</strong> <span id="lastVaccineText"></span>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="vaccineSelect" class="form-label">Select Vaccine</label>
+                                        <select id="vaccineSelect" class="form-select" style="width: 100%;">
+                                            <option value="">-- Select Vaccine --</option>
+                                            <?php foreach ($vaccines as $vaccine): ?>
+                                                <option value="<?= esc($vaccine['name']) ?>">
+                                                    <?= esc($vaccine['name']) ?> (<?= esc($vaccine['due_weeks']) ?> weeks)
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="vaccineDate" class="form-label">Vaccination Date</label>
+                                        <input type="date" class="form-control" id="vaccineDate">
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end">
+                                        <button id="submitVaccineBtn" class="btn btn-success">Add Vaccine</button>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div id="patientTimeline">
                                 <div class="timeline"></div>
@@ -135,6 +165,84 @@
     <?php include('common_script.php'); ?>
     <script>
         $(document).ready(function () {
+
+            function loadVaccineSection(patient) {
+                const maxVaccineAge = 5; // Years
+                const patientId = patient.id;
+                if (patient.age < maxVaccineAge) {
+                    $("#vaccineSection").show();
+                        const today = new Date().toISOString().split('T')[0];
+                        $("#vaccineDate").val(today); // ✅ Set today as default
+
+                    // Fetch last vaccine if any
+                    $.ajax({
+                        url: `/admin/patient-vaccines/${patientId}`,
+                        method: "GET",
+                        success: function (data) {
+                            if (data.vaccines && data.vaccines.length > 0) {
+                                const last = data.vaccines[data.vaccines.length - 1];
+                                $("#lastVaccineText").text(`${last.vaccine_name} on ${last.vaccination_date}`);
+                                $("#lastVaccine").show();
+                            } else {
+                                $("#lastVaccine").hide();
+                            }
+                        }
+                    });
+                } else {
+                    $("#vaccineSection").hide();
+                }
+            }
+
+            // Trigger vaccine load on patient search
+            $("#searchPatientBtn").on("click", function () {
+                const patientSearch = $("#patientSearch").val();
+                if (!patientSearch) return;
+
+                $.ajax({
+                    url: "/patients/search",
+                    type: "GET",
+                    data: { patientId: patientSearch },
+                    success: function (response) {
+                        if (response.patient) {
+                            // existing render logic...
+                            loadVaccineSection(response.patient); // 🎯 hook vaccine section load
+                        }
+                    }
+                });
+            });
+
+            // Submit vaccine record
+            $("#submitVaccineBtn").on("click", function () {
+                const vaccineName = $("#vaccineSelect").val();
+                const vaccinationDate = $("#vaccineDate").val();
+                const patientId = $("#selectedPatientId").val();
+
+                if (!vaccineName || !vaccinationDate) {
+                    alert("Please select a vaccine and date.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/admin/patient-vaccines/add",
+                    method: "POST",
+                    data: {
+                        patient_id: patientId,
+                        vaccine_name: [vaccineName],
+                        dose_number: [1], // You can auto-increment on backend
+                        vaccination_date: [vaccinationDate]
+                    },
+                    success: function (res) {
+                        alert("Vaccine added successfully.");
+                        $("#vaccineDate").val("");
+                        $("#vaccineSelect").val("");
+                        $("#searchPatientBtn").click(); // refresh patient
+                    },
+                    error: function () {
+                        alert("Error adding vaccine.");
+                    }
+                });
+            });
+
             $("#searchPatientBtn").on("click", function() {
                 let patientSearch = $("#patientSearch").val();
 
