@@ -65,6 +65,41 @@
                 <div class="container-fluid">
                     <div class="row g-4">
                         <div class="col-md-6">
+                        <div class="card card-warning card-outline mb-4">
+                            <div class="card-header"><h3 class="card-title">Upcoming Vaccine Reminders (Next 7 Days)</h3></div>
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Patient Name</th>
+                                            <th>Age</th>
+                                            <th>Vaccine</th>
+                                            <th>Dose</th>
+                                            <th>Due Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($vaccineReminders)): ?>
+                                            <?php foreach ($vaccineReminders as $index => $reminder): ?>
+                                                <tr>
+                                                    <td><?= $index + 1 ?></td>
+                                                    <td><?= esc($reminder['patient_name']) ?></td>
+                                                    <td><?= esc($reminder['age']) ?></td>
+                                                    <td><?= esc($reminder['vaccine_name']) ?></td>
+                                                    <td><?= esc($reminder['dose_number']) ?></td>
+                                                    <td><?= date('d M Y', strtotime($reminder['vaccination_date'])) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr><td colspan="6" class="text-center">No upcoming vaccines in next 7 days.</td></tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-md-6">
                             <div class="card mb-4">
                                 <div class="card-header"><h3 class="card-title">Appointment</h3></div>
                                 <!-- /.card-header -->

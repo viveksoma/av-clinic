@@ -29,6 +29,7 @@ $routes->group('admin', function($routes) {
     $routes->get('patient-vaccines/(:num)', 'Admin\PatientVaccines::show/$1');
     $routes->post('patient-vaccines/add', 'Admin\PatientVaccines::add');
 });
+$routes->get('/admin/send-vaccine-reminders', 'VaccineReminderController::sendReminders');
 $routes->get('admin/patient_timeline', 'Admin\PatientTimeline');
 $routes->post('/doctors/store', 'Admin\Doctors::store');
 $routes->post('admin/payments/update', 'Admin\Payments::update');

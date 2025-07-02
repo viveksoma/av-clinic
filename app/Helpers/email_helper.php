@@ -75,3 +75,42 @@ function sendGoogleMeetEmail(string $toEmail, string $patientName, string $docto
 
     return $email->send();
 }
+
+if (!function_exists('sendVaccineReminderEmail')) {
+    /**
+     * Send vaccine reminder email to a patient.
+     *
+     * @param string $toEmail
+     * @param string $patientName
+     * @param string $vaccineName
+     * @param string $doseNumber
+     * @param string $scheduledDate (Y-m-d)
+     * @return bool
+     */
+    function sendVaccineReminderEmail(string $toEmail, string $patientName, string $vaccineName, string $doseNumber, string $scheduledDate): bool
+    {
+        $email = \Config\Services::email();
+        $email->setMailType('html');
+
+        $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
+        $email->setTo($toEmail);
+        $email->setSubject('Upcoming Vaccine Reminder');
+
+        $formattedDate = date('d M Y', strtotime($scheduledDate));
+
+        $message = "
+            Dear {$patientName},<br><br>
+            This is a reminder for your upcoming vaccination.<br><br>
+            <strong>Vaccine:</strong> {$vaccineName}<br>
+            <strong>Dose:</strong> {$doseNumber}<br>
+            <strong>Scheduled Date:</strong> {$formattedDate}<br><br>
+            Please visit <strong>AV Clinic</strong> on or before the scheduled date.<br><br>
+            Thank you,<br>
+            <strong>AV Clinic Team</strong>
+        ";
+
+        $email->setMessage($message);
+
+        return $email->send();
+    }
+}
