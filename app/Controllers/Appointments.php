@@ -25,6 +25,24 @@ class Appointments extends BaseController
         return $this->response->setJSON($slots);
     }
 
+    public function getDoctorAvailableDays()
+    {
+        $doctor_id = $this->request->getGet('doctor_id');
+        $DoctorAvailabilityModel = new \App\Models\DoctorAvailabilityModel();
+
+        $availability = $DoctorAvailabilityModel
+            ->select('day_of_week')
+            ->where('doctor_id', $doctor_id)
+            ->groupBy('day_of_week')
+            ->findAll();
+
+        $days = array_column($availability, 'day_of_week');
+
+        return $this->response->setJSON([
+            'available_days' => $days
+        ]);
+    }
+
     public function book()
     {
         {

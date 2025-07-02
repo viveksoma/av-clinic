@@ -53,10 +53,10 @@ class AppointmentModel extends Model
          $morning_slots = array_diff($morning_slots, $booked_times);
          $evening_slots = array_diff($evening_slots, $booked_times);
  
-         return [
-            'morning_slots' => $morning_slots,
-            'evening_slots' => $evening_slots
-         ];
+        return [
+            'morning_slots' => array_values($morning_slots), // 👈 fix applied
+            'evening_slots' => array_values($evening_slots)
+        ];
     }
 
     public function getBookedSlots($doctor_id, $date)

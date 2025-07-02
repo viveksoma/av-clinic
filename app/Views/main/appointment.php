@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <?php include('common_styles.php'); ?>
 </head>
 <body>
@@ -96,5 +97,6 @@
     <?php include('common_footer.php'); ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?= base_url('assets/common.js'); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <?php include('common_scripts.php'); ?></body>
 </html>

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AV Multispeciality | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <?php include('common_styles.php'); ?>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -161,8 +162,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-12">
-                                        <select class="form-select bg-light border-0" id="appointmentType" style="height: 55px;">
+                                    <div class="mb-3">
+                                         <label for="doctorSelect" class="form-label">Appointment Type</label>
+                                        <select class="form-select" id="appointmentType">
                                             <option selected disabled>Select Appointment Type</option>
                                             <option value="vaccination">vaccination</option>
                                             <option value="general">General Consultation</option>
@@ -221,6 +223,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?= base_url('assets/common.js'); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <?php include('common_script.php'); ?>
 </body>
 </html>

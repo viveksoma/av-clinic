@@ -105,6 +105,75 @@ $(document).ready(function() {
         $("#bookAppointment").prop("disabled", false).data("time", $(this).data("time"));
     });
 
+    let originalDoctorOptions = $("#doctorSelect").html(); // store full list for reset
+
+    $("#appointmentType").on("change", function () {
+        const selectedType = $(this).val();
+
+        if (selectedType === 'online') {
+            // Filter to only show doctor with value="2"
+            $("#doctorSelect").html(
+                $(originalDoctorOptions).filter(function () {
+                    return $(this).val() === "6" || $(this).val() === "";
+                })
+            );
+
+            // Select doctor with value="2" by default
+            $("#doctorSelect").val("6").trigger('change');
+        } else {
+            // Restore full list and reset selection
+            $("#doctorSelect").html(originalDoctorOptions);
+        }
+    });
+
+    $(document).ready(function () {
+        let flatpickrInstance = null;
+
+        let dayMap = {
+            'Sunday': 0,
+            'Monday': 1,
+            'Tuesday': 2,
+            'Wednesday': 3,
+            'Thursday': 4,
+            'Friday': 5,
+            'Saturday': 6
+        };
+
+        $("#doctorSelect").on("change", function () {
+            let doctorId = $(this).val();
+            if (doctorId) {
+                $.get("/appointments/getDoctorAvailableDays", { doctor_id: doctorId }, function (response) {
+                    let availableDays = response.available_days || [];
+
+                    if (flatpickrInstance) {
+                        flatpickrInstance.destroy();
+                    }
+
+                    if (availableDays.length > 0) {
+                        let enabledDays = availableDays.map(day => dayMap[day]);
+
+                        flatpickrInstance = flatpickr("#appointmentDate", {
+                            dateFormat: "Y-m-d",
+                            minDate: "today",
+                            disable: [
+                                function (date) {
+                                    return !enabledDays.includes(date.getDay());
+                                }
+                            ]
+                        });
+                    } else {
+                        // No restriction – enable all days
+                        flatpickrInstance = flatpickr("#appointmentDate", {
+                            dateFormat: "Y-m-d",
+                            minDate: "today"
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
     // Book Appointment
     $("#bookAppointment").on("click", function () {
         let $btn = $(this);

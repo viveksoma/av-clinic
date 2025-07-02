@@ -201,6 +201,9 @@
                                                                 data-about="<?= esc($doctor['about'] ?? '') ?>"
                                                                 data-social_links='<?= esc($doctor['social_links'] ?? '{}') ?>'
                                                             >Edit</button>
+
+                                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#availabilityModal" data-doctor-id="<?= $doctor['id'] ?>">Set Availability</button>
+
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -218,6 +221,51 @@
             </div>
         </main>
         <!--end::App Main-->
+        <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <form id="availabilityForm">
+                <input type="hidden" id="doctorIdAvailability" name="doctor_id">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Doctor Weekly Availability</h5>
+                    </div>
+                    <div class="modal-body">
+                    <div id="availabilityDays">
+                        <?php
+                        $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+                        foreach ($days as $day):
+                        ?>
+                        <div class="border rounded p-3 mb-2">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input day-checkbox" type="checkbox" value="<?= $day ?>" id="check-<?= $day ?>" name="selected_days[]">
+                                <label class="form-check-label fw-bold" for="check-<?= $day ?>"><?= $day ?></label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label>Morning (Start - End)</label>
+                                    <input type="time" class="form-control" name="availability[<?= $day ?>][morning_start]" value="09:00">
+                                    <input type="time" class="form-control" name="availability[<?= $day ?>][morning_end]" value="12:00">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label>Evening (Start - End)</label>
+                                    <input type="time" class="form-control" name="availability[<?= $day ?>][evening_start]" value="18:00">
+                                    <input type="time" class="form-control" name="availability[<?= $day ?>][evening_end]" value="20:00">
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save Availability</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+
 
         <?php include('common_footer.php'); ?>
     </div>
@@ -239,6 +287,60 @@
                 $("#createDoctors").prop('disabled', true);
             }
         });
+
+        $(document).ready(function () {
+            $('#availabilityModal').on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget); // Button that triggered the modal
+                const doctorId = button.data('doctor-id'); // Extract info from data-* attributes
+
+                $('#doctorIdAvailability').val(doctorId); // ✅ Set hidden input
+
+                // Clear all fields first
+                $('#availabilityForm input[type="checkbox"]').prop('checked', false);
+                // $('#availabilityForm input[type="time"]').val('');
+
+                // Fetch existing availability
+                $.get(`/admin/doctor/availability/${doctorId}`, function (data) {
+                    data.forEach(entry => {
+                        $(`#check-${entry.day_of_week}`).prop('checked', true);
+                        $(`[name="availability[${entry.day_of_week}][morning_start]"]`).val(entry.morning_start);
+                        $(`[name="availability[${entry.day_of_week}][morning_end]"]`).val(entry.morning_end);
+                        $(`[name="availability[${entry.day_of_week}][evening_start]"]`).val(entry.evening_start);
+                        $(`[name="availability[${entry.day_of_week}][evening_end]"]`).val(entry.evening_end);
+                    });
+                });
+            });
+        });
+
+        $('#availabilityForm').on('submit', function (e) {
+            e.preventDefault();
+            const doctorId = $('#doctorIdAvailability').val();
+            const availability = {};
+
+            $('input[type="checkbox"]:checked').each(function () {
+                const day = $(this).val();
+                availability[day] = {
+                    morning_start: $(`[name="availability[${day}][morning_start]"]`).val(),
+                    morning_end: $(`[name="availability[${day}][morning_end]"]`).val(),
+                    evening_start: $(`[name="availability[${day}][evening_start]"]`).val(),
+                    evening_end: $(`[name="availability[${day}][evening_end]"]`).val()
+                };
+            });
+
+            $.post('/admin/doctor/availability/update', {
+                doctor_id: doctorId,
+                availability: availability
+            }, function (res) {
+                if (res.status === 'success') {
+                    alert('Availability saved successfully.');
+                    $('#availabilityModal').modal('hide');
+                } else {
+                    alert('Failed to save availability.');
+                }
+            });
+        });
+
+
     </script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">

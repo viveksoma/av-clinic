@@ -67,15 +67,17 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
 
-CREATE TABLE doctor_special_availabilities (
+CREATE TABLE doctor_availabilities (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     doctor_id INT UNSIGNED NOT NULL,
-    available_date DATE NOT NULL,
+    day_of_week ENUM('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday') NOT NULL,
     morning_start TIME NULL,
     morning_end TIME NULL,
     evening_start TIME NULL,
     evening_end TIME NULL,
-    FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE ON UPDATE CASCADE
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
 
 ALTER TABLE doctors

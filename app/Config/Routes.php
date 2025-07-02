@@ -35,6 +35,9 @@ $routes->post('/doctors/store', 'Admin\Doctors::store');
 $routes->post('admin/payments/update', 'Admin\Payments::update');
 $routes->get('admin/appointments/generate-meet/(:num)', 'Admin\Appointments::generateMeet/$1');
 $routes->get('google-auth', 'GoogleAuth::index');
+$routes->get('admin/doctor/availability/(:num)', 'Admin\DoctorAvailability::getAvailability/$1');
+$routes->post('admin/doctor/availability/update', 'Admin\DoctorAvailability::updateAvailability');
+$routes->get('appointments/getDoctorAvailableDays', 'Appointments::getDoctorAvailableDays');
 
 //Appoinments
 $routes->get('appointments/booking', 'Appointments::booking');
