@@ -88,7 +88,7 @@
                                     <table class="table datatable" id="onlineAppointmentsTable">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Patient Id</th>
                                                 <th>Patient Name</th>
                                                 <th>Doctor</th>
                                                 <th>Appointment Type</th>
@@ -186,7 +186,7 @@
                                     <table class="table datatable" id="otherAppointmentsTable">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Patient Id</th>
                                                 <th>Patient Name</th>
                                                 <th>Doctor</th>
                                                 <th>Appointment Type</th>
