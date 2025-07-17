@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AV Multispeciality | Appointments" />
     <meta name="author" content="ColorlibHQ" />
-     <link href="<?= base_url('assets/simple-datatables/style.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/simple-datatables/style.css'); ?>" rel="stylesheet">
     <?php include('common_styles.php'); ?>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">

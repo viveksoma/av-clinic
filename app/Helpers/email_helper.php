@@ -26,14 +26,12 @@ if (!function_exists('sendAppointmentEmail')) {
         $message .= "Your appointment is scheduled on <strong>$date</strong> at <strong>$time</strong>.<br><br>";
 
         if ($type === 'online') {
+            $upiUrl = "upi://pay?pa=vidhuvarsha7-5@okicici&pn=AV Clinic&am=500&cu=INR";
+            $qrImage = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . urlencode($upiUrl);
             $message .= "To confirm your online consultation, please make the payment using the following details:<br><br>";
-            $message .= "<strong>Bank Name:</strong> ABC Bank<br>";
-            $message .= "<strong>Account Number:</strong> 1234567890<br>";
-            $message .= "<strong>IFSC Code:</strong> ABCD0123456<br>";
-            $message .= "<strong>Account Holder:</strong> AV Clinic<br><br>";
-            $message .= "Or pay via UPI:<br>";
-            $message .= "<strong>UPI ID:</strong> avclinic@upi<br><br>";
-            $message .= "<img src='" . base_url('assets/main/img/QRCode.png') . "' alt='UPI QR Code' width='200'><br><br>";
+            $message .= "Pay via UPI:<br>";
+            $message .= "<strong>UPI ID:</strong> vidhuvarsha7-5@okicici<br><br>";
+            $message .= "<img src='" . $qrImage . "' alt='UPI QR Code' width='200'><br><br>";
             $message .= "After payment, please send the screenshot to WhatsApp: <strong>9486721349</strong><br>";
             $message .= "We will then send you the Google Meet link for the consultation.<br><br>";
         }
