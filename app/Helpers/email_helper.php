@@ -26,12 +26,19 @@ if (!function_exists('sendAppointmentEmail')) {
         $message .= "Your appointment is scheduled on <strong>$date</strong> at <strong>$time</strong>.<br><br>";
 
         if ($type === 'online') {
+            // Step 1: Generate QR Code (base64 embedded)
             $upiUrl = "upi://pay?pa=vidhuvarsha7-5@okicici&pn=AV Clinic&am=500&cu=INR";
-            $qrImage = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . urlencode($upiUrl);
+            $result = Builder::create()
+                ->data($upiUrl)
+                ->size(300)
+                ->margin(10)
+                ->build();
+
+            $qrDataUri = $result->getDataUri();
             $message .= "To confirm your online consultation, please make the payment using the following details:<br><br>";
             $message .= "Pay via UPI:<br>";
             $message .= "<strong>UPI ID:</strong> vidhuvarsha7-5@okicici<br><br>";
-            $message .= "<img src='" . $qrImage . "' alt='UPI QR Code' width='200'><br><br>";
+            $message .= "<img src='" . $qrDataUri . "' alt='UPI QR Code' width='200'><br><br>";
             $message .= "After payment, please send the screenshot to WhatsApp: <strong>9486721349</strong><br>";
             $message .= "We will then send you the Google Meet link for the consultation.<br><br>";
         }
