@@ -129,8 +129,8 @@ class Appointments extends BaseController
             $appointment['start_time'],
             $link['meet_link']
         );
+        return redirect()->to('admin/appointments')->with('success', 'Google Meet link generated.');
 
-        return view('admin/appointments', $data);
     }
 
 
