@@ -108,7 +108,7 @@ class Appointments extends BaseController
         $appointmentDate = $appointment['appointment_date'];
         $appointmentTime = $appointment['start_time'];
 
-        $attendees = [$appointment['doctor_email'], $appointment['patient_email']];
+        $attendees = ['appointment@avmultispeciality.com', $appointment['patient_email']];
 
         $meetService = new GoogleMeetService();
         $link = $meetService->createMeetLink(

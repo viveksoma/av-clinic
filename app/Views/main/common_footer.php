@@ -34,7 +34,7 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-md-0">&copy; <a class="text-primary" href="#">AV Clinin</a>. All Rights Reserved.</p>
+                <p class="mb-md-0">&copy; <a class="text-primary" href="#">AV Clinic</a>. All Rights Reserved.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <p class="mb-0">Designed by <a class="text-primary" href="#">Vivek!...</a></p>

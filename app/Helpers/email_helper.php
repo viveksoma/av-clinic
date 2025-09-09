@@ -30,7 +30,7 @@ if (!function_exists('sendAppointmentEmail')) {
             $message .= "Pay via UPI:<br>";
             $message .= "<strong>UPI ID:</strong> vidhuvarsha7-5@okicici<br><br>";
             $message .= "<img src='" . base_url('assets/main/img/QRCode.png') . "' alt='UPI QR Code' width='200'><br><br>";
-            $message .= "After payment, please send the screenshot to WhatsApp: <strong>9486721349</strong><br>";
+            $message .= "After payment, please send the screenshot to WhatsApp: <strong>90420768040</strong><br>";
             $message .= "We will then send you the Google Meet link for the consultation.<br><br>";
         }
 
