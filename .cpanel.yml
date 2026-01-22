@@ -4,20 +4,17 @@ deployment:
     - set -e
     - cd /home/avmultis/repositories/av-clinic
 
-    # Composer install
-    - composer install --no-dev --optimize-autoloader
-
     # Set deploy path
     - export DEPLOYPATH=/home/avmultis/public_html
 
     # Copy public files
     - /bin/cp -R public/* $DEPLOYPATH
 
-    # Decrypt credentials.json
+    # Decrypt credentials
     - openssl enc -d -aes-256-cbc -pbkdf2 \
       -in writable/credentials.json.enc \
       -out writable/credentials.json \
-      -pass pass:Avclinic@123
+      -pass env:DECRYPT_KEY
 
     # Patch index.php
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
