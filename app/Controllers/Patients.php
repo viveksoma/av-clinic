@@ -29,27 +29,42 @@ class Patients extends BaseController
         try {
             $phone_number = $this->request->getGet('phone_number');
 
-            // Query the patient table to check if the phone number exists
-            $patientModel = new \App\Models\PatientModel();
-            $patient = $patientModel->where('phone', $phone_number)->first();
-
-            if ($patient) {
-                return $this->response->setJSON(['exists' => true, 'patient' => $patient]);
-            } else {
-                return $this->response->setJSON(['exists' => false]);
+            if (!$phone_number) {
+                return $this->response->setJSON([
+                    'exists' => false,
+                    'patients' => []
+                ]);
             }
 
-        } catch (\Exception $e) {
-            // Catch any errors and log them
-            log_message('error', 'Error booking appointment: ' . $e->getMessage());
+            $patientModel = new \App\Models\PatientModel();
 
-            // Return the error message to the user
+            // EXECUTE the query
+            $patients = $patientModel
+                ->where('phone', $phone_number)
+                ->findAll();
+
+            if (!empty($patients)) {
+                return $this->response->setJSON([
+                    'exists' => true,
+                    'patients' => $patients
+                ]);
+            }
+
             return $this->response->setJSON([
-                'error' => 'An unexpected error occurred while booking the appointment.' . $e->getMessage()
+                'exists' => false,
+                'patients' => []
+            ]);
+
+        } catch (\Exception $e) {
+            log_message('error', 'Error checking patient: ' . $e->getMessage());
+
+            return $this->response->setJSON([
+                'error' => 'Unexpected error occurred',
+                'message' => $e->getMessage()
             ]);
         }
-        
     }
+
 
     public function getPatientTimeline($patientId)
     {

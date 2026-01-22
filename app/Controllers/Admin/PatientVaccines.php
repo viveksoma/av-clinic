@@ -9,113 +9,89 @@ class PatientVaccines extends BaseController
 {
     /**
      * GET /admin/patient-vaccines/{id}
-     * - If no vaccine records: return only patient data
-     * - If vaccine records exist: return patient + vaccines
      */
     public function show($patientId)
     {
-        $db           = \Config\Database::connect();
-        $patientModel = new PatientModel();
+        $db = \Config\Database::connect();
+        $patient = (new PatientModel())->find($patientId);
 
-        // 1) Load patient
-        $patient = $patientModel->find($patientId);
-        if (! $patient) {
+        if (!$patient) {
             return $this->response
-                        ->setStatusCode(404)
-                        ->setJSON(['error' => 'Patient not found']);
+                ->setStatusCode(404)
+                ->setJSON(['error' => 'Patient not found']);
         }
 
-        // Calculate age from DOB, if you have dob field:
-        if (! empty($patient['dob'])) {
-            $dob = new \DateTime($patient['dob']);
-            $now = new \DateTime();
-            $diff = $now->diff($dob);
-            $patient['age'] = $diff->y . 'y ' . $diff->m . 'm';
-        }
+        $sql = "
+            SELECT
+                vs.stage_label,
+                vs.id AS vaccination_stage_id,
+                v.name AS vaccine_name,
+                sv.id AS stage_vaccine_id,
+                sv.dose_label,
+                pv.given_date,
+                CASE
+                    WHEN pv.id IS NOT NULL THEN 'given'
+                    ELSE 'pending'
+                END AS status
+            FROM stage_vaccines sv
+            JOIN vaccination_stages vs ON vs.id = sv.vaccination_stage_id
+            JOIN vaccines v ON v.id = sv.vaccine_id
+            LEFT JOIN patient_vaccines pv
+                ON pv.stage_vaccine_id = sv.id
+                AND pv.patient_id = ?
+            ORDER BY vs.display_order, sv.display_order
+        ";
 
-        // 2) Fetch vaccine records
-        $builder = $db->table('patient_vaccines');
-        $builder->select('vaccine_name, dose_number, vaccination_date');
-        $builder->where('patient_id', $patientId);
-        $builder->orderBy('vaccination_date', 'ASC');
-        $vaccines = $builder->get()->getResultArray();
+        $doses = $db->query($sql, [$patientId])->getResultArray();
 
-        // 3) Build response
-        $payload = [
-            'patient' => [
-                'id'     => $patient['id'],
-                'name'   => $patient['name'],
-                'gender' => $patient['gender'] ?? null,
-                'dob'    => $patient['dob'] ?? null,
-                'age'    => $patient['age'] ?? null,
-                'phone'  => $patient['phone'] ?? null,
-                'email'  => $patient['email'] ?? null,
-            ]
-        ];
-
-        if (count($vaccines) > 0) {
-            $payload['vaccines'] = $vaccines;
-        }
-
-        return $this->response->setJSON($payload);
+        return $this->response->setJSON([
+            'patient' => $patient,
+            'doses'   => $doses
+        ]);
     }
-
 
     /**
      * POST /admin/patient-vaccines/add
-     * - If patient_id is missing or invalid: first create a new patient
-     * - Then insert one or more vaccine doses
+     * Stage-wise mark given
      */
     public function add()
     {
-        $db           = \Config\Database::connect();
-        $patientModel = new PatientModel();
-
         $patientId = $this->request->getPost('patient_id');
+        $stageId   = $this->request->getPost('vaccination_stage_id');
 
-        // If no patient_id sent, create a new patient record
-        if (! $patientId) {
-            $newData = [
-                'name'   => $this->request->getPost('name'),
-                'age'    => $this->request->getPost('age'),
-                'phone'  => $this->request->getPost('phone_number'),
-                'email'  => $this->request->getPost('email'),
-                'dob'    => $this->request->getPost('dob'),
-                'gender' => $this->request->getPost('gender'),
-            ];
-            $patientId = $patientModel->insert($newData);
-
-            if (! $patientId) {
-                return $this->response
-                            ->setStatusCode(500)
-                            ->setJSON(['error' => 'Failed to create patient']);
-            }
-        }
-
-        // Now insert the vaccine doses
-        $vaccineNames     = $this->request->getPost('vaccine_name');
-        $doseNumbers      = $this->request->getPost('dose_number');
-        $vaccinationDates = $this->request->getPost('vaccination_date');
-
-        if (! is_array($vaccineNames) || count($vaccineNames) === 0) {
+        if (!$patientId || !$stageId) {
             return $this->response
-                        ->setStatusCode(400)
-                        ->setJSON(['error' => 'No vaccine data provided']);
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Invalid request']);
         }
 
-        foreach ($vaccineNames as $i => $vaccine) {
+        $db = \Config\Database::connect();
+
+        $stageVaccines = $db->table('stage_vaccines')
+            ->where('vaccination_stage_id', $stageId)
+            ->get()
+            ->getResultArray();
+
+        foreach ($stageVaccines as $sv) {
+
+            $exists = $db->table('patient_vaccines')
+                ->where([
+                    'patient_id' => $patientId,
+                    'stage_vaccine_id' => $sv['id']
+                ])
+                ->get()
+                ->getRow();
+
+            if ($exists) continue;
+
             $db->table('patient_vaccines')->insert([
                 'patient_id'       => $patientId,
-                'vaccine_name'     => $vaccine,
-                'dose_number'      => $doseNumbers[$i],
-                'vaccination_date' => $vaccinationDates[$i],
-                'created_at'       => date('Y-m-d H:i:s'),
+                'stage_vaccine_id' => $sv['id'],
+                'given_date'       => date('Y-m-d'),
+                'status'           => 'given'
             ]);
         }
 
-        return $this->response->setJSON([
-            'status'     => 'success',
-            'patient_id' => $patientId
-        ]);
+        return $this->response->setJSON(['status' => 'success']);
     }
 }

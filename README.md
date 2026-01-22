@@ -109,91 +109,177 @@ CREATE TABLE `payments` (
   CONSTRAINT `payments_appointment_id_foreign` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 CREATE TABLE vaccines (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    description TEXT,
-    due_weeks INT COMMENT 'Weeks after birth'
+    name VARCHAR(100) NOT NULL,          -- e.g. "BCG"
+    full_name VARCHAR(255) NULL,         -- e.g. "Bacillus Calmette–Guérin"
+    notes VARCHAR(255) NULL              -- e.g. "Influenza yearly"
 );
 
-CREATE TABLE patient_vaccines (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    patient_id INT UNSIGNED NOT NULL,
-    vaccine_name VARCHAR(100) NOT NULL,
-    dose_number TINYINT UNSIGNED NOT NULL,
-    vaccination_date DATE NOT NULL,
-    created_at DATETIME DEFAULT NULL,
-    updated_at DATETIME DEFAULT NULL,
-    PRIMARY KEY (id),
-    KEY patient_id_idx (patient_id),
-    CONSTRAINT patient_vaccines_ibfk_1 FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE vaccination_stages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    stage_label VARCHAR(50),      -- e.g. "At Birth", "6 Weeks"
+    age_in_days INT NULL,         -- optional, useful for reminders
+    display_order INT NOT NULL
+);
 
-ALTER TABLE patient_vaccines
-ADD vaccine_id INT,
-ADD CONSTRAINT fk_vaccine FOREIGN KEY (vaccine_id) REFERENCES vaccines(id);
+TRUNCATE TABLE vaccination_stages;
 
--- Then remove vaccine_name if not needed
+INSERT INTO vaccination_stages (stage_label, display_order) VALUES
+('At Birth', 1),
+('6 Weeks', 2),
+('10 Weeks', 3),
+('14 Weeks', 4),
+('6 Months', 5),
+('7 Months', 6),          -- ✅ NEW
+('9 Months', 7),
+('1 Year', 8),
+('15 Months', 9),
+('18 Months', 10),
+('2 Years', 11),
+('3 Years', 12),
+('4 Years', 13),
+('5 Years', 14),
+('9-14 Years', 15);
 
 
+CREATE TABLE stage_vaccines (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vaccination_stage_id INT NOT NULL,
+    vaccine_id INT NOT NULL,
+    dose_label VARCHAR(20),     -- e.g. "1", "2", "B1", "Booster"
+    display_order INT NOT NULL,
 
-INSERT INTO vaccines (name, description, due_weeks) VALUES
+    FOREIGN KEY (vaccination_stage_id) REFERENCES vaccination_stages(id),
+    FOREIGN KEY (vaccine_id) REFERENCES vaccines(id)
+);
+
+TRUNCATE TABLE stage_vaccines;
+
+INSERT INTO stage_vaccines
+(vaccination_stage_id, vaccine_id, dose_label, display_order)
+VALUES
+
 -- At Birth
-('BCG', 'Bacillus Calmette–Guérin (TB)', 0),
-('OPV-0', 'Oral Polio Vaccine – Birth dose', 0),
-('Hepatitis B-1', 'Hepatitis B – Birth dose', 0),
+(1, 1, NULL, 1),
+(1, 2, NULL, 2),
+(1, 3, '1', 3),
 
 -- 6 Weeks
-('DTP-1', 'Diphtheria, Tetanus, Pertussis – 1st dose', 6),
-('Hib-1', 'Haemophilus influenzae type b – 1st dose', 6),
-('IPV-1', 'Inactivated Polio Vaccine – 1st dose', 6),
-('Hepatitis B-2', 'Hepatitis B – 2nd dose', 6),
-('Rotavirus-1', 'Rotavirus – 1st dose', 6),
-('PCV-1', 'Pneumococcal Conjugate Vaccine – 1st dose', 6),
+(2, 4, '1', 1),
+(2, 5, '1', 2),
+(2, 6, '1', 3),
+(2, 3, '2', 4),
+(2, 7, '1', 5),
+(2, 8, '1', 6),
+(2, 9, '1', 7),
 
 -- 10 Weeks
-('DTP-2', 'Diphtheria, Tetanus, Pertussis – 2nd dose', 10),
-('Hib-2', 'Haemophilus influenzae type b – 2nd dose', 10),
-('IPV-2', 'Inactivated Polio Vaccine – 2nd dose', 10),
-('Rotavirus-2', 'Rotavirus – 2nd dose', 10),
-('PCV-2', 'Pneumococcal Conjugate Vaccine – 2nd dose', 10),
+(3, 4, '2', 1),
+(3, 5, '2', 2),
+(3, 6, '2', 3),
+(3, 3, '3', 4),
+(3, 7, '2', 5),
+(3, 8, '2', 6),
+(3, 9, '2', 7),
 
 -- 14 Weeks
-('DTP-3', 'Diphtheria, Tetanus, Pertussis – 3rd dose', 14),
-('Hib-3', 'Haemophilus influenzae type b – 3rd dose', 14),
-('IPV-3', 'Inactivated Polio Vaccine – 3rd dose', 14),
-('Rotavirus-3', 'Rotavirus – 3rd dose', 14),
-('PCV-3', 'Pneumococcal Conjugate Vaccine – 3rd dose', 14),
+(4, 4, '3', 1),
+(4, 5, '3', 2),
+(4, 6, '3', 3),
+(4, 3, '4', 4),
+(4, 7, '3', 5),
+(4, 8, '3', 6),
+(4, 9, '3', 7),
 
 -- 6 Months
-('Hepatitis B-3', 'Hepatitis B – 3rd dose', 24),
+(5, 10, '1', 1),            -- Influenza dose-1
+(5, 11, NULL, 2),            -- Typhoid Conjugate
+
+-- 7 Months (NEW – Influenza dose-2)
+(6, 10, '2', 1),
 
 -- 9 Months
-('MMR-1', 'Measles, Mumps, Rubella – 1st dose', 39),
-('Vitamin A-1', 'Vitamin A – 1st dose', 39),
-
--- 12 Months
-('Typhoid Conjugate', 'Typhoid Conjugate Vaccine', 52),
+(7, 12, '1', 1),
+-- 1 Year
+(8, 14, NULL, 1),
 
 -- 15 Months
-('MMR-2', 'Measles, Mumps, Rubella – 2nd dose', 65),
-('Varicella-1', 'Chickenpox – 1st dose', 65),
-('PCV Booster', 'Pneumococcal Conjugate Vaccine – Booster', 65),
+(9, 12, '2', 1),
+(9, 13, '1', 2),
+(9, 7, 'Booster', 3),
 
 -- 18 Months
-('DTP Booster-1', 'Diphtheria, Tetanus, Pertussis – 1st booster', 78),
-('Hib Booster', 'Haemophilus influenzae type b – Booster', 78),
-('IPV Booster', 'Inactivated Polio Vaccine – Booster', 78),
-('Hepatitis A-1', 'Hepatitis A – 1st dose', 78),
+(10, 4, 'B1', 1),
+(10, 5, 'B1', 2),
+(10, 8, 'B1', 3),
+(10, 6, 'B1', 4),
+(10, 14, '2', 5),
+(10, 13, '2', 6),
 
 -- 2 Years
-('Typhoid Booster', 'Typhoid Booster (if needed)', 104),
+(11, 10, NULL, 1),
 
--- 4-6 Years
-('DTP Booster-2', 'Diphtheria, Tetanus, Pertussis – 2nd booster', 208),
-('OPV Booster', 'Oral Polio Vaccine – Booster', 208),
-('MMR-3', 'Measles, Mumps, Rubella – 3rd dose', 208),
-('Varicella-2', 'Chickenpox – 2nd dose', 208),
-('Hepatitis A-2', 'Hepatitis A – 2nd dose', 208);
+-- 3 Years
+(12, 10, NULL, 1),
+
+-- 4 Years
+(13, 10, NULL, 1),
+
+-- 5 Years
+(14, 4, 'B2', 1),
+(14, 5, 'B2', 2),
+(14, 8, 'B2', 3),
+(14, 12, '3', 4),
+(14, 10, NULL, 5),
+
+-- 9–14 Years
+(15, 16, NULL, 1),
+(15, 15, '1', 2),
+(15, 15, '2', 3);
+
+
+DROP TABLE IF EXISTS patient_vaccines;
+
+CREATE TABLE patient_vaccines (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    patient_id INT UNSIGNED NOT NULL,
+    stage_vaccine_id INT NOT NULL,
+
+    given_date DATE DEFAULT NULL,
+    status ENUM('pending','given','missed') DEFAULT 'pending',
+    remarks VARCHAR(255),
+
+    CONSTRAINT fk_patient
+        FOREIGN KEY (patient_id)
+        REFERENCES patients(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_stage_vaccine
+        FOREIGN KEY (stage_vaccine_id)
+        REFERENCES stage_vaccines(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+ALTER TABLE patients
+ADD COLUMN dob DATE NULL AFTER phone;
+
+CREATE TABLE vaccine_reminder_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    stage_vaccine_id INT NOT NULL,
+    reminder_type ENUM('7_days','3_days','same_day') NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_reminder (patient_id, stage_vaccine_id, reminder_type)
+);
+ALTER TABLE patients MODIFY age INT NULL;
+ALTER TABLE patients
+ADD COLUMN guardian_name VARCHAR(100) NULL AFTER name,
+ADD COLUMN guardian_relation VARCHAR(50) NULL AFTER guardian_name;
+
+ALTER TABLE patients DROP INDEX phone;
+
 
 curl -s http://avmultispeciality.com/admin/send-vaccine-reminders

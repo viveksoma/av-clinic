@@ -2,49 +2,87 @@
 
 namespace App\Controllers;
 
-use App\Models\PatientVaccineModel;
 use CodeIgniter\Controller;
+use Config\Database;
 
 class VaccineReminderController extends Controller
 {
     public function sendReminders()
     {
-        helper(['email', 'date']);  // Load email helper (with your custom sendVaccineReminderEmail)
+        helper(['email', 'date']);
 
+        $db = Database::connect();
         $today = date('Y-m-d');
-        $nextWeek = date('Y-m-d', strtotime('+7 days'));
 
-        $model = new PatientVaccineModel();
-        
-        $upcomingVaccines = $model
-            ->select('patient_vaccines.*, patients.name as patient_name, patients.email')
-            ->join('patients', 'patients.id = patient_vaccines.patient_id')
-            ->where('vaccination_date >=', $today)
-            ->where('vaccination_date <=', $nextWeek)
-            ->findAll();
+        // Reminder windows
+        $reminderMap = [
+            '7_days'   => 7,
+            '3_days'   => 3,
+            'same_day' => 0
+        ];
 
         $emailsSent = 0;
 
-        foreach ($upcomingVaccines as $row) {
-            if (!empty($row['email'])) {
-                $success = sendVaccineReminderEmail(
+        foreach ($reminderMap as $type => $daysBefore) {
+
+            $sql = "
+                SELECT
+                    p.id AS patient_id,
+                    p.name AS patient_name,
+                    p.email,
+                    sv.id AS stage_vaccine_id,
+                    v.name AS vaccine_name,
+                    sv.dose_label,
+                    DATE_ADD(p.dob, INTERVAL vs.age_in_days DAY) AS due_date
+                FROM patients p
+                JOIN stage_vaccines sv ON 1=1
+                JOIN vaccination_stages vs ON vs.id = sv.vaccination_stage_id
+                JOIN vaccines v ON v.id = sv.vaccine_id
+                LEFT JOIN patient_vaccines pv
+                    ON pv.patient_id = p.id
+                    AND pv.stage_vaccine_id = sv.id
+                LEFT JOIN vaccine_reminder_logs rl
+                    ON rl.patient_id = p.id
+                    AND rl.stage_vaccine_id = sv.id
+                    AND rl.reminder_type = ?
+                WHERE
+                    p.email IS NOT NULL
+                    AND p.dob IS NOT NULL
+                    AND pv.id IS NULL
+                    AND rl.id IS NULL
+                    AND DATE_ADD(p.dob, INTERVAL vs.age_in_days DAY)
+                        = DATE_ADD(?, INTERVAL ? DAY)
+            ";
+
+            $rows = $db->query($sql, [$type, $today, $daysBefore])->getResultArray();
+
+            foreach ($rows as $row) {
+
+                $sent = sendVaccineReminderEmail(
                     $row['email'],
                     $row['patient_name'],
                     $row['vaccine_name'],
-                    $row['dose_number'],
-                    $row['vaccination_date']
+                    $row['dose_label'] ?? '-',
+                    $row['due_date'],
+                    $type
                 );
 
-                if ($success) {
+                if ($sent) {
                     $emailsSent++;
+
+                    // Log reminder
+                    $db->table('vaccine_reminder_logs')->insert([
+                        'patient_id'       => $row['patient_id'],
+                        'stage_vaccine_id' => $row['stage_vaccine_id'],
+                        'reminder_type'    => $type
+                    ]);
                 }
             }
         }
 
         return $this->response->setJSON([
-            'status' => 'completed',
-            'total' => count($upcomingVaccines),
-            'emails_sent' => $emailsSent
+            'status'       => 'completed',
+            'emails_sent'  => $emailsSent
         ]);
     }
 }

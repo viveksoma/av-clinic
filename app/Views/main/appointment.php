@@ -31,17 +31,76 @@
                                 <input type="text" class="form-control bg-light border-0" placeholder="Your Number" id="phoneNumber" style="height: 55px;">
                                 <input type="hidden" id="patientId" name="patient_id">
                             </div>
+                            <!-- Existing Patients -->
+                            <div id="existingPatientsWrapper" style="display:none;">
+                                <select class="form-control bg-light border-0" id="existingPatients" style="height: 55px;">
+                                    <option value="">Select Patient</option>
+                                </select>
+
+                                <button type="button"
+                                    class="btn btn-link p-0 mt-2"
+                                    id="addNewPatientBtn">
+                                    + Add New Patient
+                                </button>
+                            </div>
+
+                            <!-- New Patient Details (conditional) -->
                             <div id="newPatientDetails" style="display: none;">
                                 <div class="row g-3">
+
                                     <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control bg-light border-0" placeholder="Your Name" id="patientName" style="height: 55px;">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control bg-light border-0"
+                                            placeholder="Patient Name"
+                                            id="patientName"
+                                            style="height: 55px;">
                                     </div>
+
                                     <div class="col-12 col-sm-6">
-                                        <input type="number" class="form-control bg-light border-0" placeholder="Your Age" id="patientAge" style="height: 55px;">
+                                        <label class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control bg-light border-0"
+                                            id="patientDob"
+                                            style="height: 55px;">
                                     </div>
+
                                     <div class="col-12">
-                                        <input type="email" class="form-control bg-light border-0" placeholder="Your Email(Optional)" id="patientEmail" style="height: 55px;">
+                                        <input type="text" class="form-control bg-light border-0"
+                                            id="patientAge"
+                                            placeholder="Age"
+                                            style="height: 55px;"
+                                            readonly>
                                     </div>
+
+                                    <!-- Guardian Fields -->
+                                    <div id="guardianFields" class="row g-3" style="display:none;">
+                                        <div class="col-12 col-sm-6">
+                                            <label class="form-label">Guardian Name</label>
+                                            <input type="text" class="form-control bg-light border-0"
+                                                placeholder="Guardian Name"
+                                                id="guardianName"
+                                                style="height: 55px;">
+                                        </div>
+
+                                        <div class="col-12 col-sm-6">
+                                            <label class="form-label">Relation</label>
+                                            <select class="form-control bg-light border-0"
+                                                    id="guardianRelation"
+                                                    style="height: 55px;">
+                                                <option value="">Select Relation</option>
+                                                <option value="Father">Father</option>
+                                                <option value="Mother">Mother</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <input type="email" class="form-control bg-light border-0"
+                                            placeholder="Email (Optional)"
+                                            id="patientEmail"
+                                            style="height: 55px;">
+                                    </div>
+
+
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">

@@ -12,7 +12,7 @@ class Vaccines extends BaseController
     public function index(): string
     {
         $vaccineModel = new VaccineModel();
-        $data['vaccines'] = $vaccineModel->findAll();
+        $data['vaccinesByStage'] = $vaccineModel->getVaccinesGroupedByStage();
 
         return view('admin/vaccines', $data);
     }

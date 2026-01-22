@@ -1,36 +1,65 @@
 $(document).ready(function() {
-    $("#phoneNumber").on("blur", function() {
-        let phoneNumber = $("#phoneNumber").val().trim();
-        // Validate phone number (must be 10 digits)
+    $("#phoneNumber").on("blur", function () {
+        let phoneNumber = $(this).val().trim();
+
         if (!/^\d{10}$/.test(phoneNumber)) {
-            $("#phoneNumber").val(""); // Clear invalid input
+            $(this).val("");
             return;
         }
 
-        if (phoneNumber) {
-            // AJAX request to check if patient exists
-            $.ajax({
-                url: "/patients/checkPatient", // Your endpoint to check patient
-                type: "GET",
-                data: { phone_number: phoneNumber },
-                success: function(response) {
-                    if (response.exists) {
-                        // If patient exists, auto-fill the form with existing patient data (if needed)
-                        // Optionally you can show an alert or just proceed to booking the appointment
-                        $("#patientId").val(response.patient.id);
-                        $("#newPatientDetails").hide();
-                    } else {
-                        // If patient doesn't exist, show the form to input new details
-                        $("#newPatientDetails").show();
-                        $("#patientId").val("");
-                    }
-                },
-                error: function() {
-                    alert("Error checking patient.");
+        $.ajax({
+            url: "/patients/checkPatient",
+            type: "GET",
+            data: { phone_number: phoneNumber },
+            success: function (response) {
+
+                $("#existingPatients").empty()
+                    .append(`<option value="">Select Patient</option>`);
+
+                if (response.exists && response.patients.length > 0) {
+
+                    // Show existing patients dropdown
+                    $("#existingPatientsWrapper").show();
+                    $("#newPatientDetails").hide();
+
+                    response.patients.forEach(patient => {
+                        $("#existingPatients").append(`
+                            <option value="${patient.id}">
+                                ${patient.name} (Age: ${patient.age})
+                            </option>
+                        `);
+                    });
+
+                } else {
+                    // No patients → show new patient form
+                    $("#existingPatientsWrapper").hide();
+                    $("#newPatientDetails").show();
+                    $("#patientId").val("");
                 }
-            });
+            },
+            error: function () {
+                alert("Error checking patient.");
+            }
+        });
+    });
+
+    $("#existingPatients").on("change", function () {
+        let patientId = $(this).val();
+
+        if (patientId) {
+            $("#patientId").val(patientId);
+            $("#newPatientDetails").hide();
+        } else {
+            $("#patientId").val("");
         }
     });
+
+    $("#addNewPatientBtn").on("click", function () {
+        $("#existingPatients").val("");
+        $("#patientId").val("");
+        $("#newPatientDetails").show();
+    });
+
 
     $("#doctorSelect, #appointmentDate").on("change", function() {
         let doctor_id = $("#doctorSelect").val();
@@ -114,15 +143,44 @@ $(document).ready(function() {
             // Filter to only show doctor with value="2"
             $("#doctorSelect").html(
                 $(originalDoctorOptions).filter(function () {
-                    return $(this).val() === "2" || $(this).val() === "";
+                    return $(this).val() === "6" || $(this).val() === "";
                 })
             );
 
             // Select doctor with value="2" by default
-            $("#doctorSelect").val("2").trigger('change');
+            $("#doctorSelect").val("6").trigger('change');
         } else {
             // Restore full list and reset selection
             $("#doctorSelect").html(originalDoctorOptions);
+        }
+    });
+
+    function calculateAge(dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    $('#patientDob').on('change', function () {
+        const dob = $(this).val();
+        if (!dob) return;
+
+        const age = calculateAge(dob);
+        $('#patientAge').val(age + ' years');
+
+        if (age < 18) {
+            $('#guardianFields').slideDown();
+        } else {
+            $('#guardianFields').slideUp();
+            $('#guardianName').val('');
+            $('#guardianRelation').val('');
         }
     });
 
@@ -193,6 +251,8 @@ $(document).ready(function() {
         let patientAge = $("#patientAge").val().trim();
         let patientId = $("#patientId").val();
         let patientEmail = $("#patientEmail").val();
+        let guardianName = $("#guardianName").val();
+        let guardianRelation = $("#guardianRelation").val();
     
         // Validate phone number
         if (!/^\d{10}$/.test(phoneNumber)) {
@@ -213,7 +273,9 @@ $(document).ready(function() {
             time,
             phone_number: phoneNumber,
             appointment_type: appointmentType,
-            email: patientEmail
+            email: patientEmail,
+            guardian_relation: guardianRelation,
+            guardian_name: guardianName
         };
     
         if (patientId) {

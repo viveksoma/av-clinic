@@ -45,78 +45,143 @@ class Appointments extends BaseController
 
     public function book()
     {
-        {
-            try {
-                helper('email');
-                $doctor_id = $this->request->getPost('doctor_id');
-                $date = $this->request->getPost('date');
-                $time = $this->request->getPost('time');
-                $phone_number = $this->request->getPost('phone_number');
-                $appointment_type = $this->request->getPost('appointment_type');
-        
-                if (!$doctor_id || !$date || !$time || !$phone_number || !$appointment_type) {
-                    return $this->response->setJSON(['message' => 'Missing required fields.'], 400);
-                }
-        
-                $patientModel = new \App\Models\PatientModel();
-                $patient = $patientModel->where('phone', $phone_number)->first();
-        
-                if (!$patient) {
-                    $patientData = [
-                        'name' => $this->request->getPost('patient_name'),
-                        'age' => $this->request->getPost('patient_age'), // Fixed field
-                        'phone' => $phone_number,
-                        'email' => $this->request->getPost('email') // Optional email
-                    ];
-                    $patientId = $patientModel->insert($patientData);
-                    if (!$patientId) {
-                        log_message('error', 'Failed to insert patient record');
-                        return $this->response->setJSON(['error' => 'Failed to create patient.'], 500);
-                    }
-                    $patient = $patientModel->find($patientId);
-                }
-        
-                $appointmentModel = new AppointmentModel();
-        
-                $existingAppointment = $appointmentModel->where('doctor_id', $doctor_id)
-                    ->where('appointment_date', $date)
-                    ->where('start_time', $time)
-                    ->first();
-        
-                if ($existingAppointment) {
-                    return $this->response->setJSON(['message' => 'Appointment already exists at this time.'], 400);
-                }
-        
-                $meetLink = null;
-        
-                $data = [
-                    'doctor_id'         => $doctor_id,
-                    'appointment_date'  => $date,
-                    'start_time'        => $time,
-                    'status'            => 'Scheduled',
-                    'patient_id'        => $patient['id'],
-                    'appointment_type'  => $appointment_type,
-                    'google_meet_link'  => $meetLink
-                ];
-        
-                if (!$appointmentModel->insert($data)) {
-                    log_message('error', 'Failed to insert appointment record');
-                    return $this->response->setJSON(['error' => 'Failed to book appointment.'], 500);
-                }
-                // Send confirmation email if patient has email
-                if (!empty($patient['email'])) {
-                    sendAppointmentEmail($patient['email'], $date, $time, $appointment_type, $meetLink);
+        try {
+            helper('email');
 
-                }
-        
-                return $this->response->setJSON(['message' => 'Appointment booked successfully!']);
-        
-            } catch (\Exception $e) {
-                log_message('error', 'Error booking appointment: ' . $e->getMessage());
-                return $this->response->setJSON(['error' => 'Internal server error.'], 500);
+            $doctor_id        = $this->request->getPost('doctor_id');
+            $date             = $this->request->getPost('date');
+            $time             = $this->request->getPost('time');
+            $phone_number     = $this->request->getPost('phone_number');
+            $appointment_type = $this->request->getPost('appointment_type');
+            $patient_id       = $this->request->getPost('patient_id');
+
+            if (!$doctor_id || !$date || !$time || !$phone_number || !$appointment_type) {
+                return $this->response->setJSON(['message' => 'Missing required fields.'], 400);
             }
+
+            $patientModel = new \App\Models\PatientModel();
+
+            /** -------------------------
+             *  CASE 1: Existing Patient
+             *  ------------------------- */
+            if (!empty($patient_id)) {
+
+                $patient = $patientModel
+                    ->where('id', $patient_id)
+                    ->where('phone', $phone_number)
+                    ->first();
+
+                if (!$patient) {
+                    return $this->response->setJSON([
+                        'message' => 'Invalid patient selection.'
+                    ], 400);
+                }
+
+            }
+            /** -------------------------
+             *  CASE 2: Add New Patient
+             *  ------------------------- */
+            else {
+
+                $name = $this->request->getPost('patient_name');
+                $age  = $this->request->getPost('patient_age');
+
+                if (!$name || !$age) {
+                    return $this->response->setJSON([
+                        'message' => 'Patient name and age are required.'
+                    ], 400);
+                }
+
+                // Guardian required if age < 18
+                if ($age < 18) {
+                    if (
+                        !$this->request->getPost('guardian_name') ||
+                        !$this->request->getPost('guardian_relation')
+                    ) {
+                        return $this->response->setJSON([
+                            'message' => 'Guardian details required for minors.'
+                        ], 400);
+                    }
+                }
+
+                $patientData = [
+                    'name'              => $name,
+                    'age'               => $age,
+                    'phone'             => $phone_number,
+                    'email'             => $this->request->getPost('email'),
+                    'guardian_name'     => $this->request->getPost('guardian_name'),
+                    'guardian_relation' => $this->request->getPost('guardian_relation')
+                ];
+
+                $patient_id = $patientModel->insert($patientData);
+
+                if (!$patient_id) {
+                    return $this->response->setJSON([
+                        'error' => 'Failed to create patient.'
+                    ], 500);
+                }
+
+                $patient = $patientModel->find($patient_id);
+            }
+
+            /** -------------------------
+             *  Appointment Conflict Check
+             *  ------------------------- */
+            $appointmentModel = new \App\Models\AppointmentModel();
+
+            $existingAppointment = $appointmentModel
+                ->where('doctor_id', $doctor_id)
+                ->where('appointment_date', $date)
+                ->where('start_time', $time)
+                ->first();
+
+            if ($existingAppointment) {
+                return $this->response->setJSON([
+                    'message' => 'Appointment already exists at this time.'
+                ], 400);
+            }
+
+            /** -------------------------
+             *  Create Appointment
+             *  ------------------------- */
+            $data = [
+                'doctor_id'        => $doctor_id,
+                'appointment_date' => $date,
+                'start_time'       => $time,
+                'status'           => 'Scheduled',
+                'patient_id'       => $patient['id'],
+                'appointment_type' => $appointment_type,
+                'google_meet_link' => null
+            ];
+
+            if (!$appointmentModel->insert($data)) {
+                return $this->response->setJSON([
+                    'error' => 'Failed to book appointment.'
+                ], 500);
+            }
+
+            if (!empty($patient['email'])) {
+                sendAppointmentEmail(
+                    $patient['email'],
+                    $date,
+                    $time,
+                    $appointment_type,
+                    null
+                );
+            }
+
+            return $this->response->setJSON([
+                'message' => 'Appointment booked successfully!'
+            ]);
+
+        } catch (\Exception $e) {
+            log_message('error', 'Error booking appointment: ' . $e->getMessage());
+            return $this->response->setJSON([
+                'error' => 'Internal server error.'
+            ], 500);
         }
     }
+
 
 
     public function getBookedSlots()
