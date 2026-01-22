@@ -5,19 +5,21 @@ deployment:
     - cd /home/avmultis/repositories/av-clinic
 
     # Composer install
-    - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+    - composer install --no-dev --optimize-autoloader
 
     # Set deploy path
     - export DEPLOYPATH=/home/avmultis/public_html
 
-    # Copy public files to deploy path
+    # Copy public files
     - /bin/cp -R public/* $DEPLOYPATH
 
     # Decrypt credentials.json
-    - openssl enc -d -aes-256-cbc -pbkdf2 -in writable/credentials.json.enc -out writable/credentials.json -pass pass:Avclinic@123
+    - openssl enc -d -aes-256-cbc -pbkdf2 \
+      -in writable/credentials.json.enc \
+      -out writable/credentials.json \
+      -pass pass:Avclinic@123
 
-    # Patch index.php for correct path to app
+    # Patch index.php
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
 
-    # Optional: Log debug info
     - echo "Deployed at $(date)"
