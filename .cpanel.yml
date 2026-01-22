@@ -14,7 +14,7 @@ deployment:
     - openssl enc -d -aes-256-cbc -pbkdf2 \
       -in writable/credentials.json.enc \
       -out writable/credentials.json \
-      -pass env:DECRYPT_KEY
+      -pass pass:Avclinic@123
 
     # Patch index.php
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
