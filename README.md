@@ -117,6 +117,25 @@ CREATE TABLE vaccines (
     notes VARCHAR(255) NULL              -- e.g. "Influenza yearly"
 );
 
+INSERT INTO vaccines (id, name, full_name, notes) VALUES
+(1, 'BCG', NULL, NULL),
+(2, 'OPV', NULL, NULL),
+(3, 'Hep B', NULL, NULL),
+(4, 'DTwP', NULL, NULL),
+(5, 'DTaP', NULL, NULL),
+(6, 'Hib', NULL, NULL),
+(7, 'PCV', NULL, NULL),
+(8, 'IPV', NULL, NULL),
+(9, 'Rota', NULL, NULL),
+(10, 'Influenza', NULL, NULL),
+(11, 'Typhoid Conjugate', NULL, NULL),
+(12, 'MMR', NULL, NULL),
+(13, 'Varicella', NULL, NULL),
+(14, 'Hep A', NULL, NULL),
+(15, 'HPV', NULL, NULL),
+(16, 'Tdap', NULL, NULL);
+
+
 CREATE TABLE vaccination_stages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     stage_label VARCHAR(50),      -- e.g. "At Birth", "6 Weeks"

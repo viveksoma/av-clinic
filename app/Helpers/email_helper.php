@@ -1,6 +1,7 @@
 <?php
 
 use Config\Services;
+helper('upi');
 
 if (!function_exists('sendAppointmentEmail')) {
     /**
@@ -13,8 +14,13 @@ if (!function_exists('sendAppointmentEmail')) {
      * @param ?string $meetLink
      * @return bool
      */
-    function sendAppointmentEmail(string $toEmail, string $date, string $time, string $type): bool
-    {
+    function sendAppointmentEmail(
+        string $toEmail,
+        string $date,
+        string $time,
+        string $type,
+        float $amount = 300 
+    ): bool {
         $email = Services::email();
         $email->setMailType('html');
 
@@ -22,19 +28,28 @@ if (!function_exists('sendAppointmentEmail')) {
         $email->setTo($toEmail);
         $email->setSubject('Appointment Confirmation');
 
-        $message = "Dear Patient,<br><br>";
+        $message  = "Dear Patient,<br><br>";
         $message .= "Your appointment is scheduled on <strong>$date</strong> at <strong>$time</strong>.<br><br>";
 
         if ($type === 'online') {
-            $message .= "To confirm your online consultation, please make the payment using the following details:<br><br>";
-            $message .= "Pay via UPI:<br>";
-            $message .= "<strong>UPI ID:</strong> vidhuvarsha7-5@okicici<br><br>";
-            $message .= "<img src='" . base_url('assets/main/img/QRCode.png') . "' alt='UPI QR Code' width='200'><br><br>";
-            $message .= "After payment, please send the screenshot to WhatsApp: <strong>90420768040</strong><br>";
-            $message .= "We will then send you the Google Meet link for the consultation.<br><br>";
+
+            $qrUrl  = generateUpiQr($amount, 'Online Consultation');
+            $upiUrl = generateUpiUrl($amount);
+
+            $message .= "To confirm your online consultation, please make the payment.<br><br>";
+            $message .= "<strong>Amount:</strong> ₹{$amount}<br>";
+            $message .= "<a href='{$upiUrl}' 
+                style='display:inline-block;padding:12px 18px;
+                    background:#28a745;color:#fff;
+                    text-decoration:none;border-radius:5px;'>
+                Pay ₹500 via UPI
+            </a><br><br>";
+            $message .= "<img src='{$qrUrl}' alt='UPI QR Code' width='220'><br><br>";
+            $message .= "Scan the QR code — the amount will be filled automatically.<br><br>";
+            $message .= "After payment, send the screenshot to WhatsApp: <strong>90420768040</strong><br><br>";
         }
 
-        $message .= "Thank you,<br>Clinic Team";
+        $message .= "Thank you,<br>AV Clinic";
 
         $email->setMessage($message);
 
