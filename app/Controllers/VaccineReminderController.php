@@ -35,7 +35,7 @@ class VaccineReminderController extends Controller
                     sv.dose_label,
                     DATE_ADD(p.dob, INTERVAL vs.age_in_days DAY) AS due_date
                 FROM patients p
-                JOIN stage_vaccines sv ON 1=1
+                JOIN stage_vaccines sv
                 JOIN vaccination_stages vs ON vs.id = sv.vaccination_stage_id
                 JOIN vaccines v ON v.id = sv.vaccine_id
                 LEFT JOIN patient_vaccines pv
@@ -56,33 +56,57 @@ class VaccineReminderController extends Controller
 
             $rows = $db->query($sql, [$type, $today, $daysBefore])->getResultArray();
 
-            foreach ($rows as $row) {
+            // 🔹 GROUP BY PATIENT
+            $grouped = [];
 
-                $sent = sendVaccineReminderEmail(
-                    $row['email'],
-                    $row['patient_name'],
-                    $row['vaccine_name'],
-                    $row['dose_label'] ?? '-',
-                    $row['due_date'],
+            foreach ($rows as $row) {
+                $pid = $row['patient_id'];
+
+                if (!isset($grouped[$pid])) {
+                    $grouped[$pid] = [
+                        'patient_id'   => $pid,
+                        'patient_name' => $row['patient_name'],
+                        'email'        => $row['email'],
+                        'vaccines'     => []
+                    ];
+                }
+
+                $grouped[$pid]['vaccines'][] = [
+                    'stage_vaccine_id' => $row['stage_vaccine_id'],
+                    'vaccine_name'     => $row['vaccine_name'],
+                    'dose_label'       => $row['dose_label'] ?? '-',
+                    'due_date'         => $row['due_date']
+                ];
+            }
+
+            // 🔹 SEND ONE EMAIL PER PATIENT
+            foreach ($grouped as $patient) {
+
+                $sent = sendGroupedVaccineReminderEmail(
+                    $patient['email'],
+                    $patient['patient_name'],
+                    $patient['vaccines'],
                     $type
                 );
 
                 if ($sent) {
                     $emailsSent++;
 
-                    // Log reminder
-                    $db->table('vaccine_reminder_logs')->insert([
-                        'patient_id'       => $row['patient_id'],
-                        'stage_vaccine_id' => $row['stage_vaccine_id'],
-                        'reminder_type'    => $type
-                    ]);
+                    // 🔹 LOG EACH DOSE (IMPORTANT)
+                    foreach ($patient['vaccines'] as $vaccine) {
+                        $db->table('vaccine_reminder_logs')->insert([
+                            'patient_id'       => $patient['patient_id'],
+                            'stage_vaccine_id' => $vaccine['stage_vaccine_id'],
+                            'reminder_type'    => $type
+                        ]);
+                    }
                 }
             }
         }
 
         return $this->response->setJSON([
-            'status'       => 'completed',
-            'emails_sent'  => $emailsSent
+            'status'      => 'completed',
+            'emails_sent' => $emailsSent
         ]);
     }
 }

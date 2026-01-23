@@ -97,14 +97,13 @@ function sendGoogleMeetEmail(string $toEmail, string $patientName, string $docto
     return $email->send();
 }
 
-function sendVaccineReminderEmail(
+function sendGroupedVaccineReminderEmail(
     string $toEmail,
     string $patientName,
-    string $vaccineName,
-    string $doseLabel,
-    string $scheduledDate,
+    array $vaccines,
     string $reminderType
 ): bool {
+
     $email = \Config\Services::email();
     $email->setMailType('html');
 
@@ -112,26 +111,44 @@ function sendVaccineReminderEmail(
     $email->setTo($toEmail);
 
     $subjectMap = [
-        '7_days'   => 'Vaccine Reminder – 7 Days to Go',
-        '3_days'   => 'Vaccine Reminder – 3 Days to Go',
-        'same_day' => 'Vaccine Due Today'
+        '7_days'   => 'Upcoming Vaccines – 7 Days to Go',
+        '3_days'   => 'Upcoming Vaccines – 3 Days to Go',
+        'same_day' => 'Vaccines Due Today'
     ];
 
     $email->setSubject($subjectMap[$reminderType] ?? 'Vaccine Reminder');
 
-    $formattedDate = date('d M Y', strtotime($scheduledDate));
+    $message  = "Dear {$patientName},<br><br>";
+    $message .= "The following vaccinations are scheduled for your child:<br><br>";
 
-    $message = "
-        Dear {$patientName},<br><br>
-        This is a reminder for your child's vaccination.<br><br>
-        <strong>Vaccine:</strong> {$vaccineName}<br>
-        <strong>Dose:</strong> {$doseLabel}<br>
-        <strong>Due Date:</strong> {$formattedDate}<br><br>
-        Please visit <strong>AV Clinic</strong>.<br><br>
+    $message .= "
+        <table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse;'>
+            <tr>
+                <th>Vaccine</th>
+                <th>Dose</th>
+                <th>Due Date</th>
+            </tr>
+    ";
+
+    foreach ($vaccines as $v) {
+        $message .= "
+            <tr>
+                <td>{$v['vaccine_name']}</td>
+                <td>{$v['dose_label']}</td>
+                <td>" . date('d M Y', strtotime($v['due_date'])) . "</td>
+            </tr>
+        ";
+    }
+
+    $message .= "</table><br>";
+
+    $message .= "
+        Please visit <strong>AV Clinic</strong> for vaccination.<br><br>
         Regards,<br>
         <strong>AV Clinic Team</strong>
     ";
 
     $email->setMessage($message);
+
     return $email->send();
 }

@@ -253,6 +253,7 @@ $(document).ready(function() {
         let patientEmail = $("#patientEmail").val();
         let guardianName = $("#guardianName").val();
         let guardianRelation = $("#guardianRelation").val();
+        let patientDob = $("#patientDob").val();
     
         // Validate phone number
         if (!/^\d{10}$/.test(phoneNumber)) {
@@ -271,6 +272,7 @@ $(document).ready(function() {
             doctor_id,
             date,
             time,
+            dob: patientDob,
             phone_number: phoneNumber,
             appointment_type: appointmentType,
             email: patientEmail,

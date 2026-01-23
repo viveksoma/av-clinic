@@ -300,5 +300,24 @@ ADD COLUMN guardian_relation VARCHAR(50) NULL AFTER guardian_name;
 
 ALTER TABLE patients DROP INDEX phone;
 
+UPDATE vaccination_stages
+SET age_in_days = CASE stage_label
+    WHEN 'At Birth'    THEN 0
+    WHEN '6 Weeks'     THEN 42
+    WHEN '10 Weeks'    THEN 70
+    WHEN '14 Weeks'    THEN 98
+    WHEN '6 Months'    THEN 180
+    WHEN '7 Months'    THEN 210
+    WHEN '9 Months'    THEN 270
+    WHEN '1 Year'      THEN 365
+    WHEN '15 Months'   THEN 450
+    WHEN '18 Months'   THEN 540
+    WHEN '2 Years'     THEN 730
+    WHEN '3 Years'     THEN 1095
+    WHEN '4 Years'     THEN 1460
+    WHEN '5 Years'     THEN 1825
+    WHEN '9-14 Years'  THEN 3650
+END;
 
-curl -s http://avmultispeciality.com/admin/send-vaccine-reminders
+
+curl -s http://avmultispeciality.com/send-vaccine-reminders

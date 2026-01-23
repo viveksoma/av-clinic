@@ -21,7 +21,7 @@ $routes->get('/admin', 'Admin\Auth::login');
 $routes->post('/auth/loginSubmit', 'Admin\Auth::loginSubmit');
 $routes->get('/logout', 'Admin\Auth::logout');
 $routes->get('google-auth', 'GoogleAuth::index');
-
+$routes->get('send-vaccine-reminders', 'VaccineReminderController::sendReminders');
 // Protected admin routes
 $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
 
@@ -44,7 +44,6 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->get('doctor/availability/(:num)', 'Admin\DoctorAvailability::getAvailability/$1');
     $routes->post('doctor/availability/update', 'Admin\DoctorAvailability::updateAvailability');
 
-    $routes->get('send-vaccine-reminders', 'VaccineReminderController::sendReminders');
 });
 
 $routes->get('appointments/getDoctorAvailableDays', 'Appointments::getDoctorAvailableDays');

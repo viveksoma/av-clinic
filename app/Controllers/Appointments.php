@@ -109,6 +109,7 @@ class Appointments extends BaseController
                     'age'               => $age,
                     'phone'             => $phone_number,
                     'email'             => $this->request->getPost('email'),
+                    'dob'             => $this->request->getPost('dob'),
                     'guardian_name'     => $this->request->getPost('guardian_name'),
                     'guardian_relation' => $this->request->getPost('guardian_relation')
                 ];
