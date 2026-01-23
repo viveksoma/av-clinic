@@ -143,12 +143,12 @@ $(document).ready(function() {
             // Filter to only show doctor with value="2"
             $("#doctorSelect").html(
                 $(originalDoctorOptions).filter(function () {
-                    return $(this).val() === "6" || $(this).val() === "";
+                    return $(this).val() === "2" || $(this).val() === "";
                 })
             );
 
             // Select doctor with value="2" by default
-            $("#doctorSelect").val("6").trigger('change');
+            $("#doctorSelect").val("2").trigger('change');
         } else {
             // Restore full list and reset selection
             $("#doctorSelect").html(originalDoctorOptions);
