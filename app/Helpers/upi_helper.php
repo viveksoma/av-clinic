@@ -1,6 +1,6 @@
 <?php
 
-use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
 if (!function_exists('generateUpiUrl')) {
@@ -19,14 +19,21 @@ if (!function_exists('generateUpiQr')) {
     {
         $upiUrl = generateUpiUrl($amount, $note);
 
-        $result = Builder::create()
-            ->writer(new PngWriter())
-            ->data($upiUrl)
-            ->size(300)
-            ->margin(10)
-            ->build();
+        $qrCode = new QrCode($upiUrl);
 
-        // Make sure directory exists
+        $writer = new PngWriter();
+
+        // v6: size & margin go HERE
+        $result = $writer->write(
+            $qrCode,
+            null,
+            null,
+            [
+                'size'   => 300,
+                'margin' => 10,
+            ]
+        );
+
         $dir = WRITEPATH . 'qrcodes/';
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);

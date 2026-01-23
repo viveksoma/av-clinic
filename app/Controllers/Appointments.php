@@ -166,7 +166,6 @@ class Appointments extends BaseController
                     $date,
                     $time,
                     $appointment_type,
-                    null
                 );
             }
 
