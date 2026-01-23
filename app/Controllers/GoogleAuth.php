@@ -10,26 +10,35 @@ class GoogleAuth extends Controller
     public function index()
     {
         $client = new Google_Client();
+
         $client->setAuthConfig(WRITEPATH . 'credentials.json');
-        $client->setRedirectUri(current_url());
-        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $client->setRedirectUri(base_url('google-auth'));
+
+        $client->addScope('https://www.googleapis.com/auth/calendar');
         $client->setAccessType('offline');
         $client->setPrompt('consent');
+        $client->setIncludeGrantedScopes(true);
 
-        // If coming back from Google with code
+        // Step 2: Handle callback
         if ($code = $this->request->getGet('code')) {
+
             $token = $client->fetchAccessTokenWithAuthCode($code);
 
             if (isset($token['error'])) {
                 return "Error fetching token: " . $token['error_description'];
             }
 
-            // Save token.json
-            file_put_contents(WRITEPATH . 'token.json', json_encode($token));
-            return "Access token saved to writable/token.json. You're ready to use the Meet API.";
+            file_put_contents(
+                WRITEPATH . 'token.json',
+                json_encode($token)
+            );
+
+            return "✅ Google Calendar authorized successfully.<br>
+                    token.json created in writable/.<br>
+                    You can now close this page.";
         }
 
-        // First time: redirect to Google OAuth consent
+        // Step 1: Redirect to Google consent screen
         return redirect()->to($client->createAuthUrl());
     }
 }

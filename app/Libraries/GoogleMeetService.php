@@ -26,15 +26,32 @@ class GoogleMeetService
 
         // Load token from file (or DB)
         $tokenPath = WRITEPATH . 'token.json';
-        if (file_exists($tokenPath)) {
-            $accessToken = json_decode(file_get_contents($tokenPath), true);
-            $this->client->setAccessToken($accessToken);
 
-            // Refresh if expired
-            if ($this->client->isAccessTokenExpired()) {
-                $this->client->fetchAccessTokenWithRefreshToken($this->client->getRefreshToken());
-                file_put_contents($tokenPath, json_encode($this->client->getAccessToken()));
+        if (!file_exists($tokenPath)) {
+            throw new \RuntimeException(
+                'Google Calendar is not authorized. token.json is missing.'
+            );
+        }
+
+        $accessToken = json_decode(file_get_contents($tokenPath), true);
+        $this->client->setAccessToken($accessToken);
+
+        // Refresh if expired
+        if ($this->client->isAccessTokenExpired()) {
+            if (!$this->client->getRefreshToken()) {
+                throw new \RuntimeException(
+                    'Google Calendar refresh token missing. Re-authorize required.'
+                );
             }
+
+            $this->client->fetchAccessTokenWithRefreshToken(
+                $this->client->getRefreshToken()
+            );
+
+            file_put_contents(
+                $tokenPath,
+                json_encode($this->client->getAccessToken())
+            );
         }
 
         $this->calendarService = new Google_Service_Calendar($this->client);
