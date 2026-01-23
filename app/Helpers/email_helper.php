@@ -42,7 +42,7 @@ if (!function_exists('sendAppointmentEmail')) {
                 style='display:inline-block;padding:12px 18px;
                     background:#28a745;color:#fff;
                     text-decoration:none;border-radius:5px;'>
-                Pay ₹500 via UPI
+                Pay ₹'{$amount}' via UPI
             </a><br><br>";
             $message .= "<img src='{$qrUrl}' alt='UPI QR Code' width='220'><br><br>";
             $message .= "Scan the QR code — the amount will be filled automatically.<br><br>";
