@@ -85,8 +85,8 @@ tests/coverage*
 phpunit
 
 # Runtime files
-writable/credentials.json
 public/qrcodes/
+qrcodes
 
 #-------------------------
 # Composer
