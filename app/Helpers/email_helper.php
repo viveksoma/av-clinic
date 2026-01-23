@@ -24,7 +24,7 @@ if (!function_exists('sendAppointmentEmail')) {
         $email = Services::email();
         $email->setMailType('html');
 
-        $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
+        $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
         $email->setTo($toEmail);
         $email->setSubject('Appointment Confirmation');
 
@@ -72,7 +72,7 @@ function sendGoogleMeetEmail(string $toEmail, string $patientName, string $docto
     $email = \Config\Services::email();
     $email->setMailType('html');
 
-    $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
+    $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
     $email->setTo($toEmail);
     $email->setSubject('Your Google Meet Link for Online Consultation');
 
@@ -107,7 +107,7 @@ function sendGroupedVaccineReminderEmail(
     $email = \Config\Services::email();
     $email->setMailType('html');
 
-    $email->setFrom('no-reply@avclinic.com', 'AV Clinic');
+    $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
     $email->setTo($toEmail);
 
     $subjectMap = [
