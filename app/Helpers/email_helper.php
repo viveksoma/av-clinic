@@ -63,7 +63,7 @@ if (!function_exists('sendAppointmentEmail')) {
         $email->setMessage($message);
 
         return $email->send();
-        
+
     }
 }
 
@@ -87,7 +87,7 @@ function sendGoogleMeetEmail(string $toEmail, string $patientName, string $docto
         <strong>Join the Meeting:</strong><br>
         <a href=\"{$meetLink}\" target=\"_blank\">{$meetLink}</a><br><br>
         Please make sure to join the meeting on time. <br>
-        If you face any issues, feel free to contact us on <strong>+91-9486721349</strong>.<br><br>
+        If you face any issues, feel free to contact us on <strong>+91-90420768040</strong>.<br><br>
         Regards,<br>
         <strong>AV Clinic</strong>
     ";

@@ -40,44 +40,66 @@ class GoogleMeetService
         $this->calendarService = new Google_Service_Calendar($this->client);
     }
 
-    public function createMeetLink(string $summary, string $date, string $time, int $durationMinutes = 15, array $attendees = [])
-    {
+    public function createMeetLink(
+        string $summary,
+        string $date,
+        string $time,
+        int $durationMinutes = 15,
+        array $attendees = []
+    ): array {
+
         $start = new DateTime("{$date} {$time}", new DateTimeZone('Asia/Kolkata'));
         $end   = clone $start;
         $end->modify("+{$durationMinutes} minutes");
 
-        $startTimeRFC = $start->format(DateTime::RFC3339);
-        $endTimeRFC   = $end->format(DateTime::RFC3339);
-
-        $event = new \Google_Service_Calendar_Event([
+        $event = new Google_Service_Calendar_Event([
             'summary' => $summary,
+
             'start' => [
-                'dateTime' => $startTimeRFC,
+                'dateTime' => $start->format(DateTime::RFC3339),
                 'timeZone' => 'Asia/Kolkata',
             ],
+
             'end' => [
-                'dateTime' => $endTimeRFC,
+                'dateTime' => $end->format(DateTime::RFC3339),
                 'timeZone' => 'Asia/Kolkata',
             ],
-            'attendees' => array_map(fn($email) => ['email' => $email], $attendees),
+
+            // 🔥 Attendees (patient + clinic email)
+            'attendees' => array_map(
+                fn ($email) => ['email' => $email],
+                $attendees
+            ),
+
+            // 🔥 Google Meet creation
             'conferenceData' => [
                 'createRequest' => [
-                    'requestId' => uniqid(),
-                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                    'requestId' => uniqid('', true),
+                    'conferenceSolutionKey' => [
+                        'type' => 'hangoutsMeet',
+                    ],
                 ],
             ],
         ]);
 
-        $createdEvent = $this->calendarService
-            ->events
-            ->insert('primary', $event, ['conferenceDataVersion' => 1]);
+        // 🔥 VERY IMPORTANT: sendUpdates = all
+        $createdEvent = $this->calendarService->events->insert(
+            'primary',
+            $event,
+            [
+                'conferenceDataVersion' => 1,
+                'sendUpdates' => 'all', // <-- THIS sends calendar invites
+            ]
+        );
 
         return [
-            'meet_link'     => $createdEvent->getHangoutLink(),
-            'calendar_link' => $createdEvent->htmlLink,
-            'start'         => $start->format('d-m-Y h:i A'),
-            'end'           => $end->format('d-m-Y h:i A'),
+            'meet_link'   => $createdEvent->getHangoutLink(),
+            'event_id'    => $createdEvent->getId(),
+            'calendarUrl' => $createdEvent->getHtmlLink(),
+            'start'       => $start->format('d M Y h:i A'),
+            'end'         => $end->format('d M Y h:i A'),
         ];
     }
+
 
 }
