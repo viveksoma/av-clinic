@@ -63,6 +63,7 @@ if (!function_exists('sendAppointmentEmail')) {
         $email->setMessage($message);
 
         return $email->send();
+        
     }
 }
 
