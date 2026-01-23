@@ -35,15 +35,24 @@ if (!function_exists('sendAppointmentEmail')) {
 
             $qrUrl  = generateUpiQr($amount, 'Online Consultation');
             $upiUrl = generateUpiUrl($amount);
+            $upiId = 'vidhuvarsha7-5@okicici'; // YOUR UPI ID
 
             $message .= "To confirm your online consultation, please make the payment.<br><br>";
             $message .= "<strong>Amount:</strong> ₹{$amount}<br>";
-            $message .= "<a href='{$upiUrl}' 
-                style='display:inline-block;padding:12px 18px;
+            $message .= "<strong>UPI ID:</strong> {$upiId}<br>
+            <small>(You can copy–paste this UPI ID into any UPI app)</small><br><br>
+
+            <a href='https://paytm.com'
+            style='display:inline-block;padding:12px 18px;
                     background:#28a745;color:#fff;
                     text-decoration:none;border-radius:5px;'>
-                Pay ₹'{$amount}' via UPI
-            </a><br><br>";
+            Open UPI App & Pay ₹{$amount}
+            </a><br><br>
+
+            <small>
+            📱 On mobile: scanning the QR below will open your UPI app automatically with the amount filled.
+            </small><br><br>
+            ";
             $message .= "<img src='{$qrUrl}' alt='UPI QR Code' width='220'><br><br>";
             $message .= "Scan the QR code — the amount will be filled automatically.<br><br>";
             $message .= "After payment, send the screenshot to WhatsApp: <strong>90420768040</strong><br><br>";

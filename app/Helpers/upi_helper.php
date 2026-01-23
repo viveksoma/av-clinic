@@ -20,30 +20,21 @@ if (!function_exists('generateUpiQr')) {
         $upiUrl = generateUpiUrl($amount, $note);
 
         $qrCode = new QrCode($upiUrl);
-
         $writer = new PngWriter();
 
-        // v6: size & margin go HERE
-        $result = $writer->write(
-            $qrCode,
-            null,
-            null,
-            [
-                'size'   => 300,
-                'margin' => 10,
-            ]
-        );
+        $result = $writer->write($qrCode, null, null, [
+            'size'   => 300,
+            'margin' => 10,
+        ]);
 
-        $dir = WRITEPATH . 'qrcodes/';
+        $dir = FCPATH . 'qrcodes/';
         if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
+            mkdir($dir, 0755, true);
         }
 
         $filename = 'upi_' . uniqid() . '.png';
-        $path     = $dir . $filename;
+        $result->saveToFile($dir . $filename);
 
-        $result->saveToFile($path);
-
-        return base_url('writable/qrcodes/' . $filename);
+        return base_url('qrcodes/' . $filename);
     }
 }
