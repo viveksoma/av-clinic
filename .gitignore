@@ -84,6 +84,10 @@ tests/coverage*
 # Don't save phpunit under version control.
 phpunit
 
+# Runtime files
+writable/credentials.json
+public/qrcodes/
+
 #-------------------------
 # Composer
 #-------------------------
