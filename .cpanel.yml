@@ -13,4 +13,3 @@ deployment:
     - sed -i "s|require FCPATH\s*\.\s*'\.\./app/Config/Paths.php';|require __DIR__ . '/../repositories/av-clinic/app/Config/Paths.php';|" $DEPLOYPATH/index.php
 
     - echo "Deployed at $(date)"
-
