@@ -76,111 +76,61 @@
                             <div class="col-md-6">
                                 <div class="card card-warning card-outline mb-4">
                                     <div class="card-header">
-                                        <h3 class="card-title">Upcoming Vaccine Reminders (Next 7 Days)</h3></div>
-                                    <div class="card-body">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Patient Name</th>
-                                                    <th>Patient Number</th>
-                                                    <th>Age</th>
-                                                    <th>Vaccine</th>
-                                                    <th>Dose</th>
-                                                    <th>Due Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (
-                                                    !empty($vaccineReminders)
-                                                ): ?>
-                                                    <?php foreach (
-                                                        $vaccineReminders
-                                                        as $index => $r
-                                                    ): ?>
-                                                        <?php
-                                                        $dueDate = strtotime(
-                                                            $r["due_date"]
-                                                        );
-                                                        $today = strtotime(
-                                                            date("Y-m-d")
-                                                        );
-                                                        $status =
-                                                            $dueDate < $today
-                                                                ? "Missed"
-                                                                : "Upcoming";
-                                                        $badge =
-                                                            $dueDate < $today
-                                                                ? "danger"
-                                                                : "warning";
-                                                        ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?= $index +
-                                                                        1 ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= esc(
-                                                                        $r[
-                                                                            "patient_name"
-                                                                        ]
-                                                                    ) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= esc(
-                                                                        $r[
-                                                                            "phone"
-                                                                        ]
-                                                                    ) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= esc(
-                                                                        $r[
-                                                                            "stage_label"
-                                                                        ]
-                                                                    ) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= esc(
-                                                                        $r[
-                                                                            "vaccine_name"
-                                                                        ]
-                                                                    ) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= esc(
-                                                                        $r[
-                                                                            "dose_label"
-                                                                        ] ?? "-"
-                                                                    ) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?= date(
-                                                                        "d M Y",
-                                                                        strtotime(
-                                                                            $r[
-                                                                                "due_date"
-                                                                            ]
-                                                                        )
-                                                                    ) ?>
-                                                                        <span class="badge bg-<?= $badge ?> ms-1">
-                                                                <?= $status ?>
-                                                            </span>
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; ?>
-                                                                <?php else: ?>
-                                                                    <tr>
-                                                                        <td colspan="7" class="text-center">
-                                                                            No upcoming or missed vaccines
-                                                                        </td>
-                                                                    </tr>
-                                                                    <?php endif; ?>
-                                            </tbody>
+                                        <h3 class="card-title">Vaccine Reminders (Next 7 Days)</h3>
+                                    </div>
 
-                                        </table>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered align-middle">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Patient</th>
+                                                        <th>Phone</th>
+                                                        <th>Vaccine Details</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                <?php if (!empty($vaccineReminders)): ?>
+                                                    <?php $i = 1; foreach ($vaccineReminders as $patient): ?>
+                                                        <tr>
+                                                            <td><?= $i++ ?></td>
+                                                            <td><?= esc($patient['patient_name']) ?></td>
+                                                            <td><?= esc($patient['phone']) ?></td>
+                                                            <td>
+                                                                <ul class="list-group list-group-flush">
+                                                                    <?php foreach ($patient['vaccines'] as $v): ?>
+                                                                        <li class="list-group-item px-1">
+                                                                            <strong><?= esc($v['vaccine_name']) ?></strong>
+                                                                            (<?= esc($v['stage_label']) ?><?= $v['dose_label'] ? ' – '.$v['dose_label'] : '' ?>)
+                                                                            <br>
+                                                                            <small>
+                                                                                Due:
+                                                                                <?= date('d M Y', strtotime($v['due_date'])) ?>
+                                                                                <span class="badge bg-<?= $v['status'] === 'Missed' ? 'danger' : 'warning' ?> ms-1">
+                                                                                    <?= $v['status'] ?>
+                                                                                </span>
+                                                                            </small>
+                                                                        </li>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">
+                                                            No upcoming or missed vaccines
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -189,70 +139,72 @@
                                     <h3 class="card-title">Appointment</h3></div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 10px">Patient Id</th>
-                                                <th>Patient Name</th>
-                                                <th>Doctor</th>
-                                                <th>Appointment Type</th>
-                                                <th>Slot Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($appointments)): ?>
-                                                <?php foreach (
-                                                    $appointments
-                                                    as $index => $appointment
-                                                ): ?>
-                                                    <tr class="align-middle">
-                                                        <td>
-                                                            <?= esc(
-                                                                $appointment[
-                                                                    "patient_id"
-                                                                ]
-                                                            ) ?>
-                                                        </td>
-                                                        <td>
-                                                            <?= esc(
-                                                                $appointment[
-                                                                    "patient_name"
-                                                                ]
-                                                            ) ?>
-                                                        </td>
-                                                        <td>
-                                                            <?= esc(
-                                                                $appointment[
-                                                                    "doctor_name"
-                                                                ]
-                                                            ) ?>
-                                                        </td>
-                                                        <td>
-                                                            <?= esc(
-                                                                $appointment[
-                                                                    "appointment_type"
-                                                                ]
-                                                            ) ?>
-                                                        </td>
-                                                        <td>
-                                                            <?= date(
-                                                                "h:i A",
-                                                                strtotime(
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">Patient Id</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Doctor</th>
+                                                    <th>Appointment Type</th>
+                                                    <th>Slot Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($appointments)): ?>
+                                                    <?php foreach (
+                                                        $appointments
+                                                        as $index => $appointment
+                                                    ): ?>
+                                                        <tr class="align-middle">
+                                                            <td>
+                                                                <?= esc(
                                                                     $appointment[
-                                                                        "start_time"
+                                                                        "patient_id"
                                                                     ]
-                                                                )
-                                                            ) ?>
-                                                        </td>
-                                                    </tr>
-                                                    <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                            <tr>
-                                                                <td colspan="5" class="text-center">No appointments for today.</td>
-                                                            </tr>
-                                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
+                                                                ) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc(
+                                                                    $appointment[
+                                                                        "patient_name"
+                                                                    ]
+                                                                ) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc(
+                                                                    $appointment[
+                                                                        "doctor_name"
+                                                                    ]
+                                                                ) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc(
+                                                                    $appointment[
+                                                                        "appointment_type"
+                                                                    ]
+                                                                ) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= date(
+                                                                    "h:i A",
+                                                                    strtotime(
+                                                                        $appointment[
+                                                                            "start_time"
+                                                                        ]
+                                                                    )
+                                                                ) ?>
+                                                            </td>
+                                                        </tr>
+                                                        <?php endforeach; ?>
+                                                            <?php else: ?>
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center">No appointments for today.</td>
+                                                                </tr>
+                                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

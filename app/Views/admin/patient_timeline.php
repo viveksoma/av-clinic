@@ -93,23 +93,24 @@
                                 </div>
 
                                 <h5>Upcoming / Due Vaccines</h5>
-
-                                <table class="table table-bordered table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Due Age</th>
-                                        <th>Vaccines</th>
-                                        <th>Due Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="dueVaccinesTable">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
                                         <tr>
-                                            <td colspan="5" class="text-center">No upcoming vaccines</td>
+                                            <th>#</th>
+                                            <th>Due Age</th>
+                                            <th>Vaccines</th>
+                                            <th>Due Date</th>
+                                            <th>Action</th>
                                         </tr>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody id="dueVaccinesTable">
+                                            <tr>
+                                                <td colspan="5" class="text-center">No upcoming vaccines</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
 

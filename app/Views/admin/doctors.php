@@ -172,46 +172,48 @@
                                 <div class="card-header"><h3 class="card-title">Doctors</h3></div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 10px">#</th>
-                                                <th>Doctor Name</th>
-                                                <th>Specialization</th>
-                                                <th>Slot Duration</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($doctors)): ?>
-                                                <?php foreach ($doctors as $index => $doctor): ?>
-                                                    <tr class="align-middle">
-                                                        <td><?= esc($doctor['id']) ?></td>
-                                                        <td><?= esc($doctor['name']) ?></td>
-                                                        <td><?= esc($doctor['specialization']) ?></td>
-                                                        <td><?= esc($doctor['slot_duration']) ?></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-sm btn-primary edit-doctor-btn"
-                                                                data-id="<?= esc($doctor['id']) ?>"
-                                                                data-name="<?= esc($doctor['name']) ?>"
-                                                                data-email="<?= esc($doctor['email']) ?>"
-                                                                data-specialization="<?= esc($doctor['specialization']) ?>"
-                                                                data-slot_duration="<?= esc($doctor['slot_duration']) ?>"
-                                                                data-qualifications="<?= esc($doctor['qualifications'] ?? '') ?>"
-                                                                data-about="<?= esc($doctor['about'] ?? '') ?>"
-                                                                data-social_links='<?= esc($doctor['social_links'] ?? '{}') ?>'
-                                                            >Edit</button>
-
-                                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#availabilityModal" data-doctor-id="<?= $doctor['id'] ?>">Set Availability</button>
-
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <tr><td colspan="5" class="text-center">No doctors available.</td></tr>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>Doctor Name</th>
+                                                    <th>Specialization</th>
+                                                    <th>Slot Duration</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($doctors)): ?>
+                                                    <?php foreach ($doctors as $index => $doctor): ?>
+                                                        <tr class="align-middle">
+                                                            <td><?= esc($doctor['id']) ?></td>
+                                                            <td><?= esc($doctor['name']) ?></td>
+                                                            <td><?= esc($doctor['specialization']) ?></td>
+                                                            <td><?= esc($doctor['slot_duration']) ?></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-primary edit-doctor-btn"
+                                                                    data-id="<?= esc($doctor['id']) ?>"
+                                                                    data-name="<?= esc($doctor['name']) ?>"
+                                                                    data-email="<?= esc($doctor['email']) ?>"
+                                                                    data-specialization="<?= esc($doctor['specialization']) ?>"
+                                                                    data-slot_duration="<?= esc($doctor['slot_duration']) ?>"
+                                                                    data-qualifications="<?= esc($doctor['qualifications'] ?? '') ?>"
+                                                                    data-about="<?= esc($doctor['about'] ?? '') ?>"
+                                                                    data-social_links='<?= esc($doctor['social_links'] ?? '{}') ?>'
+                                                                >Edit</button>
+    
+                                                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#availabilityModal" data-doctor-id="<?= $doctor['id'] ?>">Set Availability</button>
+    
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr><td colspan="5" class="text-center">No doctors available.</td></tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

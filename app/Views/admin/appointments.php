@@ -85,79 +85,81 @@
                             <div class="card mb-4">
                                 <div class="card-header"><h3 class="card-title">Online Appointments</h3></div>
                                 <div class="card-body">
-                                    <table class="table datatable" id="onlineAppointmentsTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Patient Id</th>
-                                                <th>Patient Name</th>
-                                                <th>Doctor</th>
-                                                <th>Appointment Type</th>
-                                                <th>Appointment Date</th>
-                                                <th>Slot Time</th>
-                                                <th>Update Payment</th>
-                                                <th>Payment Status</th>
-                                                <th>Generate GoogleMeet Link</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($onlineAppointments)): ?>
-                                                <?php foreach ($onlineAppointments as $appointment): ?>
-                                                    <tr>
-                                                        <td><?= esc($appointment['patient_id']) ?></td>
-                                                        <td><?= esc($appointment['patient_name']) ?></td>
-                                                        <td><?= esc($appointment['doctor_name']) ?></td>
-                                                        <td><?= esc($appointment['appointment_type']) ?></td>
-                                                        <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
-                                                        <td><?= date("h:i A", strtotime($appointment['start_time'])) ?></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-outline-primary update-payment-btn"
-                                                                data-appointment-id="<?= $appointment['id'] ?>"
-                                                                data-amount="<?= esc($appointment['payment_amount'] ?? '') ?>"
-                                                                data-mode="<?= esc($appointment['payment_mode'] ?? '') ?>"
-                                                                data-status="<?= esc($appointment['payment_status'] ?? '') ?>"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#paymentModal">
-                                                                Update
-                                                            </button>
-                                                        </td>
-                                                        <!-- Payment Status Column -->
-                                                        <td>
-                                                            <?php if (!empty($appointment['payment_status'])): ?>
-                                                                <span class="badge bg-<?= $appointment['payment_status'] === 'received' ? 'success' : 'warning' ?>">
-                                                                    <?= ucfirst($appointment['payment_status']) ?>
-                                                                </span>
-                                                            <?php else: ?>
-                                                                <span class="badge bg-secondary">Pending</span>
-                                                            <?php endif; ?>
-                                                        </td>
-
-                                                        <!-- Google Meet Link Column -->
-                                                        <td>
-                                                            <?php if (!empty($appointment['google_meet_link'])): ?>
-                                                                <a href="<?= esc($appointment['google_meet_link']) ?>" target="_blank" class="btn btn-sm btn-success">
-                                                                    Join
-                                                                </a>
-                                                            <?php else: ?>
-                                                                <?php if (strtolower($appointment['payment_status']) === 'received'): ?>
-                                                                    <a href="<?= base_url("admin/appointments/generate-meet/" . $appointment['id']) ?>" class="btn btn-sm btn-outline-secondary">
-                                                                        Generate
+                                    <div class="table-responsive">
+                                        <table class="table datatable" id="onlineAppointmentsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient Id</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Doctor</th>
+                                                    <th>Appointment Type</th>
+                                                    <th>Appointment Date</th>
+                                                    <th>Slot Time</th>
+                                                    <th>Update Payment</th>
+                                                    <th>Payment Status</th>
+                                                    <th>Generate GoogleMeet Link</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($onlineAppointments)): ?>
+                                                    <?php foreach ($onlineAppointments as $appointment): ?>
+                                                        <tr>
+                                                            <td><?= esc($appointment['patient_id']) ?></td>
+                                                            <td><?= esc($appointment['patient_name']) ?></td>
+                                                            <td><?= esc($appointment['doctor_name']) ?></td>
+                                                            <td><?= esc($appointment['appointment_type']) ?></td>
+                                                            <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
+                                                            <td><?= date("h:i A", strtotime($appointment['start_time'])) ?></td>
+                                                            <td>
+                                                                <button class="btn btn-sm btn-outline-primary update-payment-btn"
+                                                                    data-appointment-id="<?= $appointment['id'] ?>"
+                                                                    data-amount="<?= esc($appointment['payment_amount'] ?? '') ?>"
+                                                                    data-mode="<?= esc($appointment['payment_mode'] ?? '') ?>"
+                                                                    data-status="<?= esc($appointment['payment_status'] ?? '') ?>"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#paymentModal">
+                                                                    Update
+                                                                </button>
+                                                            </td>
+                                                            <!-- Payment Status Column -->
+                                                            <td>
+                                                                <?php if (!empty($appointment['payment_status'])): ?>
+                                                                    <span class="badge bg-<?= $appointment['payment_status'] === 'received' ? 'success' : 'warning' ?>">
+                                                                        <?= ucfirst($appointment['payment_status']) ?>
+                                                                    </span>
+                                                                <?php else: ?>
+                                                                    <span class="badge bg-secondary">Pending</span>
+                                                                <?php endif; ?>
+                                                            </td>
+    
+                                                            <!-- Google Meet Link Column -->
+                                                            <td>
+                                                                <?php if (!empty($appointment['google_meet_link'])): ?>
+                                                                    <a href="<?= esc($appointment['google_meet_link']) ?>" target="_blank" class="btn btn-sm btn-success">
+                                                                        Join
                                                                     </a>
                                                                 <?php else: ?>
-                                                                    <button class="btn btn-sm btn-outline-secondary" disabled>
-                                                                        Generate
-                                                                    </button>
+                                                                    <?php if (strtolower($appointment['payment_status']) === 'received'): ?>
+                                                                        <a href="<?= base_url("admin/appointments/generate-meet/" . $appointment['id']) ?>" class="btn btn-sm btn-outline-secondary">
+                                                                            Generate
+                                                                        </a>
+                                                                    <?php else: ?>
+                                                                        <button class="btn btn-sm btn-outline-secondary" disabled>
+                                                                            Generate
+                                                                        </button>
+                                                                    <?php endif; ?>
                                                                 <?php endif; ?>
-                                                            <?php endif; ?>
-                                                        </td>
-
-
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <tr><td colspan="9" class="text-center">No online appointments.</td></tr>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
+                                                            </td>
+    
+    
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr><td colspan="9" class="text-center">No online appointments.</td></tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -183,34 +185,36 @@
                             <div class="card mb-4">
                                 <div class="card-header"><h3 class="card-title">Other Appointments</h3></div>
                                 <div class="card-body">
-                                    <table class="table datatable" id="otherAppointmentsTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Patient Id</th>
-                                                <th>Patient Name</th>
-                                                <th>Doctor</th>
-                                                <th>Appointment Type</th>
-                                                <th>Appointment Date</th>
-                                                <th>Slot Time</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($otherAppointments)): ?>
-                                                <?php foreach ($otherAppointments as $appointment): ?>
-                                                    <tr>
-                                                        <td><?= esc($appointment['patient_id']) ?></td>
-                                                        <td><?= esc($appointment['patient_name']) ?></td>
-                                                        <td><?= esc($appointment['doctor_name']) ?></td>
-                                                        <td><?= esc($appointment['appointment_type']) ?></td>
-                                                        <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
-                                                        <td><?= date("h:i A", strtotime($appointment['start_time'])) ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <tr><td colspan="6" class="text-center">No other appointments.</td></tr>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table datatable" id="otherAppointmentsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient Id</th>
+                                                    <th>Patient Name</th>
+                                                    <th>Doctor</th>
+                                                    <th>Appointment Type</th>
+                                                    <th>Appointment Date</th>
+                                                    <th>Slot Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($otherAppointments)): ?>
+                                                    <?php foreach ($otherAppointments as $appointment): ?>
+                                                        <tr>
+                                                            <td><?= esc($appointment['patient_id']) ?></td>
+                                                            <td><?= esc($appointment['patient_name']) ?></td>
+                                                            <td><?= esc($appointment['doctor_name']) ?></td>
+                                                            <td><?= esc($appointment['appointment_type']) ?></td>
+                                                            <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
+                                                            <td><?= date("h:i A", strtotime($appointment['start_time'])) ?></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr><td colspan="6" class="text-center">No other appointments.</td></tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 

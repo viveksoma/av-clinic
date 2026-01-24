@@ -83,25 +83,27 @@
 
                                 <!-- VACCINE TABLE -->
                                 <div class="mt-4">
-                                    <table class="table table-bordered table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Due Age</th>
-                                                <th>Vaccine</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="due_vaccines">
-                                            <tr>
-                                                <td colspan="5" class="text-center">
-                                                    Search patient to load vaccines
-                                                </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Due Age</th>
+                                                    <th>Vaccine</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="due_vaccines">
+                                                <tr>
+                                                    <td colspan="5" class="text-center">
+                                                        Search patient to load vaccines
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+    
+                                        </table>
+                                    </div>
                                 </div>
 
                             </div>
@@ -118,32 +120,34 @@
                             </div>
 
                             <div class="card-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Due Age</th>
-                                        <th>Vaccines</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php $i = 1; ?>
-                                    <?php foreach ($vaccinesByStage as $stage): ?>
-                                        <?php $count = count($stage['vaccines']); ?>
-                                        <?php foreach ($stage['vaccines'] as $k => $vaccine): ?>
-                                            <tr>
-                                                <?php if ($k === 0): ?>
-                                                    <td rowspan="<?= $count ?>"><?= $i++ ?></td>
-                                                    <td rowspan="<?= $count ?>">
-                                                        <?= esc($stage['stage_label']) ?>
-                                                    </td>
-                                                <?php endif; ?>
-                                                <td><?= esc($vaccine) ?></td>
-                                            </tr>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Due Age</th>
+                                            <th>Vaccines</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i = 1; ?>
+                                        <?php foreach ($vaccinesByStage as $stage): ?>
+                                            <?php $count = count($stage['vaccines']); ?>
+                                            <?php foreach ($stage['vaccines'] as $k => $vaccine): ?>
+                                                <tr>
+                                                    <?php if ($k === 0): ?>
+                                                        <td rowspan="<?= $count ?>"><?= $i++ ?></td>
+                                                        <td rowspan="<?= $count ?>">
+                                                            <?= esc($stage['stage_label']) ?>
+                                                        </td>
+                                                    <?php endif; ?>
+                                                    <td><?= esc($vaccine) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         <?php endforeach; ?>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
