@@ -35,6 +35,11 @@
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item user-menu">
+                        <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                            <span class="d-none d-md-inline">Change login password</span>
+                        </a>
+                    </li>
+                    <li class="nav-item user-menu">
                         <a href="/logout" class="nav-link" id="logoutBtn">
                             <span class="d-none d-md-inline">Sign out</span>
                         </a>

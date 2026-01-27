@@ -53,6 +53,36 @@ class Auth extends BaseController
         session()->destroy();
         return redirect()->to('admin');
     }
+
+    public function changePassword()
+    {
+        $userId = session()->get('user_id');
+
+        $oldPassword     = $this->request->getPost('old_password');
+        $newPassword     = $this->request->getPost('new_password');
+        $confirmPassword = $this->request->getPost('confirm_password');
+
+        if ($newPassword !== $confirmPassword) {
+            return redirect()->back()->with('error', 'Passwords do not match');
+        }
+
+        $userModel = new UserModel();
+        $user = $userModel->find($userId);
+
+        if (!$user || !password_verify($oldPassword, $user['password'])) {
+            return redirect()->back()->with('error', 'Old password is incorrect');
+        }
+
+        $userModel->update($userId, [
+            'password' => password_hash($newPassword, PASSWORD_DEFAULT)
+        ]);
+
+        // 🔐 Security best practice
+        session()->destroy();
+
+        return redirect()->to('/admin')->with('success', 'Password changed. Please login again.');
+    }
+
 }
 
 

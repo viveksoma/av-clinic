@@ -170,6 +170,15 @@ class Appointments extends BaseController
                 );
             }
 
+            if (strtolower($appointment_type) === 'online') {
+                sendOnlineAppointmentNotification(
+                    $date,
+                    $time,
+                    $patient['name'],
+                    $doctor_id
+                );
+            }
+
             return $this->response->setJSON([
                 'message' => 'Appointment booked successfully!'
             ]);
@@ -181,8 +190,6 @@ class Appointments extends BaseController
             ], 500);
         }
     }
-
-
 
     public function getBookedSlots()
     {

@@ -319,5 +319,9 @@ SET age_in_days = CASE stage_label
     WHEN '9-14 Years'  THEN 3650
 END;
 
+ALTER TABLE admins
+ADD created_at DATETIME NULL DEFAULT NULL,
+ADD updated_at DATETIME NULL DEFAULT NULL;
+
 
 curl -s http://avmultispeciality.com/send-vaccine-reminders

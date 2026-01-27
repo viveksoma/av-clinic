@@ -25,6 +25,7 @@ $routes->get('send-vaccine-reminders', 'VaccineReminderController::sendReminders
 // Protected admin routes
 $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
 
+    $routes->post('change-password', 'Admin\Auth::changePassword');
     $routes->get('dashboard', 'Admin\Dashboard');
     $routes->get('doctors', 'Admin\Doctors');
     $routes->post('doctors/store', 'Admin\Doctors::store');

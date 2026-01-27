@@ -73,3 +73,39 @@
     </div>
     <!--end::Sidebar Wrapper-->
 </aside>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form method="post" action="<?= base_url('admin/change-password') ?>">
+            <?= csrf_field() ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Old Password</label>
+                        <input type="password" name="old_password" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>New Password</label>
+                        <input type="password" name="new_password" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

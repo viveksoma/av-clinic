@@ -67,6 +67,28 @@ if (!function_exists('sendAppointmentEmail')) {
     }
 }
 
+function sendOnlineAppointmentNotification(
+    string $date,
+    string $time,
+    string $patientName,
+    string $doctorId
+) {
+    $email = \Config\Services::email();
+
+    $email->setTo('appointment@avmultispeciality.com');
+    $email->setSubject('New Online Appointment Request');
+
+    $email->setMessage("
+        <p><strong>New online appointment request received</strong></p>
+        <p><b>Patient:</b> {$patientName}</p>
+        <p><b>Doctor ID:</b> {$doctorId}</p>
+        <p><b>Date:</b> {$date}</p>
+        <p><b>Time:</b> {$time}</p>
+    ");
+
+    return $email->send();
+}
+
 function sendGoogleMeetEmail(string $toEmail, string $patientName, string $doctorName, string $appointmentDate, string $appointmentTime, string $meetLink): bool
 {
     $email = \Config\Services::email();
