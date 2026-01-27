@@ -171,6 +171,11 @@ class Appointments extends BaseController
             }
 
             if (strtolower($appointment_type) === 'online') {
+                $doctorModel = new \App\Models\DoctorModel();
+                $doctor = $doctorModel->find($doctor_id);
+
+                $doctorName = $doctor ? $doctor['name'] : 'N/A';
+
                 sendOnlineAppointmentNotification(
                     $patient['name'],
                     $doctorName, // pass actual doctor name
