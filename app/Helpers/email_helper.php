@@ -90,7 +90,7 @@ function sendOnlineAppointmentNotification(
         A <strong>new online appointment request</strong> has been received.<br><br>
 
         <strong>Patient Name:</strong> {$patientName}<br>
-        <strong>Doctor:</strong> Dr. {$doctorName}<br>
+        <strong>Doctor:</strong> {$doctorName}<br>
         <strong>Appointment Type:</strong> {$appointmentType}<br>
         <strong>Date:</strong> {$formattedDate}<br>
         <strong>Time:</strong> {$formattedTime}<br><br>
