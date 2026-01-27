@@ -172,10 +172,11 @@ class Appointments extends BaseController
 
             if (strtolower($appointment_type) === 'online') {
                 sendOnlineAppointmentNotification(
+                    $patient['name'],
+                    $doctorName, // pass actual doctor name
                     $date,
                     $time,
-                    $patient['name'],
-                    $doctor_id
+                    $appointment_type
                 );
             }
 

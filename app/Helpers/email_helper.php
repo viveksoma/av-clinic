@@ -68,23 +68,40 @@ if (!function_exists('sendAppointmentEmail')) {
 }
 
 function sendOnlineAppointmentNotification(
-    string $date,
-    string $time,
     string $patientName,
-    string $doctorId
+    string $doctorName,
+    string $appointmentDate,
+    string $appointmentTime,
+    string $appointmentType
 ) {
     $email = \Config\Services::email();
+    $email->setMailType('html');
 
+    $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
     $email->setTo('appointment@avmultispeciality.com');
     $email->setSubject('New Online Appointment Request');
 
-    $email->setMessage("
-        <p><strong>New online appointment request received</strong></p>
-        <p><b>Patient:</b> {$patientName}</p>
-        <p><b>Doctor ID:</b> {$doctorId}</p>
-        <p><b>Date:</b> {$date}</p>
-        <p><b>Time:</b> {$time}</p>
-    ");
+    $formattedDate = date('d M Y', strtotime($appointmentDate));
+    $formattedTime = date('h:i A', strtotime($appointmentTime));
+
+    $message = "
+        Dear Team,<br><br>
+
+        A <strong>new online appointment request</strong> has been received.<br><br>
+
+        <strong>Patient Name:</strong> {$patientName}<br>
+        <strong>Doctor:</strong> Dr. {$doctorName}<br>
+        <strong>Appointment Type:</strong> {$appointmentType}<br>
+        <strong>Date:</strong> {$formattedDate}<br>
+        <strong>Time:</strong> {$formattedTime}<br><br>
+
+        Please review and take the necessary action.<br><br>
+
+        Regards,<br>
+        <strong>AV Clinic System</strong>
+    ";
+
+    $email->setMessage($message);
 
     return $email->send();
 }
