@@ -297,6 +297,10 @@ $(document).ready(function() {
             success: function (response) {
                 showMessage("Appointment booked successfully!", "success");
                 resetButton();
+
+                setTimeout(() => {
+                    location.reload(); // 🔄 refresh page
+                }, 1500); // 1.5 sec delay
             },
             error: function () {
                 showMessage("Error booking appointment!", "danger");
