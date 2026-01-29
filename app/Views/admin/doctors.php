@@ -65,7 +65,7 @@
                 <div class="container-fluid">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <form action="/doctors/store" method="POST" enctype="multipart/form-data">
+                            <form action="doctors/store" method="POST" enctype="multipart/form-data">
                                 <div class="card card-primary card-outline mb-4">
                                     <div class="card-header">
                                         <div class="card-title">Create Doctors</div>
@@ -153,6 +153,17 @@
                                             </div>
                                         </div>
 
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox"
+                                                class="form-check-input"
+                                                id="supportsOnline"
+                                                name="supports_online_consultation"
+                                                value="1">
+                                            <label class="form-check-label" for="supportsOnline">
+                                                Supports Online Consultation
+                                            </label>
+                                        </div>
+
                                         <!-- Profile Pic -->
                                         <div class="input-group mb-3">
                                             <input type="file" class="form-control" id="inputGroupFile02" name="profile_pic" required />
@@ -201,6 +212,7 @@
                                                                     data-qualifications="<?= esc($doctor['qualifications'] ?? '') ?>"
                                                                     data-about="<?= esc($doctor['about'] ?? '') ?>"
                                                                     data-social_links='<?= esc($doctor['social_links'] ?? '{}') ?>'
+                                                                    data-supports_online="<?= esc($doctor['supports_online_consultation']) ?>"
                                                                 >Edit</button>
     
                                                                 <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#availabilityModal" data-doctor-id="<?= $doctor['id'] ?>">Set Availability</button>
@@ -275,6 +287,18 @@
 
     <?php include('common_script.php'); ?>
     <script>
+
+        document.querySelectorAll('.edit-doctor-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                isUpdateMode = true;
+
+                $('#supportsOnline').prop(
+                    'checked',
+                    button.dataset.supports_online === "1"
+                );
+            });
+        });
+
         let isUpdateMode = false;
         $("#doctorName, #doctorEmail, #specialization, #slotDuration, #inputGroupFile02").on("change", function() {
             let doctorName = $("#doctorName").val();

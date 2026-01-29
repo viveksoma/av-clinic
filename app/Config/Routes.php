@@ -22,6 +22,8 @@ $routes->post('/auth/loginSubmit', 'Admin\Auth::loginSubmit');
 $routes->get('/logout', 'Admin\Auth::logout');
 $routes->get('google-auth', 'GoogleAuth::index');
 $routes->get('send-vaccine-reminders', 'VaccineReminderController::sendReminders');
+$routes->get('admin/doctors/by-type', 'Admin\Doctors::getDoctorsByType');
+
 // Protected admin routes
 $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
 

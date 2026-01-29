@@ -69,42 +69,52 @@ if (!function_exists('sendAppointmentEmail')) {
 
 function sendOnlineAppointmentNotification(
     string $patientName,
+    string $patientPhone,
     string $doctorName,
     string $appointmentDate,
     string $appointmentTime,
     string $appointmentType
 ) {
-    $email = \Config\Services::email();
-    $email->setMailType('html');
+    try {
+        $email = \Config\Services::email();
+        $email->setMailType('html');
 
-    $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
-    $email->setTo('appointment@avmultispeciality.com');
-    $email->setSubject('New Online Appointment Request');
+        $email->setFrom('no-reply@avmultispeciality.com', 'AV Clinic');
+        $email->setTo('appointment@avmultispeciality.com');
+        $email->setSubject('New Online Appointment Request');
 
-    $formattedDate = date('d M Y', strtotime($appointmentDate));
-    $formattedTime = date('h:i A', strtotime($appointmentTime));
+        $formattedDate = date('d M Y', strtotime($appointmentDate));
+        $formattedTime = date('h:i A', strtotime($appointmentTime));
 
-    $message = "
-        Dear Team,<br><br>
+        $message = "
+            Dear Team,<br><br>
 
-        A <strong>new online appointment request</strong> has been received.<br><br>
+            A <strong>new online appointment request</strong> has been received.<br><br>
 
-        <strong>Patient Name:</strong> {$patientName}<br>
-        <strong>Doctor:</strong> {$doctorName}<br>
-        <strong>Appointment Type:</strong> {$appointmentType}<br>
-        <strong>Date:</strong> {$formattedDate}<br>
-        <strong>Time:</strong> {$formattedTime}<br><br>
+            <strong>Patient Name:</strong> {$patientName}<br>
+            <strong>Patient Phone:</strong> {$patientPhone}<br>
+            <strong>Doctor:</strong> Dr. {$doctorName}<br>
+            <strong>Appointment Type:</strong> {$appointmentType}<br>
+            <strong>Date:</strong> {$formattedDate}<br>
+            <strong>Time:</strong> {$formattedTime}<br><br>
 
-        Please review and take the necessary action.<br><br>
+            Please review and take the necessary action.<br><br>
 
-        Regards,<br>
-        <strong>AV Clinic System</strong>
-    ";
+            Regards,<br>
+            <strong>AV Clinic System</strong>
+        ";
 
-    $email->setMessage($message);
+        $email->setMessage($message);
 
-    return $email->send();
+        if (!$email->send()) {
+            log_message('error', 'Admin online appointment mail failed: ' . print_r($email->printDebugger(), true));
+        }
+
+    } catch (\Throwable $e) {
+        log_message('error', 'Admin online appointment mail exception: ' . $e->getMessage());
+    }
 }
+
 
 function sendGoogleMeetEmail(string $toEmail, string $patientName, string $doctorName, string $appointmentDate, string $appointmentTime, string $meetLink): bool
 {

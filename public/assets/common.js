@@ -139,21 +139,19 @@ $(document).ready(function() {
     $("#appointmentType").on("change", function () {
         const selectedType = $(this).val();
 
-        if (selectedType === 'online') {
-            // Filter to only show doctor with value="2"
-            $("#doctorSelect").html(
-                $(originalDoctorOptions).filter(function () {
-                    return $(this).val() === "2" || $(this).val() === "";
-                })
-            );
+        $.get('/admin/doctors/by-type', { type: selectedType }, function (doctors) {
+            let options = '<option value="">Select Doctor</option>';
 
-            // Select doctor with value="2" by default
-            $("#doctorSelect").val("2").trigger('change');
-        } else {
-            // Restore full list and reset selection
-            $("#doctorSelect").html(originalDoctorOptions);
-        }
+            doctors.forEach(doctor => {
+                options += `<option value="${doctor.id}">
+                    ${doctor.name}
+                </option>`;
+            });
+
+            $("#doctorSelect").html(options);
+        });
     });
+
 
     function calculateAge(dob) {
         const birthDate = new Date(dob);

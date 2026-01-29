@@ -91,6 +91,7 @@
                                                 <tr>
                                                     <th>Patient Id</th>
                                                     <th>Patient Name</th>
+                                                    <th>Patient Number</th>
                                                     <th>Doctor</th>
                                                     <th>Appointment Type</th>
                                                     <th>Appointment Date</th>
@@ -106,6 +107,7 @@
                                                         <tr>
                                                             <td><?= esc($appointment['patient_id']) ?></td>
                                                             <td><?= esc($appointment['patient_name']) ?></td>
+                                                            <td><?= esc($appointment['patient_phone']) ?></td>
                                                             <td><?= esc($appointment['doctor_name']) ?></td>
                                                             <td><?= esc($appointment['appointment_type']) ?></td>
                                                             <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
@@ -155,7 +157,7 @@
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
-                                                    <tr><td colspan="9" class="text-center">No online appointments.</td></tr>
+                                                    <tr><td colspan="10" class="text-center">No online appointments.</td></tr>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>
@@ -191,6 +193,7 @@
                                                 <tr>
                                                     <th>Patient Id</th>
                                                     <th>Patient Name</th>
+                                                    <th>Patient Number</th>
                                                     <th>Doctor</th>
                                                     <th>Appointment Type</th>
                                                     <th>Appointment Date</th>
@@ -203,6 +206,7 @@
                                                         <tr>
                                                             <td><?= esc($appointment['patient_id']) ?></td>
                                                             <td><?= esc($appointment['patient_name']) ?></td>
+                                                            <td><?= esc($appointment['patient_phone']) ?></td>
                                                             <td><?= esc($appointment['doctor_name']) ?></td>
                                                             <td><?= esc($appointment['appointment_type']) ?></td>
                                                             <td><?= date("d-m-Y", strtotime($appointment['appointment_date'])) ?></td>
@@ -210,7 +214,7 @@
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
-                                                    <tr><td colspan="6" class="text-center">No other appointments.</td></tr>
+                                                    <tr><td colspan="7" class="text-center">No other appointments.</td></tr>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>

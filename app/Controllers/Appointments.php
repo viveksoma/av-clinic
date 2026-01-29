@@ -178,6 +178,7 @@ class Appointments extends BaseController
 
                 sendOnlineAppointmentNotification(
                     $patient['name'],
+                    $patient['phone'],
                     $doctorName, // pass actual doctor name
                     $date,
                     $time,

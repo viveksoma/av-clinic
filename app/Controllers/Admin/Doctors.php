@@ -20,7 +20,7 @@ class Doctors extends BaseController
     public function store()
     {
         $doctorModel = new DoctorModel();
-
+        $supportsOnline = $this->request->getPost('supports_online_consultation') ? 1 : 0;
         $doctorId      = $this->request->getPost('doctor_id');
         $doctorName    = $this->request->getPost('doctor_name');
         $doctorEmail    = $this->request->getPost('doctor_email');
@@ -50,6 +50,7 @@ class Doctors extends BaseController
             'slot_duration'  => $slotDuration,
             'qualifications' => $qualifications,
             'about'          => $about,
+            'supports_online_consultation' => $supportsOnline,
             'social_links'   => json_encode($socialLinks), // JSON encode
         ];
 
@@ -67,6 +68,23 @@ class Doctors extends BaseController
             $doctorModel->insert($data);
             return redirect()->to('admin/doctors')->with('message', 'Doctor created successfully!');
         }
+    }
+
+    public function getDoctorsByType()
+    {
+        $type = $this->request->getGet('type');
+
+        $doctorModel = new DoctorModel();
+
+        if ($type === 'online') {
+            $doctors = $doctorModel
+                ->where('supports_online_consultation', 1)
+                ->findAll();
+        } else {
+            $doctors = $doctorModel->findAll();
+        }
+
+        return $this->response->setJSON($doctors);
     }
 
 

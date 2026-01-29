@@ -28,7 +28,8 @@ class Appointments extends BaseController
         $onlineQuery = $appointmentModel
             ->select('
                     appointments.*, 
-                    patients.name as patient_name, 
+                    patients.name as patient_name,
+                    patients.phone as patient_phone,
                     doctors.name as doctor_name, 
                     payments.payment_status, 
                     payments.payment_amount, 
@@ -58,7 +59,7 @@ class Appointments extends BaseController
 
         // OTHER APPOINTMENTS
         $otherQuery = $appointmentModel
-            ->select('appointments.*, patients.name as patient_name, doctors.name as doctor_name')
+            ->select('appointments.*, patients.name as patient_name, doctors.name as doctor_name, patients.phone as patient_phone')
             ->join('patients', 'patients.id = appointments.patient_id')
             ->join('doctors', 'doctors.id = appointments.doctor_id')
             ->where('appointment_type !=', 'online');

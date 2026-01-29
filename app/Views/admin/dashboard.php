@@ -150,6 +150,7 @@
                                                 <tr>
                                                     <th style="width: 10px">Patient Id</th>
                                                     <th>Patient Name</th>
+                                                    <th>Number</th>
                                                     <th>Doctor</th>
                                                     <th>Appointment Type</th>
                                                     <th>Slot Time</th>
@@ -173,6 +174,13 @@
                                                                 <?= esc(
                                                                     $appointment[
                                                                         "patient_name"
+                                                                    ]
+                                                                ) ?>
+                                                            </td>
+                                                            <td>
+                                                                <?= esc(
+                                                                    $appointment[
+                                                                        "patient_phone"
                                                                     ]
                                                                 ) ?>
                                                             </td>
@@ -204,7 +212,7 @@
                                                         <?php endforeach; ?>
                                                             <?php else: ?>
                                                                 <tr>
-                                                                    <td colspan="5" class="text-center">No appointments for today.</td>
+                                                                    <td colspan="6" class="text-center">No appointments for today.</td>
                                                                 </tr>
                                                                 <?php endif; ?>
                                             </tbody>
