@@ -3,10 +3,45 @@
 
 <head>
     <meta charset="utf-8">
-    <title>AV Multispeciality | Appointment , Ortho & Child Care</title>
+    <title>Book Doctor Appointment in Tirupathur | AV Multispeciality</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+    <meta name="description" content="AV Multispeciality Hospital in Tirupathur offering online and offline consultations.">
+    <meta name="keywords" content="
+    AV Multispeciality Hospital,
+    multispeciality hospital in Tirupathur,
+    hospital in Tirupathur,
+    best hospital in Tirupathur,
+    online doctor consultation Tirupathur,
+
+    paediatrician in Tirupathur,
+    orthopedic hospital in Tirupathur,
+    gynecologist in Tirupathur,
+    general physician in Tirupathur,
+    psychiatrist in Tirupathur,
+    anesthetist in Tirupathur,
+
+    multispeciality hospital in Jolarpet,
+    hospital in Jolarpet,
+    multispeciality hospital in Vaniyambadi,
+    hospital in Vaniyambadi,
+    multispeciality hospital in Ambur,
+    hospital in Ambur,
+    multispeciality hospital in Vellore,
+    hospital in Vellore,
+    multispeciality hospital in Bargur,
+    hospital in Bargur,
+    multispeciality hospital in Kanthili,
+    hospital in Kanthili,
+    multispeciality hospital in Dharmapuri,
+    hospital in Dharmapuri,
+
+    paediatric hospital near me,
+    orthopedic hospital near me,
+    gynecology hospital near me,
+    psychiatrist hospital near me,
+    general physician near me,
+    online consultation hospital Tamil Nadu
+    ">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <?php include('common_styles.php'); ?>
 </head>

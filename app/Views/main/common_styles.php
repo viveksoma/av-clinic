@@ -18,3 +18,31 @@
 
  <!-- Template Stylesheet -->
  <link href="<?= base_url('assets/main/css/style.css'); ?>" rel="stylesheet">
+
+ <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Hospital",
+      "name": "AV Multispeciality Hospital",
+      "url": "https://avmultispeciality.com",
+      "logo": "https://avmultispeciality.com/assets/main/img/av-logo.jpeg",
+      "telephone": "+91-90420768040",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "No.6 HIG, Dharmapuri main road, T.N.H.B.Phase-2",
+        "addressLocality": "Tirupathur",
+        "addressRegion": "TN",
+        "postalCode": "635601",
+        "addressCountry": "IN"
+      },
+      "openingHours": "Mo-Sa 09:00-20:00",
+      "medicalSpecialty": [
+        "Paediatrics",
+        "Orthopedic",
+        "Anesthetist",
+        "GeneralPhysician",
+        "ConsultantPsychiatrist",
+        "Gynecology"
+      ]
+    }
+    </script>
